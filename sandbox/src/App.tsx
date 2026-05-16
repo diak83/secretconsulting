@@ -1181,6 +1181,23 @@ export default function SajuLearningApp() {
           </div>
         </div>
       )}
+  {/* 5. FOOTER (사업자 정보 및 약관 - 결제 심사용) */}
+      <footer className="relative z-20 bg-[#1A1530]/80 border-t border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.4)] text-[11px] p-6 pb-12 mt-12 break-keep font-sans">
+        <div className="max-w-md mx-auto">
+          <div className="flex gap-4 mb-4 font-bold text-[rgba(255,255,255,0.7)] text-[12px]">
+            <button onClick={() => alert('PG사 심사 전, 이용약관 노션 링크나 페이지를 여기에 연결합니다.')} className="hover:text-white transition-colors">이용약관</button>
+            <button onClick={() => alert('PG사 심사 전, 개인정보처리방침 노션 링크나 페이지를 여기에 연결합니다.')} className="hover:text-white transition-colors">개인정보처리방침</button>
+          </div>
+          <div className="space-y-1.5 leading-relaxed">
+            <p>상호: 해피메리벨 | 대표: 차미미</p>
+            <p>사업자등록번호: 398-34-01425</p>
+            <p>통신판매업 신고번호: 제 202X-인천남동-XXXX 호 (※ 발급 후 수정해주세요)</p>
+            <p>사업장 소재지: 인천광역시 남동구 호구포로900번길 20-4, 3층 301호 (간석동)</p>
+            <p>고객센터: 010-4618-7383 (※ 수정해주세요) | 이메일: diak83@gmail.com (※ 수정해주세요)</p>
+          </div>
+          <p className="mt-5 text-[10px] text-[rgba(255,255,255,0.3)]">© 2026 Happy Merry Bell. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
