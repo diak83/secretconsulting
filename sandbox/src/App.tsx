@@ -20,6 +20,23 @@ import {
   Droplets,
 } from "lucide-react";
 import { loadTossPayments } from "@tosspayments/payment-sdk";
+// 👇 파이어베이스 연결 마스터 키 (여기서부터 복사) 👇
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyClPag6QhN-icmRbS6tLsgvhLJ7mIKkBFQ",
+  authDomain: "secretconsulting.firebaseapp.com",
+  projectId: "secretconsulting",
+  storageBucket: "secretconsulting.firebasestorage.app",
+  messagingSenderId: "828043749092",
+  appId: "1:828043749092:web:ede973ec88face060a6ef1",
+  measurementId: "G-F3HGRZRX9W"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+// 👆 파이어베이스 연결 마스터 키 (여기까지 복사) 👆
 // 신비로운 우주/별자리 테마 컬러
 const MENU_LIST = [
   {
