@@ -670,15 +670,10 @@ export default function SajuLearningApp() {
   const [userInfo, setUserInfo] = useState({ name: '', birthDate: '', birthTime: '', calendarType: 'solar', isTimeUnknown: false });
   const [userSaju, setUserSaju] = useState({ dayMaster: '', main: '', lacking: '', excessive: '', pillars: [], counts: {} });
   const [selectedMenu, setSelectedMenu] = useState(null);
-  const [unlockedMenus, setUnlockedMenus] = useState([]);
-  const [isProcessing, setIsProcessing] = useState(false);
-// 기동 중인 기존 상태들 아래에 붙여넣으세요
-  const [unlockedMenus, setUnlockedMenus] = useState([]);
-  const [isProcessing, setIsProcessing] = useState(false);
-  
-  // 👇👇👇 여기 2줄을 새로 추가해 줍니다 👇👇👇
-  const [showPrivacy, setShowPrivacy] = useState(false);
-  const [showTerms, setShowTerms] = useState(false);
+const [unlockedMenus, setUnlockedMenus] = useState([]);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [showPrivacy, setShowPrivacy] = useState(false);
+    const [showTerms, setShowTerms] = useState(false);
   // 🔥 [새로 변경됨] 결제가 끝나면 고객 정보를 파이어베이스 금고에 저장하는 마법의 로직
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
