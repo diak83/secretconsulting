@@ -672,7 +672,13 @@ export default function SajuLearningApp() {
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [unlockedMenus, setUnlockedMenus] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
-
+// 기동 중인 기존 상태들 아래에 붙여넣으세요
+  const [unlockedMenus, setUnlockedMenus] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
+  
+  // 👇👇👇 여기 2줄을 새로 추가해 줍니다 👇👇👇
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
   // 🔥 [새로 변경됨] 결제가 끝나면 고객 정보를 파이어베이스 금고에 저장하는 마법의 로직
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -1185,8 +1191,8 @@ export default function SajuLearningApp() {
       <footer className="relative z-20 bg-[#1A1530]/80 border-t border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.4)] text-[11px] p-6 pb-12 mt-12 break-keep font-sans">
         <div className="max-w-md mx-auto">
           <div className="flex gap-4 mb-4 font-bold text-[rgba(255,255,255,0.7)] text-[12px]">
-            <button onClick={() => alert('PG사 심사 전, 이용약관 노션 링크나 페이지를 여기에 연결합니다.')} className="hover:text-white transition-colors">이용약관</button>
-            <button onClick={() => alert('PG사 심사 전, 개인정보처리방침 노션 링크나 페이지를 여기에 연결합니다.')} className="hover:text-white transition-colors">개인정보처리방침</button>
+           <button onClick={() => setShowTerms(true)} className="hover:text-white transition-colors">이용약관</button>
+<button onClick={() => setShowPrivacy(true)} className="hover:text-white transition-colors">개인정보처리방침</button>
           </div>
           <div className="space-y-1.5 leading-relaxed">
             <p>상호: 해피메리벨 | 대표: 차미미</p>
@@ -1198,6 +1204,45 @@ export default function SajuLearningApp() {
           <p className="mt-5 text-[10px] text-[rgba(255,255,255,0.3)]">© 2026 Happy Merry Bell. All rights reserved.</p>
         </div>
       </footer>
+  {/* 6. 개인정보처리방침 팝업창 */}
+      {showPrivacy && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans">
+          <div className="bg-white text-gray-850 w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative">
+            <h3 className="text-lg font-bold text-gray-900 mb-4 border-b pb-2">개인정보처리방침</h3>
+            <div className="text-xs text-gray-650 space-y-3 leading-relaxed">
+              <p className="font-bold text-gray-800">■ 개인정보 처리업무의 위탁</p>
+              <p>해피메리벨(이하 '회사')은 원활한 서비스 제공 및 안전한 결제 처리를 위하여 다음과 같이 개인정보 처리업무를 외부 전문업체에 위탁하고 있습니다.</p>
+              <ul className="list-disc pl-4 space-y-1 bg-gray-50 p-2.5 rounded-lg border border-gray-150">
+                <li><span className="font-semibold">수탁자:</span> (주)코리아포트원, 토스페이먼츠(주)</li>
+                <li><span className="font-semibold">위탁 업무:</span> 전자결제 수단을 통한 결제 대행 서비스 및 도용 방지</li>
+                <li><span className="font-semibold">보유 및 이용기간:</span> 회원 탈퇴 시 또는 위탁 계약 종료 시까지</li>
+              </ul>
+              <p>본 방침은 결제 서비스 이용 시 적용되며, 관련 법령에 의거하여 안전하게 관리됩니다.</p>
+            </div>
+            <button onClick={() => setShowPrivacy(false)} className="w-full mt-6 bg-[#1A1530] text-white py-3 rounded-xl font-bold text-sm transition-colors hover:bg-opacity-90">
+              확인 및 닫기
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 7. 이용약관 팝업창 */}
+      {showTerms && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans">
+          <div className="bg-white text-gray-850 w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative">
+            <h3 className="text-lg font-bold text-gray-900 mb-4 border-b pb-2">서비스 이용약관</h3>
+            <div className="text-xs text-gray-650 space-y-3 leading-relaxed">
+              <p className="font-bold text-gray-800">■ 제1조 (목적)</p>
+              <p>본 약관은 해피메리벨이 제공하는 프라이빗 사주 컨설팅 서비스의 이용 조건 및 절차에 관한 사항을 규정함을 목적으로 합니다.</p>
+              <p className="font-bold text-gray-800">■ 제2조 (콘텐츠 제공 및 환불)</p>
+              <p>본 서비스는 디지털 지식 콘텐츠 특성상, 결제가 완료되어 명식 및 처방전 결과가 화면에 노출된 이후에는 디지털 제품의 오염 및 가치 훼손으로 간주하여 전자상거래법에 따라 원칙적으로 환불이 불가능합니다. 단, 시스템 오류로 인해 결과를 열람하지 못한 경우 고객센터를 통해 조치 받으실 수 있습니다.</p>
+            </div>
+            <button onClick={() => setShowTerms(false)} className="w-full mt-6 bg-[#1A1530] text-white py-3 rounded-xl font-bold text-sm transition-colors hover:bg-opacity-90">
+              확인 및 닫기
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
