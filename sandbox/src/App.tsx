@@ -673,14 +673,13 @@ export default function SajuLearningApp() {
   const [unlockedMenus, setUnlockedMenus] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // 🔥 [새로 추가됨] 결제가 끝나고 돌아왔을 때, 원래 화면을 복구하는 마법의 로직
+  // 🔥 [새로 변경됨] 결제가 끝나면 고객 정보를 파이어베이스 금고에 저장하는 마법의 로직
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const isSuccess = urlParams.get('success');
     const isFail = urlParams.get('fail');
 
     if (isSuccess === 'true') {
-      // 1. 페이지가 넘어가기 전 로컬 스토리지에 숨겨둔 정보들을 다시 꺼내옵니다.
       const savedUserInfo = JSON.parse(localStorage.getItem('sajuApp_userInfo'));
       const savedUserSaju = JSON.parse(localStorage.getItem('sajuApp_userSaju'));
       const savedMenu = JSON.parse(localStorage.getItem('sajuApp_selectedMenu'));
@@ -689,13 +688,30 @@ export default function SajuLearningApp() {
         setUserInfo(savedUserInfo);
         setUserSaju(savedUserSaju);
         setSelectedMenu(savedMenu);
-        setUnlockedMenus([savedMenu.id]); // 결제된 메뉴 잠금 해제!
-        setCurrentView('result'); // 바로 결과 화면으로 쏴줍니다.
+        setUnlockedMenus([savedMenu.id]);
+        setCurrentView('result'); 
         
-        alert("🎉 테스트 결제가 성공적으로 완료되었습니다!\n(테스트 환경이므로 실제 돈은 빠져나가지 않았습니다.)");
+        // 🚨 여기가 파이어베이스 금고(Firestore)로 데이터를 쏘는 핵심 코드입니다!
+        const saveToDatabase = async () => {
+          try {
+            await addDoc(collection(db, "paid_customers"), {
+              customerName: savedUserInfo.name,
+              birthDate: savedUserInfo.birthDate,
+              purchasedMenu: savedMenu.title,
+              sajuDayMaster: savedUserSaju.dayMaster,
+              paymentAmount: 1000,
+              paymentDate: new Date().toISOString()
+            });
+            alert("🎉 테스트 결제가 완료되었습니다!\n(대표님의 파이어베이스 금고에 고객 정보가 저장되었습니다.)");
+          } catch (e) {
+            console.error("금고 저장 에러: ", e);
+            alert("결제는 성공했으나, 금고 저장 중 오류가 발생했습니다.");
+          }
+        };
+        
+        saveToDatabase(); // 저장 함수 실행!
       }
       
-      // 2. URL 끝에 붙은 너저분한 결제 기록(success=true) 지워주기
       window.history.replaceState({}, document.title, window.location.pathname);
     } else if (isFail === 'true') {
       alert("결제 과정에서 오류가 발생했거나 취소하셨습니다.");
