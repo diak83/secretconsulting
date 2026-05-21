@@ -6,6 +6,7 @@ import {
   Home as HomeIcon,
   Briefcase,
   Star,
+  Download,
   Lock,
   Unlock,
   ChevronLeft,
@@ -666,6 +667,37 @@ const Starfield = () => {
 };
 // 👇 여기서부터 파일 맨 끝까지 덮어쓰기 하세요! 👇
 export default function SajuLearningApp() {
+// 👇 결과지 파일 다운로드 마법 기능 👇
+  const downloadResultFile = () => {
+    if (!userSaju || !userInfo) return;
+    
+    const element = document.createElement("a");
+    const fileContent = `==================================================
+ [해피메리벨] VVIP 프라이빗 사주 컨설팅 분석 결과지
+==================================================
+■ 고객 정보
+- 이름: ${userInfo.name}
+- 생년월일: ${userInfo.birthDate}
+- 태어난 시: ${userInfo.birthTime || '모름'} (${userInfo.calendarType === 'solar' ? '양력' : '음력'})
+
+■ 사주 분석 핵심 요약
+- 나의 타고난 기운: [ ${userSaju.dayMaster} ] 의 기운
+${userSaju.main || '분석 내용'}
+
+■ 서비스 제공 기간 및 규정 안내
+- 본 결과지는 전자상거래법에 의거하여 결제일로부터 30일간 다운로드 및 열람이 가능합니다.
+- 30일 이후에는 고객님의 소중한 개인정보 보호를 위해 데이터가 자동 파기되오니, 본 파일을 안전한 개인 저장장치에 보관해 주시기 바랍니다.
+- 본 상품은 무형의 디지털 지식 콘텐츠로, 결제 후 화면에 결과가 노출됨과 동시에 용역 제공이 완료되므로 원칙적으로 취소 및 환불이 불가능합니다.
+==================================================
+© Happy Merry Bell. All rights reserved.`;
+
+    const file = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
+    element.href = URL.createObjectURL(file);
+    element.download = `${userInfo.name}_해피메리벨_사주결과지.txt`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
   const [currentView, setCurrentView] = useState('intro');
   const [userInfo, setUserInfo] = useState({ name: '', birthDate: '', birthTime: '', calendarType: 'solar', isTimeUnknown: false });
   const [userSaju, setUserSaju] = useState({ dayMaster: '', main: '', lacking: '', excessive: '', pillars: [], counts: {} });
@@ -1020,6 +1052,19 @@ const [unlockedMenus, setUnlockedMenus] = useState([]);
 
       {/* 4. RESULT VIEW */}
       {currentView === 'result' && (
+      {/* 결과지 다운로드 및 유효기간 안내 섹션 */}
+        <div className="bg-[#1A1530]/60 border border-[rgba(255,255,255,0.1)] rounded-2xl p-5 text-center my-6 backdrop-blur-sm">
+          <p className="text-xs text-[rgba(255,255,255,0.6)] mb-3 leading-relaxed">
+            📢 <span className="text-amber-400 font-bold">서비스 제공기간 안내:</span> 본 결과지는 결제일로부터 <span className="text-white font-bold underline">30일 동안</span> 언제든 다시 확인 및 다운로드가 가능합니다. 30일 이후에는 데이터가 안전하게 파기되므로 꼭 저장해 주세요!
+          </p>
+          <button 
+            onClick={downloadResultFile}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg hover:from-amber-600 hover:to-amber-700 transition-all w-full justify-center"
+          >
+            <Download size={16} />
+            사주 분석 결과지 파일 다운로드 (.txt)
+          </button>
+        </div>
         <div className="relative z-20 min-h-screen bg-[#FDFBF7] text-[#1A1530] pb-12 animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)]">
           <div className="px-4 py-4 flex items-center sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur border-b border-[#EAE1D8]">
             <button onClick={() => setCurrentView('menu')} className="p-2 mr-2 bg-white border border-[#EAE1D8] rounded-full text-[#1A1530] shadow-sm">
@@ -1226,11 +1271,16 @@ const [unlockedMenus, setUnlockedMenus] = useState([]);
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans">
           <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black">
             <h3 className="text-lg font-bold text-black mb-4 border-b pb-2 border-gray-300">서비스 이용약관</h3>
+           {/* 기존 이용약관 팝업 내부의 제2조 부분을 이 내용으로 채워주세요 */}
             <div className="text-xs space-y-3 leading-relaxed">
               <p className="font-bold text-black">■ 제1조 (목적)</p>
-              <p className="text-black">본 약관은 해피메리벨이 제공하는 프라이빗 사주 컨설팅 서비스의 이용 조건 및 절차에 관한 사항을 규정함을 목적으로 합니다.</p>
-              <p className="font-bold text-black mt-4">■ 제2조 (콘텐츠 제공 및 환불)</p>
-              <p className="text-black">본 서비스는 디지털 지식 콘텐츠 특성상, 결제가 완료되어 명식 및 처방전 결과가 화면에 노출된 이후에는 디지털 제품의 오염 및 가치 훼손으로 간주하여 전자상거래법에 따라 원칙적으로 환불이 불가능합니다. 단, 시스템 오류로 인해 결과를 열람하지 못한 경우 고객센터를 통해 조치 받으실 수 있습니다.</p>
+              <p className="text-gray-600">본 약관은 해피메리벨이 제공하는 프라이빗 사주 컨설팅 서비스의 이용 조건 및 절차에 관한 사항을 규정함을 목적으로 합니다.</p>
+              
+              <p className="font-bold text-black mt-4">■ 제2조 (서비스 제공 기간)</p>
+              <p className="text-gray-600">회사는 고객이 결제를 완료한 시점부터 30일 동안 웹사이트를 통한 결과지 열람 및 다운로드 기능을 제공합니다. 30일이 경과하면 개인정보 보호 및 데이터 관리 정책에 따라 해당 데이터는 자동 파기됩니다.</p>
+              
+              <p className="font-bold text-black mt-4">■ /제3조 (취소 및 환불 규정)</p>
+              <p className="text-gray-600">본 서비스는 전자상거래등에서의 소비자보호에 관한 법률 제17조 제2항 제5호(디지털콘텐츠의 제공이 개시된 경우)에 해당합니다. 구매와 동시에 사주 분석 결과가 화면에 즉시 노출되는 디지털 콘텐츠 특성상, 결제 후에는 취소 및 환불이 원칙적으로 불가능합니다. 단, 시스템 오류 등으로 인해 서비스 인도가 정상적으로 이루어지지 않은 경우 고객센터를 통해 100% 환불 처리됩니다.</p>
             </div>
             <button onClick={() => setShowTerms(false)} className="w-full mt-6 bg-[#1A1530] text-white py-3 rounded-xl font-bold text-sm transition-colors hover:bg-opacity-90">
               확인 및 닫기
