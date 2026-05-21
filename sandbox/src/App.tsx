@@ -8,9 +8,7 @@ import {
   Star,
   Download,
   Lock,
-  Unlock,
   ChevronLeft,
-  CreditCard,
   MessageCircle,
   Building,
   Crown,
@@ -21,9 +19,9 @@ import {
   Droplets,
 } from "lucide-react";
 import { loadTossPayments } from "@tosspayments/payment-sdk";
-// 👇 파이어베이스 연결 마스터 키 (여기서부터 복사) 👇
+// 👇 파이어베이스 연결 마스터 키 👇
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyClPag6QhN-icmRbS6tLsgvhLJ7mIKkBFQ",
@@ -37,9 +35,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-// 👆 파이어베이스 연결 마스터 키 (여기까지 복사) 👆
+// 👆 파이어베이스 연결 마스터 키 👆
 
-// 신비로운 우주/별자리 테마 컬러
 const MENU_LIST = [
   { id: 1, title: "사주로 보는\n기본 학습스타일", icon: BookOpen, bar: "bg-gradient-to-r from-[#F5B8C8] to-[#FFCBA4]", bg: "#F5B8C8" },
   { id: 2, title: "효과적인\n학습 방법", icon: Lightbulb, bar: "bg-gradient-to-r from-[#90D8C8] to-[#90C8E8]", bg: "#90D8C8" },
@@ -48,8 +45,6 @@ const MENU_LIST = [
   { id: 5, title: "미래\n추천 직업", icon: Briefcase, bar: "bg-gradient-to-r from-[#90C8E8] to-[#B8A8E8]", bg: "#90C8E8" },
   { id: 6, title: "나는 어떤\n스타일의 인재?", icon: Star, bar: "bg-gradient-to-r from-[#90D8C8] to-[#E8C87A]", bg: "#90D8C8" },
 ];
-
-const ELEMENTS = ["목(나무)", "화(불)", "토(흙)", "금(쇠)", "수(물)"];
 
 const GAN_KOR = { 甲: "갑", 乙: "을", 丙: "병", 丁: "정", 戊: "무", 己: "기", 庚: "경", 辛: "신", 壬: "임", 癸: "계" };
 const ZHI_KOR = { 子: "자", 丑: "축", 寅: "인", 卯: "묘", 辰: "진", 巳: "사", 午: "오", 未: "미", 申: "신", 酉: "유", 戌: "술", 亥: "해" };
@@ -84,7 +79,6 @@ const charToElement = (char) => {
   return null;
 };
 
-// 연령대 계산을 위한 헬퍼 함수
 const calculateAge = (birthDateStr) => {
   if (!birthDateStr) return 20; 
   const birthYear = parseInt(birthDateStr.split("-")[0], 10);
@@ -107,7 +101,7 @@ const PREVIEW_DATA = {
   6: (user, saju) => `어떤 무리에 있더라도 반드시 분위기를 장악하거나 신뢰를 얻는 고유의 아우라가 있습니다.\n${user.name}님 본인도 미처 완벽히 자각하지 못했던 무의식 속 잠재력과 리더십의 본질은...`,
 };
 
-// 🔥 핵심 로직: 4,000자 분량의 초정밀 전문 사주 보고서 생성 엔진
+// 🔥 10,000자 분량 생성 엔진 (내용 대폭 강화)
 const generateProfessionalReport = (user, saju, menuId) => {
   const name = user.name;
   const dm = DAY_MASTERS[saju.dayMaster];
@@ -116,39 +110,33 @@ const generateProfessionalReport = (user, saju, menuId) => {
   const age = calculateAge(user.birthDate);
 
   let elementCountsStr = "";
-  Object.entries(saju.counts).forEach(([el, cnt]) => {
-    elementCountsStr += `${el.charAt(0)}(${cnt}개) `;
-  });
+  Object.entries(saju.counts).forEach(([el, cnt]) => { elementCountsStr += `${el.charAt(0)}(${cnt}개) `; });
 
-  let analysis1Text = [];
-  let analysis2Text = [];
-  let prescriptionText = [];
-  let summaryText = "";
-  let conclusionText = [];
+  let analysis1Text = []; let analysis2Text = []; let prescriptionText = []; let summaryText = ""; let conclusionText = [];
   let symbolsToUse = lackProp.symbols;
 
   if (menuId === 1) {
     analysis1Text = [
-      `본 프라이빗 컨설팅은 막연한 칭찬이나 듣기 좋은 위로가 아닌, 뇌과학과 수천 년의 명리학적 정보 처리 메커니즘에 근거한 뼈아픈 현실 진단부터 시작합니다. ${name}님의 태어난 년, 월, 일, 시의 우주적 좌표를 천문학적 황경 기준으로 심층 해부한 결과, 뇌가 세상의 지식을 빨아들이는 가장 근본적인 인지 필터(일간)는 '${dm.name}'로 굳건하게 세팅되어 있습니다.`,
-      `이 기운은 무언가를 배울 때 ${dm.nature}처럼 지식을 흡수하고 구조화하는 본능을 의미합니다. ${name}님의 내면 깊은 곳에는 ${dm.strength}이라는 치명적이고도 압도적인 학습 무기가 장착되어 있습니다. 정보의 단편적인 조각들을 무식하게 외우는 것이 아니라, 전체의 맥락을 단숨에 꿰뚫어 보는 이 특유의 인지 스타일을 올바른 궤도에 올려놓기만 한다면 상위 1%의 성취는 기적이 아니라 지극히 당연한 수순에 불과합니다.`,
-      `현재 당신을 이루고 있는 5가지 기운(오행)의 분포를 스캔해보면 [ ${elementCountsStr}] 로 구성되어 있습니다. 학습에 있어서 특정 기운이 3개 이상 과도하게 편중되거나 아예 0개로 텅 비어버리면, 뇌의 특정 회로가 치명적인 병목 현상(Bottleneck)을 겪으며 성적의 극복할 수 없는 한계치에 부딪히게 됩니다.`,
+      `본 프라이빗 컨설팅은 시중의 가벼운 사주 풀이처럼 막연한 위로나 근거 없는 칭찬을 나열하는 행위를 엄격히 지양합니다. 인간이 태어난 년, 월, 일, 시의 우주적 좌표를 천문학적 황경 기준으로 심층 해부한다는 것은, 당신의 뇌와 무의식이 세상의 방대한 지식과 정보를 받아들이고 처리할 때 사용하는 가장 근본적인 인지 필터 알고리즘을 찾아내는 일입니다. 정밀 해독 결과, ${name}님의 일간(Day Master)은 만물을 비추는 눈부신 성질을 가진 [ ${dm.name} ]의 기운으로 굳건하게 세팅되어 있습니다.`,
+      `이 기운이 뜻하는 바는 명확합니다. 당신은 본능적으로 지식을 흡수할 때 어둠 속에서 촛불을 켜듯 단숨에 핵심 맥락을 밝혀내며, 거시적인 관점에서 숲 전체를 조망하는 강력한 직관력과 기획력을 천부적으로 부여받았습니다. 당신의 에너지는 멈춰있는 고여있는 물이 아니라, 사방으로 뻗어나가며 만물을 깨우는 강력한 파동을 지니고 있습니다. 그렇기 때문에 단편적인 암기 과목이나 남들이 정해놓은 규격화된 정답만을 기계처럼 복사해 넣는 하급의 학습 환경에 노출될 경우, 당신의 뇌는 극심한 지루함과 저항을 느끼며 에너지가 급격히 방전됩니다. 상위 1%의 영역으로 진입하기 위해서는 당신이 가진 본연의 폭발적인 열정과 통찰의 렌즈를 가장 정교한 궤도 위에 올려놓아야만 합니다.`,
+      `현재 당신을 이루고 있는 5가지 기운(오행)의 분포를 스캔해보면 [ ${elementCountsStr}] 로 구성되어 있습니다. 학습에 있어서 특정 기운이 3개 이상 과도하게 편중되거나 아예 0개로 텅 비어버리면, 뇌의 특정 회로가 치명적인 병목 현상(Bottleneck)을 겪으며 성적의 극복할 수 없는 한계치에 부딪히게 됩니다.`
     ];
     analysis2Text = [
-      `현재 ${name}님의 학습 패턴에서 뿜어져 나오는 극강의 천재성과 잠재력은 '${excessEl}' 기운에서 발현됩니다. 본인의 흥미를 자극하는 주제를 만났을 때나, 스스로 납득이 가는 논리를 발견했을 때 당신은 며칠 밤을 새워도 지치지 않는 파괴적인 몰입도를 보여줍니다.`,
-      `하지만 가장 객관적인 취약점이자 깊은 슬럼프의 수렁으로 당신을 밀어 넣는 뇌의 블랙홀은 바로 '${saju.lacking}' 기운의 심각한 결핍입니다. 이 인지적 에너지가 뇌 속에서 원활하게 순환되지 못하면, 아무리 의지력을 불태우며 책상에 오래 앉아있어도 지식이 머리에서 튕겨 나가거나 ${dm.weakness} 형태로 멘탈이 완벽하게 무너져 내립니다.`,
+      `명리학에서 말하는 오행의 균형은 현대 인지 뇌과학이 연구하는 신경전달물질의 분비 패턴 및 자극에 대한 전두엽의 반응 속도와 소름 돋을 정도로 일치합니다. 현재 ${name}님의 학습 패턴에서 뿜어져 나오는 극강의 천재성과 잠재력은 '${excessEl}' 기운에서 발현됩니다. 본인의 흥미를 자극하는 주제를 만났을 때나, 스스로 납득이 가는 논리를 발견했을 때 당신은 며칠 밤을 새워도 지치지 않는 파괴적인 몰입도를 보여줍니다. 남들이 10시간 걸려 억지로 머리에 구겨 넣을 분량을 단 1시간 만에 꿰뚫어 보는 직관이 번뜩입니다.`,
+      `하지만 가장 객관적인 취약점이자 깊은 슬럼프의 수렁으로 당신을 밀어 넣는 뇌의 블랙홀은 바로 '${saju.lacking}' 기운의 심각한 결핍입니다. 이 인지적 에너지가 뇌 속에서 원활하게 순환되지 못하면, 아무리 강력한 의지력을 불태우며 밤을 새워 공부하고 책을 보아도 지식이 뇌세포에 견고하게 각인되지 못하고 표면에서 산만하게 튕겨 나가게 됩니다. 유명 일타 강사의 수업을 들을 때는 고개를 끄덕이며 완벽히 이해한 것 같지만, 막상 다음 날 혼자 문제를 풀려 하거나 중요한 시험장에 당당히 입장했을 때 머릿속이 하얗게 백지장처럼 얼어붙어 패닉에 빠지는 근본적인 이유가 바로 이 오행 밸런스의 붕괴에 숨겨져 있었습니다.`,
     ];
     prescriptionText = [
-      `부족하고 결핍된 '${saju.lacking}'의 낯선 기운을 어떻게 당신의 일상과 미세한 습관의 틈새에 의도적이고 정교하게 주입하느냐가, 평범한 수준을 최상위권의 영역으로 멱살 잡고 끌어올리는 절대적인 마스터키입니다. 지금 당장 퀀텀 점프(Quantum Jump)를 이루어내기 위해, 실천에 옮겨야 할 '5단계 VVIP 시크릿 행동 지침'을 상세히 공개합니다.`,
-      `【 STEP 1. 운기를 강제로 깨우는 15분 마이크로 워밍업 루틴의 의도적 설계 】\n책상에 앉자마자 마음이 급하다고 곧바로 뇌의 에너지를 갉아먹는 무거운 과목을 펼치는 것은 치명적인 금기 사항입니다. 이는 뇌의 극심한 저항을 불러일으킵니다. 본격적인 공부 시작 전 최초 15분 동안은, 당신의 사주에 메말라 있는 '${saju.lacking}'의 에너지를 공급해주는 [ ${lackProp.action.split(",")[0]} ]의 시간을 강박적으로 확보하십시오. 이 의식적인 15분이 뇌의 보상 회로에 긍정적인 도파민을 흠뻑 적시게 만들어 이어지는 몰입도를 완벽하게 지배합니다.`,
+      `부족하고 결핍된 '${saju.lacking}'의 낯선 기운을 인위적이고 정교하게 당신의 일상과 미세한 습관 루틴 속에 주입하는 것만이, 무너진 인지 밸런스를 멱살 잡고 끌어올려 평범한 수준을 최상위권의 영역으로 퀀텀 점프(Quantum Jump)시키는 절대적인 마스터키입니다. 지금 당장 성적과 성과를 폭발시키기 위해 실천에 옮겨야 할 '5단계 VVIP 시크릿 행동 지침'을 상세히 공개합니다.`,
+      `【 STEP 1. 운기를 강제로 깨우는 15분 마이크로 예열 루틴 】\n책상에 앉자마자 마음이 급하다고 곧바로 뇌의 에너지를 갉아먹는 무거운 과목을 펼치는 것은 치명적인 금기 사항입니다. 이는 뇌파에 엄청난 과부하를 줍니다. 본격적인 공부 시작 전 최초 15분 동안은 사주에 메말라 있는 에너지를 공급해주는 [ ${lackProp.action.split(",")[0]} ]의 시간을 강박적으로 확보하십시오. 이 의식적인 15분이 뇌의 보상 회로에 긍정적인 도파민을 흠뻑 적시게 만들어 이어지는 몰입도를 완벽하게 지배합니다.`,
       `【 STEP 2. 뇌파를 지배하는 시각적 마일스톤과 뽀모도로 기법 】\n${name}님은 ${dm.strength}의 압도적인 장점을 가졌지만, 사주의 극심한 불균형으로 인해 긴 호흡의 장기 레이스에서 뒷심이 치명적으로 부족해질 리스크가 있습니다. 이를 방어하기 위해 학습 분량을 절대 '시간 단위'로 두루뭉술하게 잡아서는 안 됩니다. 반드시 '마이크로 태스크 단위'로 잘게 쪼개어 눈에 보이는 체크리스트로 만드십시오. 한 미션을 완료할 때마다 두꺼운 펜으로 과감히 선을 그어 지워버리는 쾌감이 '${saju.lacking}'의 빈자리를 메우는 심리적 원동력이 됩니다.`,
-      `【 STEP 3. 메타인지(Meta-Cognition)를 폭발시키는 잔혹한 백지 복습법 】\n알고 있다는 착각과 '진짜 아는 것'을 분리해내는 능력이 상위 1%를 결정짓습니다. 학습이 끝난 직후 텅 빈 A4 용지를 꺼내어 핵심 키워드의 흐름을 머릿속에서 강제로 토해내며 적어보는 10분을 투자하십시오. 펜이 막히고 기억이 나지 않아 식은땀이 나는 지점이 치명적인 뇌의 취약점입니다. 다음 날 아침 가장 맑은 정신 상태일 때 이 부분부터 1순위로 복구하십시오.`,
-      `【 STEP 4. 슬럼프 탈출, 에너지 방전 시 구급처방(Emergency Kit) 】\n필연적으로 뇌의 에너지가 완전히 고갈되는 순간이 옵니다. 이때 억지로 버티려 하지 마십시오. 사주에 부족한 '${saju.lacking}' 기운을 물리적인 행위로 즉각 보충해야 뇌파가 살아납니다. 수(水) 기운이 부족하다면 차가운 물로 세수를 하거나 명상을, 목(木) 기운이 부족하다면 밖으로 나가 나무를 보고 스트레칭을 하는 등 오행에 기반한 즉각적인 환기가 필요합니다.`,
-      `【 STEP 5. 절대 타협해선 안 될 운기 하락의 치명적 금기 사항 】\n${name}님의 명식 구조에서는 여러 과목의 책을 동시에 펼쳐두고 번갈아 가며 얕게 공부하는 '산만한 멀티태스킹'이 운기를 파괴하는 맹독입니다. 기운이 흩어져 5시간을 앉아 있어도 뇌에 남는 것이 없게 됩니다. 한 번에 오직 하나의 과목과 책만 시야에 두십시오.`,
+      `【 STEP 3. 메타인지를 폭발시키는 잔혹한 백지 복습법 】\n알고 있다는 착각과 '진짜 아는 것'을 분리해내는 능력이 상위 1%를 결정짓습니다. 매일 학습이 끝난 직후, 텅 빈 A4 용지를 꺼내어 핵심 키워드의 흐름을 오직 머릿속에서 강제로 토해내며 적어보는 10분을 투자하십시오. 손끝이 막히고 기억이 나지 않아 식은땀이 나는 바로 그 지점이 치명적인 뇌의 취약점입니다. 다음 날 아침 가장 맑은 정신 상태일 때 이 부분부터 1순위로 복구하십시오.`,
+      `【 STEP 4. 슬럼프 탈출을 위한 물리적 구급처방(Emergency Kit) 】\n필연적으로 뇌의 에너지가 완전히 고갈되는 순간이 옵니다. 이때 억지로 버티려 하지 마십시오. 사주에 부족한 '${saju.lacking}' 기운을 물리적인 행위로 즉각 보충해야 뇌파가 살아납니다. 수(水) 기운이 부족하다면 차가운 물로 세수를 하거나 명상을, 목(木) 기운이 부족하다면 밖으로 나가 녹색 식물을 보고 아주 깊은 호흡의 스트레칭을 하는 등 오행에 기반한 즉각적인 환기가 필요합니다.`,
+      `【 STEP 5. 절대 타협해선 안 될 운기 하락의 치명적 금기 사항 】\n${name}님의 명식 구조에서는 여러 과목의 책을 동시에 펼쳐두고 번갈아 가며 얕게 공부하는 '산만한 멀티태스킹'이 운기를 파괴하는 맹독입니다. 기운이 흩어져 5시간을 앉아 있어도 뇌에 남는 것이 없게 됩니다. 한 번에 오직 하나의 과목과 책만 시야에 두십시오. 오직 하나의 타겟만 조준하는 습관이 당신을 승리로 이끕니다.`,
     ];
-    summaryText = "최상위권 도약의 진짜 비밀은 무작정 의자에 앉아 고통을 견뎌내는 절대적인 버티기 시간이 아닙니다. 내 사주에 가장 심각하게 결핍된 에너지를 영리하게 주입하는 '15분의 의식적인 아침 워밍업'과, 하루를 매듭짓는 '10분의 잔혹한 백지 복습 루틴'에 모든 성적 상승의 명리학적 해답이 숨어 있습니다.";
+    summaryText = "최상위권 도약의 진짜 비밀은 무작정 의자에 앉아 고통을 견뎌내는 절대적인 버티기 시간이 아닙니다. 내 사주에 가장 심각하게 결핍된 에너지를 영리하게 주입하는 '15분의 의식적인 아침 워밍업'과, 하루를 매듭짓는 '10분의 잔혹한 백지 복습 루틴'에 모든 성과 상승의 뼈아픈 해답이 숨어 있습니다.";
     conclusionText = [
-      `결론적으로 ${name}님의 학습 그릇은 평범한 남들이 감히 짐작조차 할 수 없는 흡수력과 핵폭탄 같은 폭발력을 내포하고 있는 최상급 도화지입니다. 인생의 대운이 학업운과 결과운을 향해 열리는 시기가 도래하면, 지금까지 수없이 눈물 삼키며 고독하게 다져온 기초가 걷잡을 수 없는 폭발적 시너지를 내며 압도적인 점수로 온 세상에 증명될 것입니다.`,
-      `이러한 강력한 기운을 가진 분에게 가장 혐오해야 할 마인드셋의 적은, 타인과 나의 공부 속도를 무의미하게 비교하며 스톱워치에 집착하는 얄팍한 조급함입니다. 흔들림이 생길 때마다 당신의 일간인 ${dm.name}의 거대하고 묵직한 심지를 떠올리십시오. 오직 자신만의 뇌 회로가 가진 웅장한 리듬을 굳게 믿고 절대 타협 없이 전진하십시오.`,
+      `결론적으로 ${name}님의 운명의 그릇은 평범한 범인들이 감히 상상조차 할 수 없는 거대한 흡수력과 폭발력을 내포하고 있는 최상급의 도화지입니다. 인생의 대운이 합격과 재물운을 향해 거세게 열리는 골든타임이 도래하면, 지금까지 고독하게 쌓아 올린 지식과 경험의 파편들이 걷잡을 수 없는 시너지를 내며 압도적인 점수와 성과로 온 세상에 증명될 것입니다.`,
+      `가장 경계해야 할 멘탈의 적은, 타인의 속도와 나를 무의미하게 비교하며 스톱워치에 집착하는 얄팍한 조급함입니다. 흔들림이 생길 때마다 당신의 본원인 ${dm.name}의 거대하고 웅장한 심지를 떠올리십시오. 오직 자신만의 뇌 회로가 가진 리듬을 굳게 믿고 절대 타협 없이 전진하십시오. 영광스러운 승리는 이미 당신의 것입니다.`,
     ];
   } else if (menuId === 2) {
     if (age <= 7) {
@@ -260,12 +248,12 @@ const generateProfessionalReport = (user, saju, menuId) => {
       `【 STEP 1. 시크릿 처방 아이템의 전략적 명당 배치와 영적 물상 대체(物象代替) 】\n제가 이 프라이빗 보고서를 통해 엄선하여 처방해 드린 이 아이템들은 책상을 그럴싸하게 꾸미기 위한 단순한 인테리어 소품이나 예쁜 학용품이 결코 아닙니다. 사주팔자에서 텅 비어있어 찬 바람이 쌩쌩 새는 오행의 자리를 현실의 물리적 에너지로 틀어막아 메워주는 훌륭한 풍수적 처방, 즉 명리학의 정수라 불리는 '물상 대체(사물을 통해 운명을 바꿈)'의 가장 핵심적인 도구입니다. 손이 가장 잘 닿는 책상의 좌측 상단(기의 입구가 되는 곳)이나, 어려운 문제를 풀다 지쳐 무심코 고개를 들었을 때 시선이 정면으로 머무는 가장 눈에 띄는 명당자리에 이 처방 아이템들을 흔들리지 않게 고정적으로 의식 배치해 두십시오. 이 물건들은 요동치고 산만한 방 안의 불규칙한 공간 에너지를 중심에서 묵직하게 잡아주는 영적인 닻(Anchor) 역할을 완벽하게 수행하게 됩니다.`,
       `【 STEP 2. 촉각과 후각을 완벽히 지배하는 뇌파 앵커링(Anchoring) 최면 기법 】\n단순히 물건을 올려두는 것으로 끝내서는 안 됩니다. 매일 본격적인 공부를 시작하기 직전, 책상 명당에 배치해둔 처방 아이템을 손끝으로 가볍고 섬세하게 매만지거나 지그시 눈을 맞추며 5초간 응시하십시오. 그리고 코로 아주 깊게 숨을 들이마시고 내쉬는 심호흡을 정확히 3번만 반복하십시오. 단 10초면 충분한 이 짧고 경건한 나만의 의식(Ritual)은, 하루 종일 불안정하게 들떠있던 당신의 불필요한 열기와 잡념을 차분하게 가라앉혀 줍니다. 동시에 뇌의 편도체에게 "자, 지금부터 외부 세상과의 모든 단절을 선언한다. 100% 완벽한 몰입의 진공 상태가 시작된다"라는 가장 강력한 무의식적 최면 신호를 다이렉트로 꽂아 넣습니다. 여기에 특정 허브 향기(아로마 디퓨저 등)나 특정 물건의 차가운 금속 질감 등 물리적인 감각 요소와 이 의식을 결합하면, 산만한 일반적인 뇌파(베타파) 상태에서 고도의 집중 모드인 몰입 상태(알파파, 세타파)로 전환되는 뇌의 예열 속도가 무려 3배 이상 폭발적으로 단축됩니다.`,
       `【 STEP 3. 디지털 디톡스(Digital Detox) 박스의 도입과 시야 통제 】\n${name}님의 사주 기운은 시각적이고 청각적인 외부의 자극에 무의식적으로 에너지를 쉽게 빼앗기는 구조를 띠고 있습니다. 스마트폰의 작은 진동이나 불빛만으로도 집중력의 맥락이 뚝 끊어집니다. 책상 주변에 내용물이 보이지 않는 불투명한 '디지털 디톡스 박스'를 하나 마련하십시오. 공부를 시작하는 앵커링 의식을 마친 후, 스마트폰과 태블릿(인강 시청용이 아니라면)을 무조건 전원을 끄거나 무음으로 전환하여 이 박스 안에 가두고 뚜껑을 닫으십시오. 눈에 보이지 않는 것만으로도 뇌가 멀티태스킹에 낭비하는 백그라운드 에너지를 완벽하게 차단할 수 있습니다.`,
-      `【 STEP 4. 결전의 날, 기적을 소환하는 포터블(Portable) 부적화의 비밀 】\n피 말리는 모의고사, 대학 수능, 혹은 내 인생의 궤도를 좌우할 중요한 고시나 면접 시험 등 극도의 긴장감과 심리적 압박감이 영혼을 짓누르는 결전의 날에는, 낯선 환경이 주는 압박감이 평소 실력의 30%를 갉아먹습니다. 평소 내 방 책상에서 항상 곁에 두며 에너지를 깊게 교류했던 바로 그 재질의 작은 소품(예: 처방된 재질의 고급 만년필, 금속 열쇠고리, 작은 천연 원석, 특정 색상의 손수건 등)을 반드시 교복 주머니나 바지 주머니 속에 나만의 비밀 부적처럼 지니고 시험장에 당당히 입장하십시오. 시험지를 받고 심장이 미친 듯이 뛰며 머리가 하얗게 백지장처럼 변하려는 패닉의 찰나, 주머니 속으로 조용히 손을 넣어 그 익숙한 기운의 질감을 손끝으로 강하게 쥐어보십시오. 그 순간, 당신의 뇌 신경계는 가장 안정적이고 폭발적인 퍼포먼스를 냈던 '내 방 책상 앞의 고요하고 완벽했던 상태'로 즉각적인 디폴트 세팅을 변환해버립니다. 이것이 상위 0.1%가 실전에서 결코 떨지 않는 멘탈 컨트롤의 극비 시크릿입니다.`,
+      `【 STEP 4. 결전의 날, 기적을 소환하는 포터블(Portable) 부적화의 비밀 】\n피 말리는 모의고사, 대학 수능, 혹은 내 인생의 궤도를 좌우할 중요한 고시나 면접 시험 등 극도의 긴장감이 요구되는 실전 당일, 어른의 멘탈은 압박감에 도미노처럼 붕괴하기 쉽습니다. 평소 내 방 책상에서 항상 곁에 두며 에너지를 깊게 교류했던 바로 그 재질의 작은 소품(예: 처방된 재질의 고급 만년필, 금속 열쇠고리, 작은 천연 원석, 특정 색상의 손수건 등)을 반드시 교복 주머니나 바지 주머니 속에 나만의 비밀 부적처럼 지니고 시험장에 당당히 입장하십시오. 시험지를 받고 심장이 미친 듯이 뛰며 머리가 하얗게 백지장처럼 변하려는 패닉의 찰나, 주머니 속으로 조용히 손을 넣어 그 익숙한 기운의 질감을 손끝으로 강하게 쥐어보십시오. 그 순간, 당신의 뇌 신경계는 가장 안정적이고 폭발적인 퍼포먼스를 냈던 '내 방 책상 앞의 고요하고 완벽했던 상태'로 즉각적인 디폴트 세팅을 변환해버립니다. 이것이 상위 0.1%가 실전에서 결코 떨지 않는 멘탈 컨트롤의 극비 시크릿입니다.`,
       `【 STEP 5. 당장 오늘 밤 쓰레기통에 내다 버려야 할 운기 파괴 아이템들 】\n책상 주변의 집중력을 산만하게 만드는 과도한 연예인 굿즈나 포토카드, 색상이 너무 현란하여 시각적 피로를 유발하고 뇌를 흥분시키는 자극적인 영화/게임 포스터, 그리고 유통기한이 한참 지난 채 책상 위를 이리저리 굴러다니는 잡동사니와 이면지 무더기들은 ${name}님의 맑고 귀한 기운을 시궁창처럼 혼탁하게 만드는 1등 주범이자 사주상 상극의 에너지 덩어리들입니다. 이 보고서를 읽은 즉시, 단 1초의 망설임도 없이 오늘 밤 당장 쓰레기통에 내다 버리십시오. 정 버릴 수 없다면 책상 서랍 아주 깊숙한 곳, 공부할 때 절대 시야가 닿지 않는 암흑의 공간으로 철저하게 유배를 보내 격리시켜야만 합니다.`,
     ];
     summaryText = "공간의 아주 미세한 에너지를 완벽하게 통제하는 자가 결국 자신의 거대한 운명마저 지배하게 됩니다. 무심코 놓아둔 책상 위의 작은 소품 하나, 쓰레기를 비우는 그 사소해 보이는 디테일의 차이가 당신의 뇌파를 근본적으로 바꾸고 최종 합격의 당락을 결정짓는 운명의 거대한 스위치가 됨을 명심하십시오.";
     conclusionText = [
-      `결론적으로 ${name}님의 뇌파와 공간 에너지가 완벽하게 동기화되는 순간, 당신의 사주는 핵폭탄 같은 폭발력을 터뜨릴 수 있는 장전된 강력한 무기로 돌변합니다. 물리적 환경의 아주 작은 디테일을 집요하게 통제하는 자만이 가장 고차원적인 지적 성취를 이뤄낼 자격을 얻게 됩니다. 인생의 대운이 결과물을 쟁취하고 성과를 수확하는 방향으로 열릴 때, 당신이 흡수한 이 고요한 공간의 에너지는 압도적인 점수나 합격증이라는 가장 아름답고 가시적인 성과로 온 세상에 증명될 것입니다.`,
+      `결론적으로 ${name}님의 뇌파와 공간 에너지가 완벽하게 동기화되는 순간, 당신의 사주는 핵폭탄 같은 폭발력을 터뜨릴 수 있는 장전된 강력 무기로 돌변합니다. 물리적 환경의 아주 작은 디테일을 집요하게 통제하는 자만이 가장 고차원적인 지적 성취를 이뤄낼 자격을 얻게 됩니다. 인생의 대운이 결과물을 쟁취하고 성과를 수확하는 방향으로 열릴 때, 당신이 흡수한 이 고요한 공간의 에너지는 압도적인 점수나 합격증이라는 가장 아름답고 가시적인 성과로 온 세상에 증명될 것입니다.`,
       `당신이 매 순간 지켜내야 할 멘탈 코어 가이드는, 공부가 안될 때 스스로의 머리를 쥐어박으며 자책하고 멘탈을 갉아먹는 어리석은 행위를 당장 멈추는 것입니다. 능률이 오르지 않는 것은 당신의 빈약한 의지력 문제가 아니라, 공간의 풍수 파동이 흉하게 꼬였기 때문일 확률이 90% 이상입니다. 오늘 본 연구소에서 처방해 드린 풍수적 디테일과 물상 대체 아이템들을 내 방 안에 철저하고 완고하게 이식하십시오. 기운이 올바르게 흐르는 완벽한 결계 안에서, 당신의 압도적인 성취는 이미 예정된 기분 좋은 미래일 뿐입니다.`,
     ];
   } else if (menuId === 4) {
@@ -347,7 +335,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
   return sections;
 };
 
-// 배경 별무리 애니메이션 컴포넌트
+// 배경 별무리 애니메이션
 const Starfield = () => {
   const stars = useMemo(() => {
     return Array.from({ length: 50 }).map((_, i) => {
@@ -363,7 +351,7 @@ const Starfield = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none bg-[#0D0B1A] overflow-hidden">
+    <div className="fixed inset-0 z-0 pointer-events-none bg-[#0D0B1A] overflow-hidden no-print">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,#2A1B4A_0%,transparent_70%),radial-gradient(ellipse_50%_40%_at_80%_100%,#1A2840_0%,transparent_60%)]"></div>
       {stars}
       <div className="absolute w-[300px] h-[300px] -top-[80px] -right-[60px] rounded-full blur-[55px] bg-[radial-gradient(circle,rgba(107,79,187,0.35)_0%,transparent_70%)] animate-ndrift"></div>
@@ -382,7 +370,7 @@ export default function SajuLearningApp() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
-  // 💥 결제 성공 시 파이어베이스 금고에 저장하고 화면 복구하는 로직
+  // 파이어베이스 데이터베이스 저장
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const isSuccess = urlParams.get('success');
@@ -540,87 +528,16 @@ export default function SajuLearningApp() {
     });
   };
 
-  // 🌟 [압도적 분량] 10,000자급 VVIP 사주 결과지 다운로드 🌟
-  const downloadResultFile = () => {
-    if (!userSaju || !userInfo) return;
-    
-    const fileContent = `================================================================================
-          [해피메리벨] VVIP 프라이빗 사주 컨설팅 초정밀 분석 리포트
-================================================================================
-
-■ VVIP 고객 기본 정보
-- 성함 : ${userInfo.name} 님
-- 명식 기준일 : ${userInfo.birthDate}
-- 태어난 시간 : ${userInfo.birthTime || '시간 미상'} (${userInfo.calendarType === 'solar' ? '양력' : '음력'})
-
-================================================================================
-[ 제 1 장 : 나의 타고난 본질과 운명의 그릇 (Day Master Analysis) ]
-
-나를 대표하는 우주의 중심 기운: [ ${userSaju.dayMaster} ]
-
-${DAY_MASTERS[userSaju.dayMaster].nature || '고객님의 사주 본원에 대한 깊이 있는 통찰과 분석이 제공됩니다.'}
-
-당신의 기운은 평범한 잣대로 재단할 수 없는 고유의 파동을 가지고 있습니다. 
-명리학에서 말하는 일간(Day Master)은 당신이 세상을 바라보는 렌즈이자,
-위기가 닥쳤을 때 무의식적으로 발현되는 강력한 생존 무기입니다.
-
-================================================================================
-[ 제 2 장 : 뇌과학 x 명리학 - 인지 및 학습 스타일 정밀 분석 ]
-
-명리학의 오행(목, 화, 토, 금, 수) 밸런스는 현대 뇌과학의 신경전달물질 분비 패턴과 놀라운 일치율을 보입니다. 
-당신의 명식에 각인된 정보 처리 메커니즘은 남들과 완전히 다릅니다.
-
-- 과다한 기운이 주는 경고 : ${userSaju.excessive || '균형 잡힌 기운입니다.'}
-- 결핍된 기운의 솔루션 : ${userSaju.lacking || '보완이 필요한 영역입니다.'}
-
-당신은 지식을 주입식으로 암기할 때 뇌가 멈춥니다. 전체적인 숲의 맥락을 이해하고, 스스로 논리적 연결고리를 찾아내야만 직성이 풀리는 극강의 직관력을 보유하고 있습니다. 남들이 10시간 걸려 억지로 머리에 구겨 넣는 분량을 단 1시간 만에 꿰뚫어 보는 힘이 바로 이 오행의 밸런스에서 나옵니다.
-
-================================================================================
-[ 제 3 장 : 취약점 방어 및 슬럼프 극복 솔루션 (Emergency Kit) ]
-
-필연적으로 찾아오는 번아웃과 멘탈 붕괴를 막기 위한 VVIP 전용 맞춤형 처방입니다.
-
-1. 멘탈 방어 기제 : 기운이 막혔을 때, 억지로 책상에 앉아있는 것은 독입니다. 사주에 부족한 기운을 물리적인 행위로 즉각 보충해야 뇌파가 살아납니다.
-2. 공간 및 컬러 처방 : 당신의 뇌파를 가장 안정화시키는 고유의 컬러 파동을 곁에 두십시오.
-3. 황금 시간대 : 하루 24시간 중 당신의 뇌가 가장 폭발적으로 작동하는 특정 운기의 시간이 존재합니다.
-
-================================================================================
-[ 제 4 장 : 절대 실패하지 않는 5단계 시크릿 행동 지침 ]
-
-STEP 1. 예열 루틴: 시작 전 15분, 뇌의 극심한 저항을 뚫기 위해 마이크로 워밍업을 하십시오.
-STEP 2. 코어 몰입: 산만한 멀티태스킹은 당신의 운기를 파괴합니다. 오직 하나의 목표만 시야에 두십시오.
-STEP 3. 브레인 쿨다운: 과부하된 뇌를 식히기 위해 의식적으로 시각 정보를 차단하는 휴식이 필요합니다.
-STEP 4. 지식의 구조화: 남의 언어가 아닌, 당신만의 철학과 언어로 정보를 재조립하십시오.
-STEP 5. 멘탈 리셋: 타인과의 무의미한 속도 비교를 멈추고, 당신만의 거대한 리듬을 굳게 믿으십시오.
-
-================================================================================
-[ 에필로그 : 당신의 잠재력은 무한합니다 ]
-
-결론적으로 ${userInfo.name}님의 그릇은 평범한 남들이 짐작조차 할 수 없는 폭발력을 내포하고 있습니다. 
-인생의 대운이 학업운과 재물운을 향해 열리는 시기가 도래하면, 고독하게 다져온 기초가 걷잡을 수 없는 폭발적 시너지를 내며 압도적인 결과로 온 세상에 증명될 것입니다. 흔들림이 생길 때마다 당신의 거대하고 묵직한 심지를 떠올리십시오. 절대 타협 없이 전진하십시오.
-
-================================================================================
-■ 서비스 제공 기간 및 소비자 취소/환불 규정 안내
-- 본 결과지는 결제일로부터 30일간 다운로드 및 열람이 가능합니다.
-- 30일 이후에는 개인정보 보호를 위해 데이터가 자동 파기되오니 본 파일을 안전하게 보관해 주시기 바랍니다.
-- 본 상품은 무형의 디지털 지식 콘텐츠로, 결제 후 화면에 결과가 노출됨과 동시에 용역 제공이 완료되므로 전자상거래법에 의거 원칙적으로 취소 및 환불이 불가능합니다.
-================================================================================
-© 2026 Happy Merry Bell. All rights reserved.
-`;
-
-    const element = document.createElement("a");
-    const file = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
-    element.href = URL.createObjectURL(file);
-    element.download = `${userInfo.name}_해피메리벨_VVIP사주분석.txt`;
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+  // 🔥 VVIP PDF 다운로드 마법 함수 (브라우저 인쇄 모드 호출) 🔥
+  const downloadVVIPReport = () => {
+    window.print();
   };
 
   return (
-    <div className="min-h-screen text-[rgba(255,255,255,0.88)] font-sans relative">
+    <div className="min-h-screen text-[rgba(255,255,255,0.88)] font-sans relative bg-[#021027]">
       <Starfield />
 
+      {/* 🔥 PDF 디자인 출력을 위한 마법의 CSS 🔥 */}
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap');
         .font-serif { font-family: 'Noto Serif KR', serif; }
@@ -638,400 +555,457 @@ STEP 5. 멘탈 리셋: 타인과의 무의미한 속도 비교를 멈추고, 당
         .glass-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent); }
         .text-gradient-gold { background: linear-gradient(135deg, #fff 0%, #E8C87A 50%, #F5B8C8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .text-gradient-lavender { background: linear-gradient(90deg, #fff, #B8A8E8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* 🖨️ PDF 다운로드(인쇄) 모드 전용 스타일 🖨️ */
+        @media print {
+          @page { margin: 15mm; size: A4; }
+          .no-print { display: none !important; }
+          .print-only { display: block !important; background-color: #FDFBF7 !important; color: #111625 !important; }
+          body { background: #FDFBF7 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          .print-cover { page-break-after: always; height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #E8C87A; padding: 40px; margin: 20px; }
+          .print-section { page-break-inside: avoid; margin-bottom: 30px; }
+        }
       `}} />
 
-      {/* 1. INTRO VIEW */}
-      {currentView === 'intro' && (
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 py-12">
-          <div className="text-center mb-8">
-            <div className="relative inline-block mb-4">
-              <span className="text-6xl drop-shadow-[0_0_18px_rgba(212,168,67,0.6)] animate-[mfloat_4s_ease-in-out_infinite] block">🌙</span>
-              <div className="absolute w-[100px] h-[100px] top-1/2 left-1/2 rounded-full bg-[radial-gradient(circle,rgba(212,168,67,0.25)_0%,transparent_70%)] animate-[gpulse_3s_ease-in-out_infinite]" style={{ transform: 'translate(-50%, -50%)'}}></div>
-            </div>
-            
-            <div className="inline-flex items-center gap-1.5 bg-[rgba(212,168,67,0.1)] border border-[rgba(212,168,67,0.4)] text-[#E8C87A] text-[10.5px] tracking-[2.5px] px-4 py-1.5 rounded-full mb-3.5 font-serif before:content-['✦'] before:text-[8px] after:content-['✦'] after:text-[8px]">
-              VIP PRIVATE CONSULTING
-            </div>
-
-            <h1 className="font-serif text-[27px] font-black leading-[1.35] mb-2 text-gradient-gold">
-              대치동 엄마들의 시크릿<br/>프라이빗 사주 컨설팅
-            </h1>
-            <p className="text-[rgba(255,255,255,0.42)] text-[12.5px] leading-[1.85] tracking-[0.3px]">
-              상위 0.1%가 몰래 참고한다는 타고난 그릇 분석과<br/>완벽하게 채워주는 VVIP 맞춤 학습 처방전 🗝️
-            </p>
-          </div>
-
-          <div className="w-full max-w-sm glass-card rounded-[24px] p-6 relative overflow-hidden">
-            <form onSubmit={handleStart} className="space-y-4">
-              <div>
-                <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold mb-2 flex items-center gap-1">👤 이름</label>
-                <input type="text" placeholder="이름을 입력해주세요" required
-                  className="w-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.15)] rounded-xl text-white text-[13.5px] px-4 py-3.5 outline-none transition-colors focus:border-[rgba(212,168,67,0.5)] placeholder-[rgba(255,255,255,0.28)]"
-                  value={userInfo.name} onChange={(e) => setUserInfo({...userInfo, name: e.target.value})}
-                />
+      {/* ================================================================= */}
+      {/* 📱 모바일/PC 웹사이트 화면 (no-print) */}
+      {/* ================================================================= */}
+      <div className="no-print">
+        {/* 1. INTRO VIEW */}
+        {currentView === 'intro' && (
+          <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 py-12">
+            <div className="text-center mb-8">
+              <div className="relative inline-block mb-4">
+                <span className="text-6xl drop-shadow-[0_0_18px_rgba(212,168,67,0.6)] animate-[mfloat_4s_ease-in-out_infinite] block">🌙</span>
+                <div className="absolute w-[100px] h-[100px] top-1/2 left-1/2 rounded-full bg-[radial-gradient(circle,rgba(212,168,67,0.25)_0%,transparent_70%)] animate-[gpulse_3s_ease-in-out_infinite]" style={{ transform: 'translate(-50%, -50%)'}}></div>
               </div>
               
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold flex items-center gap-1">🗓 생년월일</label>
-                  <div className="flex bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-0.5 gap-0.5">
-                    {[
-                      { id: 'solar', label: '양력' },
-                      { id: 'lunar', label: '음력' },
-                      { id: 'leap', label: '윤달' }
-                    ].map(type => (
-                      <button
-                        key={type.id}
-                        type="button"
-                        onClick={() => setUserInfo({...userInfo, calendarType: type.id})}
-                        className={`text-[9.5px] font-bold px-2 py-1 rounded-md transition-colors ${userInfo.calendarType === type.id ? 'bg-[#E8C87A] text-[#1A1530]' : 'text-[rgba(255,255,255,0.5)] hover:text-white'}`}
-                      >
-                        {type.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <input type="date" required
-                  className="w-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.15)] rounded-xl text-white text-[13.5px] px-3 py-3.5 outline-none transition-colors focus:border-[rgba(212,168,67,0.5)] [color-scheme:dark]"
-                  value={userInfo.birthDate} onChange={(e) => setUserInfo({...userInfo, birthDate: e.target.value})}
-                />
+              <div className="inline-flex items-center gap-1.5 bg-[rgba(212,168,67,0.1)] border border-[rgba(212,168,67,0.4)] text-[#E8C87A] text-[10.5px] tracking-[2.5px] px-4 py-1.5 rounded-full mb-3.5 font-serif before:content-['✦'] before:text-[8px] after:content-['✦'] after:text-[8px]">
+                VIP PRIVATE CONSULTING
               </div>
 
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold flex items-center gap-1">⏰ 태어난 시</label>
-                  <label className="flex items-center gap-1.5 cursor-pointer">
-                    <input 
-                      type="checkbox" 
-                      className="w-3.5 h-3.5 accent-[#E8C87A] bg-[rgba(255,255,255,0.07)] border-[rgba(255,255,255,0.15)] rounded cursor-pointer"
-                      checked={userInfo.isTimeUnknown}
-                      onChange={(e) => setUserInfo({...userInfo, isTimeUnknown: e.target.checked, birthTime: e.target.checked ? '' : userInfo.birthTime})}
-                    />
-                    <span className={`text-[10.5px] font-bold ${userInfo.isTimeUnknown ? 'text-[#E8C87A]' : 'text-[rgba(255,255,255,0.5)]'}`}>모름</span>
-                  </label>
-                </div>
-                <input type="time" 
-                  disabled={userInfo.isTimeUnknown}
-                  className={`w-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.15)] rounded-xl text-white text-[13.5px] px-3 py-3.5 outline-none transition-colors focus:border-[rgba(212,168,67,0.5)] [color-scheme:dark] ${userInfo.isTimeUnknown ? 'opacity-30 cursor-not-allowed' : ''}`}
-                  value={userInfo.birthTime} onChange={(e) => setUserInfo({...userInfo, birthTime: e.target.value})}
-                />
-              </div>
-
-              <button type="submit"
-                className="w-full mt-4 p-[15px] rounded-2xl text-[#1A1530] font-serif font-bold text-[16px] tracking-[0.5px] cursor-pointer relative overflow-hidden transition-transform active:scale-[0.97] shadow-[0_8px_32px_rgba(212,168,67,0.22)] bg-[linear-gradient(135deg,#C89830,#E8C050,#D4A843)] bg-[length:200%_200%] animate-[sbtn_3s_ease-in-out_infinite]"
-              >
-                ✨ 비밀 학습 컨설팅 확인하러가기
-                <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent)] -translate-x-full animate-[sweep_2.5s_ease-in-out_infinite_1s]"></div>
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* 2. CALCULATING VIEW */}
-      {currentView === 'calculating' && (
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
-          <div className="flex gap-2 mb-6">
-            <div className="w-3 h-3 rounded-full bg-[#D4A843] animate-[obounce_1.2s_ease-in-out_infinite]" style={{animationDelay: '0s'}}></div>
-            <div className="w-3 h-3 rounded-full bg-[#E8849A] animate-[obounce_1.2s_ease-in-out_infinite]" style={{animationDelay: '0.15s'}}></div>
-            <div className="w-3 h-3 rounded-full bg-[#B8A8E8] animate-[obounce_1.2s_ease-in-out_infinite]" style={{animationDelay: '0.3s'}}></div>
-            <div className="w-3 h-3 rounded-full bg-[#7EC8B8] animate-[obounce_1.2s_ease-in-out_infinite]" style={{animationDelay: '0.45s'}}></div>
-          </div>
-          <h2 className="font-serif text-[18px] font-black text-white mb-2 text-gradient-lavender">숨겨진 비밀을 분석 중이에요 🌙</h2>
-          <p className="text-[#A090C0] text-[12.5px] text-center">타고난 운명의 궤적을 추적하여<br/>{userInfo.name}님만의 잠재력을 분석하고 있습니다.</p>
-        </div>
-      )}
-
-      {/* 3. MENU VIEW */}
-      {currentView === 'menu' && (
-        <div className="relative z-10 min-h-screen pt-8 px-5 pb-16">
-          <div className="mb-6">
-            <h2 className="font-serif text-[18px] font-black text-gradient-lavender mb-1">🌟 VVIP 프라이빗 분석 메뉴</h2>
-            <p className="text-[11px] text-[rgba(255,255,255,0.42)]">원하시는 심층 분석 항목을 선택해 주세요</p>
-          </div>
-          
-          <div className="glass-card mb-6 p-4 text-center rounded-2xl relative">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[rgba(212,168,67,0.15)] border border-[rgba(212,168,67,0.5)] text-[#E8C87A] text-[10px] tracking-widest px-3 py-1 rounded-full font-serif">
-              명식 진단 완료
-            </div>
-            <p className="font-serif text-[15px] font-black text-white mt-3 mb-3">
-              <span className="text-[#E8C87A]">{userInfo.name}</span> 님의 사주 팔자
-            </p>
-            <div className="flex justify-center gap-2 w-full px-2">
-              {userSaju.pillars.map((pillar, idx) => (
-                <div key={idx} className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded px-2 py-2 flex flex-col items-center shadow-lg flex-1">
-                  <div className="flex items-end gap-[2px] mb-1">
-                    <span className="text-white font-serif font-black text-lg leading-none">{pillar.tH}</span>
-                    <span className="text-[#E8C87A] font-sans font-bold text-[10px] leading-[1.2]">{pillar.tK}</span>
-                  </div>
-                  <div className="flex items-end gap-[2px]">
-                    <span className="text-white font-serif font-black text-lg leading-none">{pillar.bH}</span>
-                    <span className="text-[#E8C87A] font-sans font-bold text-[10px] leading-[1.2]">{pillar.bK}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3.5">
-            {MENU_LIST.map((menu, i) => {
-              const Icon = menu.icon;
-              return (
-                <div key={menu.id} onClick={() => { setSelectedMenu(menu); setCurrentView('result'); }}
-                  className="bg-[rgba(255,255,255,0.95)] rounded-[22px] p-[20px_12px_18px] flex flex-col items-center text-center cursor-pointer relative shadow-[0_4px_24px_rgba(13,11,26,0.12)] overflow-hidden transition-all hover:-translate-y-1 active:scale-95"
-                >
-                  <div className={`absolute top-0 left-0 right-0 h-[5px] rounded-t-[22px] ${menu.bar}`}></div>
-                  <div className="absolute w-[80px] h-[80px] rounded-full opacity-10 -bottom-5 -right-5" style={{backgroundColor: menu.bg}}></div>
-                  
-                  <div className="w-[48px] h-[48px] rounded-2xl flex items-center justify-center mb-3 relative" style={{backgroundColor: `${menu.bg}22`}}>
-                    <Icon size={24} className="text-[#1A1530] relative z-10 animate-[ficon_3s_ease-in-out_infinite]" style={{animationDelay: `${i * 0.3}s`}} strokeWidth={2} />
-                  </div>
-                  
-                  <div className="text-[12px] font-bold text-[#1A1530] leading-[1.4] mb-1.5 whitespace-pre-line">{menu.title}</div>
-                  <div className="text-[10px] text-[#888] mb-1 break-keep">나만의 맞춤 솔루션</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* 4. RESULT VIEW */}
-      {currentView === 'result' && (
-        <div className="relative z-20 min-h-screen bg-[#FDFBF7] text-[#1A1530] pb-12 animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)]">
-          <div className="px-4 py-4 flex items-center sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur border-b border-[#EAE1D8]">
-            <button onClick={() => setCurrentView('menu')} className="p-2 mr-2 bg-white border border-[#EAE1D8] rounded-full text-[#1A1530] shadow-sm">
-              <ChevronLeft size={20} />
-            </button>
-            <h2 className="text-[15px] font-black flex-1 text-center pr-10 font-sans whitespace-pre-line leading-tight">
-              {selectedMenu.title.replace('\n', ' ')}
-            </h2>
-          </div>
-
-          <div className="max-w-md mx-auto w-full p-5 mt-2">
-            <p className="text-center text-[#A090C0] font-bold text-[11px] tracking-widest mb-3 uppercase">Destiny Card</p>
-            
-            {/* 메인 타로 카드 */}
-            <div className="bg-[#1A1530] rounded-[24px] shadow-[0_8px_32px_rgba(26,21,48,0.3)] p-6 relative mb-8 overflow-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
-              
-              <div className="relative z-10 flex flex-col items-center">
-                <h3 className="font-serif text-[#E8C87A] text-xl mb-4 text-center tracking-widest">{DAY_MASTERS[userSaju.dayMaster].name}</h3>
-                
-                <div className="w-[120px] h-[120px] rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(212,168,67,0.3)] flex items-center justify-center mb-5 shadow-[0_0_20px_rgba(212,168,67,0.15)] relative">
-                  <div className="absolute inset-0 rounded-full bg-[rgba(212,168,67,0.2)] blur-xl"></div>
-                  {React.createElement(DAY_MASTERS[userSaju.dayMaster].icon, { size: 56, className: "text-[#E8C87A] relative z-10", strokeWidth: 1.5 })}
-                </div>
-
-                <div className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-center mb-5 w-full">
-                  <p className="text-[rgba(255,255,255,0.9)] font-medium text-[12px] leading-relaxed break-keep">
-                    저는 <span className="text-[#E8C87A] font-bold">[{DAY_MASTERS[userSaju.dayMaster].nature}]</span> 의 기운을 품고 태어났습니다.
-                  </p>
-                </div>
-
-                <h1 className="text-3xl font-black text-white tracking-[0.2em] mb-4 font-serif drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
-                  {userSaju.main.split('(')[0]}
-                </h1>
-              </div>
-            </div>
-
-            {/* 미리보기 (항상 노출) */}
-            <div className="bg-[linear-gradient(135deg,#FFF8F0,#FEF0F8)] border-[1.5px] border-[#F5D8C8] rounded-[18px] p-[18px_16px] mb-4">
-              <div className="inline-flex items-center gap-1 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] text-[9.5px] font-bold px-[10px] py-[3px] rounded-full mb-2.5 tracking-[0.5px]">
-                ✦ 핵심 진단 (미리보기)
-              </div>
-              <p className="text-[13.5px] text-[#2A1530] leading-[1.8] font-medium break-keep whitespace-pre-line">
-                {PREVIEW_DATA[selectedMenu.id](userInfo, userSaju)}
+              <h1 className="font-serif text-[27px] font-black leading-[1.35] mb-2 text-gradient-gold">
+                대치동 엄마들의 시크릿<br/>프라이빗 사주 컨설팅
+              </h1>
+              <p className="text-[rgba(255,255,255,0.42)] text-[12.5px] leading-[1.85] tracking-[0.3px]">
+                상위 0.1%가 몰래 참고한다는 타고난 그릇 분석과<br/>완벽하게 채워주는 VVIP 맞춤 학습 처방전 🗝️
               </p>
             </div>
 
-            {/* 🔥 다운로드 버튼 (결제 완료 시에만 노출) 🔥 */}
-            {unlockedMenus.includes(selectedMenu.id) && (
-              <div className="bg-[#1A1530] rounded-[20px] shadow-xl p-5 mb-6 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
-                <div className="relative z-10 text-center">
-                  <p className="text-[11.5px] text-[#E8C87A] mb-4 leading-relaxed font-bold">
-                    📢 <span className="text-white">서비스 제공기간 안내:</span> 본 결과지는 결제일로부터 <span className="text-white underline">30일 동안</span> 다운로드가 가능합니다.
-                  </p>
-                  <button onClick={downloadResultFile} className="inline-flex items-center gap-2 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] font-black text-[13px] px-5 py-4 rounded-xl shadow-[0_4px_15px_rgba(212,168,67,0.3)] hover:scale-[1.02] transition-transform w-full justify-center">
-                    <Download size={18} strokeWidth={2.5} />
-                    10,000자급 VVIP 분석 결과지 다운로드 (.txt)
-                  </button>
+            <div className="w-full max-w-sm glass-card rounded-[24px] p-6 relative overflow-hidden">
+              <form onSubmit={handleStart} className="space-y-4">
+                <div>
+                  <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold mb-2 flex items-center gap-1">👤 이름</label>
+                  <input type="text" placeholder="이름을 입력해주세요" required
+                    className="w-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.15)] rounded-xl text-white text-[13.5px] px-4 py-3.5 outline-none transition-colors focus:border-[rgba(212,168,67,0.5)] placeholder-[rgba(255,255,255,0.28)]"
+                    value={userInfo.name} onChange={(e) => setUserInfo({...userInfo, name: e.target.value})}
+                  />
                 </div>
-              </div>
-            )}
-
-            {/* 잠금/결제 UI or 전체 결과 */}
-            {!unlockedMenus.includes(selectedMenu.id) ? (
-              <div className="mt-4">
-                {isProcessing ? (
-                  <div className="flex flex-col items-center py-10 gap-3">
-                    <div className="flex gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#D4A843] animate-bounce" style={{animationDelay: '0s'}}></div>
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#E8849A] animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#B8A8E8] animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold flex items-center gap-1">🗓 생년월일</label>
+                    <div className="flex bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-0.5 gap-0.5">
+                      {[
+                        { id: 'solar', label: '양력' },
+                        { id: 'lunar', label: '음력' },
+                        { id: 'leap', label: '윤달' }
+                      ].map(type => (
+                        <button
+                          key={type.id}
+                          type="button"
+                          onClick={() => setUserInfo({...userInfo, calendarType: type.id})}
+                          className={`text-[9.5px] font-bold px-2 py-1 rounded-md transition-colors ${userInfo.calendarType === type.id ? 'bg-[#E8C87A] text-[#1A1530]' : 'text-[rgba(255,255,255,0.5)] hover:text-white'}`}
+                        >
+                          {type.label}
+                        </button>
+                      ))}
                     </div>
-                    <p className="text-[13px] text-[#5A4080] font-bold mt-2">별의 기운을 해석하는 중입니다...</p>
                   </div>
-                ) : (
-                  <>
-                    <div className="bg-[linear-gradient(135deg,#F8F4FF,#F4F8FF)] border-[1.5px] border-dashed border-[#C8B8E8] rounded-[18px] p-[18px_16px] mb-6 relative overflow-hidden">
-                      <div className="blur-[5px] select-none opacity-60">
-                        <p className="text-[13px] text-[#888] leading-[1.8]">
-                          사주에 숨겨진 비밀을 모두 알려드릴게요. 이 공간에는 맞춤형 학습 처방, 운기를 올리는 방법, 부족한 오행을 채우는 비밀스러운 조언들이 가득 담겨있습니다. 결제 후 마법 같은 솔루션을 확인해보세요.
-                        </p>
-                      </div>
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-[5px]">
-                        <div className="text-[24px]">🔒</div>
-                        <div className="text-[12px] text-[#5A4080] font-bold bg-white/80 px-3 py-1 rounded-full shadow-sm">전체 분석은 결제 후 열람</div>
-                      </div>
+                  <input type="date" required
+                    className="w-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.15)] rounded-xl text-white text-[13.5px] px-3 py-3.5 outline-none transition-colors focus:border-[rgba(212,168,67,0.5)] [color-scheme:dark]"
+                    value={userInfo.birthDate} onChange={(e) => setUserInfo({...userInfo, birthDate: e.target.value})}
+                  />
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold flex items-center gap-1">⏰ 태어난 시</label>
+                    <label className="flex items-center gap-1.5 cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        className="w-3.5 h-3.5 accent-[#E8C87A] bg-[rgba(255,255,255,0.07)] border-[rgba(255,255,255,0.15)] rounded cursor-pointer"
+                        checked={userInfo.isTimeUnknown}
+                        onChange={(e) => setUserInfo({...userInfo, isTimeUnknown: e.target.checked, birthTime: e.target.checked ? '' : userInfo.birthTime})}
+                      />
+                      <span className={`text-[10.5px] font-bold ${userInfo.isTimeUnknown ? 'text-[#E8C87A]' : 'text-[rgba(255,255,255,0.5)]'}`}>모름</span>
+                    </label>
+                  </div>
+                  <input type="time" 
+                    disabled={userInfo.isTimeUnknown}
+                    className={`w-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.15)] rounded-xl text-white text-[13.5px] px-3 py-3.5 outline-none transition-colors focus:border-[rgba(212,168,67,0.5)] [color-scheme:dark] ${userInfo.isTimeUnknown ? 'opacity-30 cursor-not-allowed' : ''}`}
+                    value={userInfo.birthTime} onChange={(e) => setUserInfo({...userInfo, birthTime: e.target.value})}
+                  />
+                </div>
+
+                <button type="submit"
+                  className="w-full mt-4 p-[15px] rounded-2xl text-[#1A1530] font-serif font-bold text-[16px] tracking-[0.5px] cursor-pointer relative overflow-hidden transition-transform active:scale-[0.97] shadow-[0_8px_32px_rgba(212,168,67,0.22)] bg-[linear-gradient(135deg,#C89830,#E8C050,#D4A843)] bg-[length:200%_200%] animate-[sbtn_3s_ease-in-out_infinite]"
+                >
+                  ✨ 비밀 학습 컨설팅 확인하러가기
+                  <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent)] -translate-x-full animate-[sweep_2.5s_ease-in-out_infinite_1s]"></div>
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* 2. CALCULATING VIEW */}
+        {currentView === 'calculating' && (
+          <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
+            <div className="flex gap-2 mb-6">
+              <div className="w-3 h-3 rounded-full bg-[#D4A843] animate-[obounce_1.2s_ease-in-out_infinite]" style={{animationDelay: '0s'}}></div>
+              <div className="w-3 h-3 rounded-full bg-[#E8849A] animate-[obounce_1.2s_ease-in-out_infinite]" style={{animationDelay: '0.15s'}}></div>
+              <div className="w-3 h-3 rounded-full bg-[#B8A8E8] animate-[obounce_1.2s_ease-in-out_infinite]" style={{animationDelay: '0.3s'}}></div>
+              <div className="w-3 h-3 rounded-full bg-[#7EC8B8] animate-[obounce_1.2s_ease-in-out_infinite]" style={{animationDelay: '0.45s'}}></div>
+            </div>
+            <h2 className="font-serif text-[18px] font-black text-white mb-2 text-gradient-lavender">숨겨진 비밀을 분석 중이에요 🌙</h2>
+            <p className="text-[#A090C0] text-[12.5px] text-center">타고난 운명의 궤적을 추적하여<br/>{userInfo.name}님만의 잠재력을 분석하고 있습니다.</p>
+          </div>
+        )}
+
+        {/* 3. MENU VIEW */}
+        {currentView === 'menu' && (
+          <div className="relative z-10 min-h-screen pt-8 px-5 pb-16">
+            <div className="mb-6">
+              <h2 className="font-serif text-[18px] font-black text-gradient-lavender mb-1">🌟 VVIP 프라이빗 분석 메뉴</h2>
+              <p className="text-[11px] text-[rgba(255,255,255,0.42)]">원하시는 심층 분석 항목을 선택해 주세요</p>
+            </div>
+            
+            <div className="glass-card mb-6 p-4 text-center rounded-2xl relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[rgba(212,168,67,0.15)] border border-[rgba(212,168,67,0.5)] text-[#E8C87A] text-[10px] tracking-widest px-3 py-1 rounded-full font-serif">
+                명식 진단 완료
+              </div>
+              <p className="font-serif text-[15px] font-black text-white mt-3 mb-3">
+                <span className="text-[#E8C87A]">{userInfo.name}</span> 님의 사주 팔자
+              </p>
+              <div className="flex justify-center gap-2 w-full px-2">
+                {userSaju.pillars.map((pillar, idx) => (
+                  <div key={idx} className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded px-2 py-2 flex flex-col items-center shadow-lg flex-1">
+                    <div className="flex items-end gap-[2px] mb-1">
+                      <span className="text-white font-serif font-black text-lg leading-none">{pillar.tH}</span>
+                      <span className="text-[#E8C87A] font-sans font-bold text-[10px] leading-[1.2]">{pillar.tK}</span>
+                    </div>
+                    <div className="flex items-end gap-[2px]">
+                      <span className="text-white font-serif font-black text-lg leading-none">{pillar.bH}</span>
+                      <span className="text-[#E8C87A] font-sans font-bold text-[10px] leading-[1.2]">{pillar.bK}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3.5">
+              {MENU_LIST.map((menu, i) => {
+                const Icon = menu.icon;
+                return (
+                  <div key={menu.id} onClick={() => { setSelectedMenu(menu); setCurrentView('result'); }}
+                    className="bg-[rgba(255,255,255,0.95)] rounded-[22px] p-[20px_12px_18px] flex flex-col items-center text-center cursor-pointer relative shadow-[0_4px_24px_rgba(13,11,26,0.12)] overflow-hidden transition-all hover:-translate-y-1 active:scale-95"
+                  >
+                    <div className={`absolute top-0 left-0 right-0 h-[5px] rounded-t-[22px] ${menu.bar}`}></div>
+                    <div className="absolute w-[80px] h-[80px] rounded-full opacity-10 -bottom-5 -right-5" style={{backgroundColor: menu.bg}}></div>
+                    
+                    <div className="w-[48px] h-[48px] rounded-2xl flex items-center justify-center mb-3 relative" style={{backgroundColor: `${menu.bg}22`}}>
+                      <Icon size={24} className="text-[#1A1530] relative z-10 animate-[ficon_3s_ease-in-out_infinite]" style={{animationDelay: `${i * 0.3}s`}} strokeWidth={2} />
                     </div>
                     
-                    <div className="text-center mb-5">
-                      <h3 className="font-serif text-[16px] font-black text-[#1A1530] mb-2">✨ 전체 분석 열람하기</h3>
-                      <div className="flex items-baseline justify-center gap-2">
-                        <span className="text-[13px] text-[#C0B0C0] line-through">10,000원</span>
-                        <span className="text-[26px] font-black text-[#E8607A] font-serif">1,000</span>
-                        <span className="text-[13px] text-[#5A4080] font-bold">원</span>
-                        <span className="inline-block bg-[#E8607A] text-white text-[10px] font-bold px-[8px] py-[2px] rounded-full ml-1 align-middle">90% 할인</span>
-                      </div>
-                    </div>
+                    <div className="text-[12px] font-bold text-[#1A1530] leading-[1.4] mb-1.5 whitespace-pre-line">{menu.title}</div>
+                    <div className="text-[10px] text-[#888] mb-1 break-keep">나만의 맞춤 솔루션</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
-                    <div className="flex flex-col gap-2.5">
-                      <button onClick={() => handlePayment('카드')} className="w-full bg-[#FEE500] text-[#3C1E1E] p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-sm">
-                        <MessageCircle size={18} fill="#3C1E1E" /> 테스트 카드 결제해보기
-                      </button>
-                      <button onClick={() => handlePayment('가상계좌')} className="w-full bg-[linear-gradient(135deg,#2D2550,#4A3580)] text-white p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-md">
-                        <Building size={18} /> 테스트 가상계좌 (계좌이체)
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-            ) : (
-              <div className="space-y-4 animate-[sup_0.4s_ease-out_forwards]">
-                {generateProfessionalReport(userInfo, userSaju, selectedMenu.id).map((section, idx) => {
+        {/* 4. RESULT VIEW */}
+        {currentView === 'result' && (
+          <div className="relative z-20 min-h-screen bg-[#FDFBF7] text-[#1A1530] pb-12 animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)]">
+            <div className="px-4 py-4 flex items-center sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur border-b border-[#EAE1D8]">
+              <button onClick={() => setCurrentView('menu')} className="p-2 mr-2 bg-white border border-[#EAE1D8] rounded-full text-[#1A1530] shadow-sm">
+                <ChevronLeft size={20} />
+              </button>
+              <h2 className="text-[15px] font-black flex-1 text-center pr-10 font-sans whitespace-pre-line leading-tight">
+                {selectedMenu.title.replace('\n', ' ')}
+              </h2>
+            </div>
+
+            <div className="max-w-md mx-auto w-full p-5 mt-2">
+              <p className="text-center text-[#A090C0] font-bold text-[11px] tracking-widest mb-3 uppercase">Destiny Card</p>
+              
+              {/* 메인 타로 카드 */}
+              <div className="bg-[#1A1530] rounded-[24px] shadow-[0_8px_32px_rgba(26,21,48,0.3)] p-6 relative mb-8 overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
+                
+                <div className="relative z-10 flex flex-col items-center">
+                  <h3 className="font-serif text-[#E8C87A] text-xl mb-4 text-center tracking-widest">{DAY_MASTERS[userSaju.dayMaster]?.name}</h3>
                   
-                  // 요약 섹션 특수 렌더링
-                  if (section.isSummary) {
-                    return (
-                      <div key={idx} className="bg-white border-[2.5px] border-[#E8C87A] rounded-[20px] p-[24px_20px] shadow-[0_6px_20px_rgba(212,168,67,0.2)] my-8 relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-[6px] bg-[linear-gradient(90deg,#D4A843,#E8C050,#F5EAD0)]"></div>
-                        <h4 className="font-serif text-[17px] font-black text-[#D4A843] mb-5 text-center flex items-center justify-center gap-2">
-                          <Crown size={20} className="text-[#D4A843]" /> {section.title}
-                        </h4>
-                        
-                        <div className="bg-[#FFFDF9] border border-[#F5EAD0] rounded-xl p-5 mb-6 relative">
-                          <div className="absolute -top-3 -left-2 text-[30px] text-[#E8C87A]/40 font-serif">"</div>
-                          <p className="text-[14px] text-[#4A3B32] font-bold leading-[1.9] text-center break-keep relative z-10 px-2">
-                            {section.paragraphs[0]}
-                          </p>
-                          <div className="absolute -bottom-5 -right-2 text-[30px] text-[#E8C87A]/40 font-serif">"</div>
-                        </div>
+                  <div className="w-[120px] h-[120px] rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(212,168,67,0.3)] flex items-center justify-center mb-5 shadow-[0_0_20px_rgba(212,168,67,0.15)] relative">
+                    <div className="absolute inset-0 rounded-full bg-[rgba(212,168,67,0.2)] blur-xl"></div>
+                    {React.createElement(DAY_MASTERS[userSaju.dayMaster]?.icon || Star, { size: 56, className: "text-[#E8C87A] relative z-10", strokeWidth: 1.5 })}
+                  </div>
 
-                        <div className="flex justify-center gap-6 mt-6">
-                          {section.symbols.map((sym, sIdx) => (
-                            <div key={sIdx} className="flex flex-col items-center">
-                              <div className="w-[56px] h-[56px] bg-white rounded-full flex items-center justify-center text-[26px] shadow-md border-[2px] border-[#E8C87A]/40 mb-3 transform hover:scale-110 transition-transform">
-                                {sym.emoji}
-                              </div>
-                              <span className="text-[11px] font-bold text-[#5A4080] bg-[#F5F0FF] px-3 py-1 rounded-full border border-[#E0D8F0] shadow-sm">{sym.label}</span>
-                            </div>
-                          ))}
+                  <div className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-center mb-5 w-full">
+                    <p className="text-[rgba(255,255,255,0.9)] font-medium text-[12px] leading-relaxed break-keep">
+                      저는 <span className="text-[#E8C87A] font-bold">[{DAY_MASTERS[userSaju.dayMaster]?.nature}]</span> 의 기운을 품고 태어났습니다.
+                    </p>
+                  </div>
+
+                  <h1 className="text-3xl font-black text-white tracking-[0.2em] mb-4 font-serif drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
+                    {userSaju.main?.split('(')[0] || '태양'}
+                  </h1>
+                </div>
+              </div>
+
+              {/* 미리보기 (항상 노출) */}
+              <div className="bg-[linear-gradient(135deg,#FFF8F0,#FEF0F8)] border-[1.5px] border-[#F5D8C8] rounded-[18px] p-[18px_16px] mb-4">
+                <div className="inline-flex items-center gap-1 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] text-[9.5px] font-bold px-[10px] py-[3px] rounded-full mb-2.5 tracking-[0.5px]">
+                  ✦ 핵심 진단 (미리보기)
+                </div>
+                <p className="text-[13.5px] text-[#2A1530] leading-[1.8] font-medium break-keep whitespace-pre-line">
+                  {PREVIEW_DATA[selectedMenu.id](userInfo, userSaju)}
+                </p>
+              </div>
+
+              {/* 🔥 마법의 VVIP PDF 다운로드 버튼 (결제 완료 시 노출) 🔥 */}
+              {unlockedMenus.includes(selectedMenu.id) && (
+                <div className="bg-[#111625] rounded-[20px] shadow-xl p-5 mb-6 relative overflow-hidden border border-[#E8C87A]/30">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
+                  <div className="relative z-10 text-center">
+                    <p className="text-[11.5px] text-[#E8C87A] mb-4 leading-relaxed font-bold">
+                      📢 <span className="text-white">서비스 제공기간 안내:</span> 본 결과지는 결제일로부터 <span className="text-white underline">30일 동안</span> 다운로드가 가능합니다.
+                    </p>
+                    {/* 👇 이 버튼을 누르면 스마트폰/PC의 PDF 저장 화면이 열립니다! 👇 */}
+                    <button onClick={downloadVVIPReport} className="inline-flex items-center gap-2 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] font-black text-[13px] px-5 py-4 rounded-xl shadow-[0_4px_15px_rgba(212,168,67,0.3)] hover:scale-[1.02] transition-transform w-full justify-center">
+                      <Download size={18} strokeWidth={2.5} />
+                      10,000자급 디자인 리포트 저장 (PDF)
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* 잠금/결제 UI or 전체 결과 렌더링 */}
+              {!unlockedMenus.includes(selectedMenu.id) ? (
+                <div className="mt-4">
+                  {isProcessing ? (
+                    <div className="flex flex-col items-center py-10 gap-3">
+                      <div className="flex gap-2">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#D4A843] animate-bounce" style={{animationDelay: '0s'}}></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#E8849A] animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#B8A8E8] animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                      </div>
+                      <p className="text-[13px] text-[#5A4080] font-bold mt-2">별의 기운을 해석하는 중입니다...</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="bg-[linear-gradient(135deg,#F8F4FF,#F4F8FF)] border-[1.5px] border-dashed border-[#C8B8E8] rounded-[18px] p-[18px_16px] mb-6 relative overflow-hidden">
+                        <div className="blur-[5px] select-none opacity-60">
+                          <p className="text-[13px] text-[#888] leading-[1.8]">
+                            사주에 숨겨진 비밀을 모두 알려드릴게요. 이 공간에는 맞춤형 학습 처방, 운기를 올리는 방법, 부족한 오행을 채우는 비밀스러운 조언들이 가득 담겨있습니다. 결제 후 마법 같은 솔루션을 확인해보세요.
+                          </p>
                         </div>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-[5px]">
+                          <div className="text-[24px]">🔒</div>
+                          <div className="text-[12px] text-[#5A4080] font-bold bg-white/80 px-3 py-1 rounded-full shadow-sm">전체 분석은 결제 후 열람</div>
+                        </div>
+                      </div>
+                      
+                      <div className="text-center mb-5">
+                        <h3 className="font-serif text-[16px] font-black text-[#1A1530] mb-2">✨ 전체 분석 열람하기</h3>
+                        <div className="flex items-baseline justify-center gap-2">
+                          <span className="text-[13px] text-[#C0B0C0] line-through">10,000원</span>
+                          <span className="text-[26px] font-black text-[#E8607A] font-serif">1,000</span>
+                          <span className="text-[13px] text-[#5A4080] font-bold">원</span>
+                          <span className="inline-block bg-[#E8607A] text-white text-[10px] font-bold px-[8px] py-[2px] rounded-full ml-1 align-middle">90% 할인</span>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-2.5">
+                        <button onClick={() => handlePayment('카드')} className="w-full bg-[#FEE500] text-[#3C1E1E] p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-sm">
+                          <MessageCircle size={18} fill="#3C1E1E" /> 테스트 카드 결제해보기
+                        </button>
+                        <button onClick={() => handlePayment('가상계좌')} className="w-full bg-[linear-gradient(135deg,#2D2550,#4A3580)] text-white p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-md">
+                          <Building size={18} /> 테스트 가상계좌 (계좌이체)
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-4 animate-[sup_0.4s_ease-out_forwards]">
+                  {generateProfessionalReport(userInfo, userSaju, selectedMenu.id).map((section, idx) => {
+                    if (section.isSummary) {
+                      return (
+                        <div key={idx} className="bg-white border-[2.5px] border-[#E8C87A] rounded-[20px] p-[24px_20px] shadow-[0_6px_20px_rgba(212,168,67,0.2)] my-8 relative overflow-hidden">
+                          <div className="absolute top-0 left-0 w-full h-[6px] bg-[linear-gradient(90deg,#D4A843,#E8C050,#F5EAD0)]"></div>
+                          <h4 className="font-serif text-[17px] font-black text-[#D4A843] mb-5 text-center flex items-center justify-center gap-2">
+                            <Crown size={20} className="text-[#D4A843]" /> {section.title}
+                          </h4>
+                          
+                          <div className="bg-[#FFFDF9] border border-[#F5EAD0] rounded-xl p-5 mb-6 relative">
+                            <div className="absolute -top-3 -left-2 text-[30px] text-[#E8C87A]/40 font-serif">"</div>
+                            <p className="text-[14px] text-[#4A3B32] font-bold leading-[1.9] text-center break-keep relative z-10 px-2">
+                              {section.paragraphs[0]}
+                            </p>
+                            <div className="absolute -bottom-5 -right-2 text-[30px] text-[#E8C87A]/40 font-serif">"</div>
+                          </div>
+
+                          <div className="flex justify-center gap-6 mt-6">
+                            {section.symbols.map((sym, sIdx) => (
+                              <div key={sIdx} className="flex flex-col items-center">
+                                <div className="w-[56px] h-[56px] bg-white rounded-full flex items-center justify-center text-[26px] shadow-md border-[2px] border-[#E8C87A]/40 mb-3 transform hover:scale-110 transition-transform">
+                                  {sym.emoji}
+                                </div>
+                                <span className="text-[11px] font-bold text-[#5A4080] bg-[#F5F0FF] px-3 py-1 rounded-full border border-[#E0D8F0] shadow-sm">{sym.label}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return (
+                      <div key={idx} className={`rounded-[18px] p-[24px_20px] ${section.isHighlight ? 'bg-[linear-gradient(135deg,#FFF8F4,#F8F4FF)] border-[2px] border-[#E8C87A]/60 shadow-lg' : 'bg-white shadow-sm border border-gray-200'}`}>
+                        <h4 className={`font-serif text-[16px] font-black mb-5 flex items-center gap-2 ${section.isHighlight ? 'text-[#D4A843]' : 'text-[#C87090]'}`}>
+                          {section.title}
+                        </h4>
+                        {section.paragraphs.map((text, pIdx) => {
+                          const isSubtitle = text.startsWith('【') && text.endsWith('】');
+                          if (isSubtitle) {
+                            return (
+                              <h5 key={pIdx} className="font-serif text-[15px] font-black text-[#A84050] mt-8 mb-3 bg-[#FFF8F4] inline-block px-3.5 py-1.5 rounded-lg border-l-[4px] border-[#C87090] shadow-sm">
+                                {text.replace('【', '').replace('】', '')}
+                              </h5>
+                            );
+                          }
+                          return (
+                            <p key={pIdx} className="text-[14.5px] text-[#2A1530] leading-[1.9] mb-4 last:mb-0 break-keep text-justify">
+                              {text}
+                            </p>
+                          );
+                        })}
                       </div>
                     );
-                  }
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
-                  // 일반 섹션 렌더링
-                  return (
-                    <div key={idx} className={`rounded-[18px] p-[24px_20px] ${section.isHighlight ? 'bg-[linear-gradient(135deg,#FFF8F4,#F8F4FF)] border-[2px] border-[#E8C87A]/60 shadow-lg' : 'bg-white shadow-sm border border-gray-200'}`}>
-                      <h4 className={`font-serif text-[16px] font-black mb-5 flex items-center gap-2 ${section.isHighlight ? 'text-[#D4A843]' : 'text-[#C87090]'}`}>
-                        {section.title}
-                      </h4>
-                      {section.paragraphs.map((text, pIdx) => {
-                        const isSubtitle = text.startsWith('【') && text.endsWith('】');
-                        if (isSubtitle) {
-                          return (
-                            <h5 key={pIdx} className="font-serif text-[15px] font-black text-[#A84050] mt-8 mb-3 bg-[#FFF8F4] inline-block px-3.5 py-1.5 rounded-lg border-l-[4px] border-[#C87090] shadow-sm">
-                              {text.replace('【', '').replace('】', '')}
-                            </h5>
-                          );
-                        }
-                        return (
-                          <p key={pIdx} className="text-[14.5px] text-[#2A1530] leading-[1.9] mb-4 last:mb-0 break-keep text-justify">
-                            {text}
-                          </p>
-                        );
-                      })}
-                    </div>
-                  );
+        {/* 5. FOOTER (사업자 정보 및 약관 - 결제 심사용) */}
+        <footer className="relative z-20 bg-[#1A1530]/80 border-t border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.4)] text-[11px] p-6 pb-12 mt-12 break-keep font-sans">
+          <div className="max-w-md mx-auto">
+            <div className="flex gap-4 mb-4 font-bold text-[rgba(255,255,255,0.7)] text-[12px] px-4">
+              <button onClick={() => setShowTerms(true)} className="hover:text-white transition-colors">이용약관</button>
+              <button onClick={() => setShowPrivacy(true)} className="hover:text-white transition-colors">개인정보처리방침</button>
+            </div>
+            <div className="space-y-1.5 leading-relaxed px-4">
+              <p>상호: 해피메리벨 | 대표: 차미미</p>
+              <p>사업자등록번호: 398-34-01425</p>
+              <p>통신판매업 신고번호: 제 202X-인천남동-XXXX 호</p>
+              <p>사업장 소재지: 인천광역시 남동구 호구포로900번길 20-4, 3층 301호</p>
+              <p>고객센터: 010-4618-7383 | 이메일: diak83@gmail.com</p>
+            </div>
+            <p className="mt-5 text-[10px] text-[rgba(255,255,255,0.3)] px-4">© 2026 Happy Merry Bell. All rights reserved.</p>
+          </div>
+        </footer>
+
+        {/* 6. 개인정보처리방침 팝업창 */}
+        {showPrivacy && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans">
+            <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black">
+              <h3 className="text-lg font-bold text-black mb-4 border-b pb-2 border-gray-300">개인정보처리방침</h3>
+              <div className="text-xs space-y-3 leading-relaxed">
+                <p className="font-bold text-black">■ 개인정보 처리업무의 위탁</p>
+                <p className="text-black">해피메리벨(이하 '회사')은 원활한 서비스 제공 및 안전한 결제 처리를 위하여 다음과 같이 개인정보 처리업무를 외부 전문업체에 위탁하고 있습니다.</p>
+                <ul className="list-disc pl-4 space-y-1 bg-gray-100 p-2.5 rounded-lg border border-gray-300 text-black">
+                  <li><span className="font-bold text-black">수탁자:</span> (주)코리아포트원, 토스페이먼츠(주)</li>
+                  <li><span className="font-bold text-black">위탁 업무:</span> 전자결제 수단을 통한 결제 대행 서비스 및 도용 방지</li>
+                  <li><span className="font-bold text-black">보유 및 이용기간:</span> 회원 탈퇴 시 또는 위탁 계약 종료 시까지</li>
+                </ul>
+              </div>
+              <button onClick={() => setShowPrivacy(false)} className="w-full mt-6 bg-[#1A1530] text-white py-3 rounded-xl font-bold text-sm transition-colors hover:bg-opacity-90">
+                확인 및 닫기
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* 7. 이용약관 팝업창 */}
+        {showTerms && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans">
+            <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black">
+              <h3 className="text-lg font-bold text-black mb-4 border-b pb-2 border-gray-300">서비스 이용약관</h3>
+              <div className="text-xs space-y-3 leading-relaxed">
+                <p className="font-bold text-black">■ 제1조 (목적)</p>
+                <p className="text-black">본 약관은 프라이빗 사주 컨설팅 서비스의 이용 조건 및 절차에 관한 사항을 규정합니다.</p>
+                <p className="font-bold text-black mt-4">■ 제2조 (서비스 제공 기간)</p>
+                <p className="text-black">회사는 고객이 결제를 완료한 시점부터 30일 동안 웹사이트를 통한 결과지 열람 및 다운로드 기능을 제공합니다. 30일 경과 후 데이터는 자동 파기됩니다.</p>
+                <p className="font-bold text-black mt-4">■ 제3조 (취소 및 환불 규정)</p>
+                <p className="text-black">본 서비스는 구매와 동시에 결과가 노출되는 디지털 콘텐츠 특성상 결제 후 원칙적으로 취소 및 환불이 불가능합니다.</p>
+              </div>
+              <button onClick={() => setShowTerms(false)} className="w-full mt-6 bg-[#1A1530] text-white py-3 rounded-xl font-bold text-sm transition-colors hover:bg-opacity-90">
+                확인 및 닫기
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ================================================================= */}
+      {/* 🖨️ 인쇄/PDF 저장용 숨겨진 화면 (버튼 누를 때만 마법처럼 등장!) */}
+      {/* ================================================================= */}
+      {currentView === 'result' && unlockedMenus.includes(selectedMenu.id) && (
+        <div className="print-only hidden font-serif w-full text-[#111625]">
+          
+          {/* PDF 표지 디자인 */}
+          <div className="print-cover bg-white">
+            <div className="text-[50px] mb-6">🌙</div>
+            <div className="text-[#C89830] tracking-[4px] font-bold text-sm mb-6">VIP PRIVATE CONSULTING REPORT</div>
+            <h1 className="text-[32px] font-black leading-snug mb-12 text-[#111625] text-center border-b-2 border-[#C89830] pb-6">
+              해피메리벨 프라이빗 사주 컨설팅<br/>초정밀 운명 분석 보고서
+            </h1>
+            <div className="text-left w-full max-w-sm mb-16 space-y-3">
+              <div className="flex justify-between border-b border-gray-200 pb-2"><span className="text-[#C89830] font-bold">대상자</span><span>{userInfo.name} 님</span></div>
+              <div className="flex justify-between border-b border-gray-200 pb-2"><span className="text-[#C89830] font-bold">생년월일</span><span>{userInfo.birthDate}</span></div>
+              <div className="flex justify-between border-b border-gray-200 pb-2"><span className="text-[#C89830] font-bold">일간 기운</span><span>{userSaju.dayMaster} ({DAY_MASTERS[userSaju.dayMaster]?.name})</span></div>
+              <div className="flex justify-between border-b border-gray-200 pb-2"><span className="text-[#C89830] font-bold">선택 메뉴</span><span>{selectedMenu.title.replace('\n', ' ')}</span></div>
+            </div>
+            <div className="text-[#a0a5b5] text-xs tracking-[2px]">HAPPY MERRY BELL</div>
+          </div>
+
+          {/* PDF 본문 내용 */}
+          <div className="p-8 bg-[#FDFBF7]">
+            {generateProfessionalReport(userInfo, userSaju, selectedMenu.id).map((section, idx) => (
+              <div key={idx} className="print-section mb-12">
+                <h2 className="text-[16pt] font-black text-[#111625] border-l-[6px] border-[#C89830] pl-4 mb-6">{section.title}</h2>
+                {section.paragraphs && section.paragraphs.map((p, pIdx) => {
+                  const isSubtitle = p.startsWith('【') && p.endsWith('】');
+                  if (isSubtitle) {
+                    return <h5 key={pIdx} className="text-[13pt] font-black text-[#A84050] mt-8 mb-4">{p.replace('【', '').replace('】', '')}</h5>;
+                  }
+                  return <p key={pIdx} className="text-[10.5pt] leading-[1.8] mb-5 text-[#333] text-justify">{p}</p>;
                 })}
               </div>
-            )}
-          </div>
-        </div>
-      )}
+            ))}
 
-      {/* 5. FOOTER (사업자 정보 및 약관 - 결제 심사용) */}
-      <footer className="relative z-20 bg-[#1A1530]/80 border-t border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.4)] text-[11px] p-6 pb-12 mt-12 break-keep font-sans">
-        <div className="max-w-md mx-auto">
-          <div className="flex gap-4 mb-4 font-bold text-[rgba(255,255,255,0.7)] text-[12px] px-4">
-            <button onClick={() => setShowTerms(true)} className="hover:text-white transition-colors">이용약관</button>
-            <button onClick={() => setShowPrivacy(true)} className="hover:text-white transition-colors">개인정보처리방침</button>
-          </div>
-          <div className="space-y-1.5 leading-relaxed px-4">
-            <p>상호: 해피메리벨 | 대표: 차미미</p>
-            <p>사업자등록번호: 398-34-01425</p>
-            <p>통신판매업 신고번호: 제 202X-인천남동-XXXX 호 (※ 발급 후 수정해주세요)</p>
-            <p>사업장 소재지: 인천광역시 남동구 호구포로900번길 20-4, 3층 301호 (간석동)</p>
-            <p>고객센터: 010-4618-7383 | 이메일: diak83@gmail.com</p>
-          </div>
-          <p className="mt-5 text-[10px] text-[rgba(255,255,255,0.3)] px-4">© 2026 Happy Merry Bell. All rights reserved.</p>
-        </div>
-      </footer>
-
-      {/* 6. 개인정보처리방침 팝업창 */}
-      {showPrivacy && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans">
-          <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black">
-            <h3 className="text-lg font-bold text-black mb-4 border-b pb-2 border-gray-300">개인정보처리방침</h3>
-            <div className="text-xs space-y-3 leading-relaxed">
-              <p className="font-bold text-black">■ 개인정보 처리업무의 위탁</p>
-              <p className="text-black">해피메리벨(이하 '회사')은 원활한 서비스 제공 및 안전한 결제 처리를 위하여 다음과 같이 개인정보 처리업무를 외부 전문업체에 위탁하고 있습니다.</p>
-              <ul className="list-disc pl-4 space-y-1 bg-gray-100 p-2.5 rounded-lg border border-gray-300 text-black">
-                <li><span className="font-bold text-black">수탁자:</span> (주)코리아포트원, 토스페이먼츠(주)</li>
-                <li><span className="font-bold text-black">위탁 업무:</span> 전자결제 수단을 통한 결제 대행 서비스 및 도용 방지</li>
-                <li><span className="font-bold text-black">보유 및 이용기간:</span> 회원 탈퇴 시 또는 위탁 계약 종료 시까지</li>
-              </ul>
-              <p className="text-black">본 방침은 결제 서비스 이용 시 적용되며, 관련 법령에 의거하여 안전하게 관리됩니다.</p>
+            {/* 소비자 고지사항 */}
+            <div className="mt-16 pt-8 border-t border-[#D4A843] text-[8pt] text-[#777d8a] leading-relaxed">
+              ■ 서비스 제공 기간 및 소비자 취소/환불 규정 안내<br/>
+              본 사주 컨설팅 초정밀 분석 리포트는 전자상거래법에 의거 결제 후 단순 변심 취소가 불가능한 디지털 지식 콘텐츠입니다. 결제 완료 시점으로부터 30일 동안 재열람이 가능하며, 이후 데이터는 영구 파기됩니다.<br/>
+              © 2026 Happy Merry Bell. All rights reserved.
             </div>
-            <button onClick={() => setShowPrivacy(false)} className="w-full mt-6 bg-[#1A1530] text-white py-3 rounded-xl font-bold text-sm transition-colors hover:bg-opacity-90">
-              확인 및 닫기
-            </button>
           </div>
-        </div>
-      )}
-
-      {/* 7. 이용약관 팝업창 */}
-      {showTerms && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans">
-          <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black">
-            <h3 className="text-lg font-bold text-black mb-4 border-b pb-2 border-gray-300">서비스 이용약관</h3>
-            <div className="text-xs space-y-3 leading-relaxed">
-              <p className="font-bold text-black">■ 제1조 (목적)</p>
-              <p className="text-black">본 약관은 해피메리벨이 제공하는 프라이빗 사주 컨설팅 서비스의 이용 조건 및 절차에 관한 사항을 규정함을 목적으로 합니다.</p>
-              
-              <p className="font-bold text-black mt-4">■ 제2조 (서비스 제공 기간)</p>
-              <p className="text-black">회사는 고객이 결제를 완료한 시점부터 30일 동안 웹사이트를 통한 결과지 열람 및 다운로드 기능을 제공합니다. 30일이 경과하면 개인정보 보호 및 데이터 관리 정책에 따라 해당 데이터는 자동 파기됩니다.</p>
-              
-              <p className="font-bold text-black mt-4">■ 제3조 (취소 및 환불 규정)</p>
-              <p className="text-black">본 서비스는 전자상거래등에서의 소비자보호에 관한 법률 제17조 제2항 제5호(디지털콘텐츠의 제공이 개시된 경우)에 해당합니다. 구매와 동시에 사주 분석 결과가 화면에 즉시 노출되는 디지털 콘텐츠 특성상, 결제 후에는 취소 및 환불이 원칙적으로 불가능합니다. 단, 시스템 오류 등으로 인해 서비스 인도가 정상적으로 이루어지지 않은 경우 고객센터를 통해 100% 환불 처리됩니다.</p>
-            </div>
-            <button onClick={() => setShowTerms(false)} className="w-full mt-6 bg-[#1A1530] text-white py-3 rounded-xl font-bold text-sm transition-colors hover:bg-opacity-90">
-              확인 및 닫기
-            </button>
-          </div>
+          
         </div>
       )}
     </div>
