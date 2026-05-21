@@ -240,7 +240,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
       `현재 당신을 24시간 감싸고 있는 오행의 밸런스를 측정해보면 [ ${elementCountsStr}] 의 비율을 보입니다. 공간 내에 이 밸런스를 억누르거나 찌르는 흉한 물건이 방치되어 있으면 코르티솔(스트레스 호르몬) 수치가 급증하며 뇌가 피로해지고, 반대로 사주에 텅 비어있는 부족한 기운을 정확히 메워주는 사물이 곁에 있으면 즉각적으로 뇌파가 안정(알파파 생성)되는 마법 같은 기질을 지녔습니다.`,
     ];
     analysis2Text = [
-      `현재 ${name}님이 특정 공간에서 보여주는 무시무시한 극강의 몰입도는 당신의 사주에 풍부한 '${excessEl}' 기운과, 그 공간이 내뿜는 환경 에너지가 우연히 완벽한 스파크를 일으키며 맞아떨어졌을 때 폭발하게 됩니다. 이 긍정적인 스위치가 켜지는 순간, 당신은 주변의 소음도, 시간의 흐름도 잊은 채 진공 상태의 우주에 홀로 떠 있는 듯한 압도적인 집중력과 천재성을 발휘합니다.`,
+      `현재 ${name}님이 특정 공간에서 보여주는 무시무시한 극강의 몰입도는 당신의 사주에 풍부한 '${excessEl}' 기운과, 그 공간이 내뿜는 환경 에너지가 우연히 완벽한 스파크를 일으키며 맞아떨어졌을 폭발하게 됩니다. 이 긍정적인 스위치가 켜지는 순간, 당신은 주변의 소음도, 시간의 흐름도 잊은 채 진공 상태의 우주에 홀로 떠 있는 듯한 압도적인 집중력과 천재성을 발휘합니다.`,
       `하지만 당신의 이 무서운 집중력을 순식간에 깨부수고, 당신을 깊은 무기력과 슬럼프의 수렁으로 밀어 넣는 보이지 않는 암살자는 바로 사주에 결핍된 '${saju.lacking}' 기운입니다. 내 사주에 텅 비어있는 이 필수적인 기운을 현실의 물리적인 사물(풍수 인테리어)로 채워 보완해주지 않은 채, 오히려 나와 상극(相剋)이 되어 기를 빨아먹는 잡동사니들을 주변에 무방비하게 방치하면 어떻게 될까요? 당신의 소중한 에너지가 사방으로 산란되고 파괴되어 결국 ${dm.weakness}의 형태로 멘탈이 완벽하게 붕괴해 버리게 됩니다. 아무리 결심해도 책상에만 앉으면 10분을 넘기지 못하고 스마트폰을 집어 드는 이유가 바로 이 환경의 저주 때문입니다.`,
     ];
     prescriptionText = [
@@ -340,7 +340,6 @@ export default function SajuLearningApp() {
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [unlockedMenus, setUnlockedMenus] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
@@ -495,45 +494,40 @@ export default function SajuLearningApp() {
     });
   };
 
-  // 🔥 1. 화면 밖 숨겨진 요소들을 캡처해 PDF 파일로 즉시 다운로드 해주는 마법 함수 🔥
+  // 🔥 1. 화면의 숨겨진 VVIP PDF 도화지를 찾아내서 캡처 후 직접 저장하는 마법 함수 🔥
   const downloadDirectPDF = async () => {
     if (!userSaju || !userInfo) return;
     
-    // 버튼을 누르면 상태가 로딩중으로 바뀜
-    setIsDownloading(true);
+    alert("VVIP 리포트를 고해상도 PDF로 생성 중입니다.\n데이터 양이 많아 약 3~5초 정도 소요될 수 있습니다.");
 
-    setTimeout(async () => {
-      try {
-        // html2pdf 라이브러리 동적 로드
-        if (!window.html2pdf) {
-          await new Promise((resolve) => {
-            const script = document.createElement('script');
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-            script.onload = resolve;
-            document.head.appendChild(script);
-          });
-        }
+    // html2pdf.js 라이브러리 몰래 불러오기
+    if (!window.html2pdf) {
+      await new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+        script.onload = resolve;
+        document.head.appendChild(script);
+      });
+    }
 
-        const element = document.getElementById('pdf-report-container');
-        
-        // 고해상도 PDF 변환 옵션
-        const opt = {
-          margin:       [15, 15, 15, 15],
-          filename:     `${userInfo.name}_해피메리벨_VVIP리포트.pdf`,
-          image:        { type: 'jpeg', quality: 1.0 },
-          html2canvas:  { scale: 2, useCORS: true, logging: false },
-          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
+    // 숨겨둔 도화지 소환
+    const element = document.getElementById('pdf-report-container');
+    
+    // 숨겨둔 도화지를 화면에 잠깐 보이게 처리 (캡처를 위해)
+    element.style.display = 'block';
 
-        // 인쇄창 띄우지 않고, 화면을 캡처해서 바로 PDF 파일로 저장!
-        await window.html2pdf().set(opt).from(element).save();
-      } catch (error) {
-        console.error(error);
-        alert("PDF 파일 생성 중 오류가 발생했습니다.");
-      } finally {
-        setIsDownloading(false);
-      }
-    }, 100);
+    const opt = {
+      margin:       10,
+      filename:     `${userInfo.name}_해피메리벨_VVIP리포트.pdf`,
+      image:        { type: 'jpeg', quality: 1.0 },
+      html2canvas:  { scale: 2, useCORS: true, logging: false },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    // 캡처 후 저장, 끝나면 다시 숨기기
+    window.html2pdf().set(opt).from(element).save().then(() => {
+      element.style.display = 'none';
+    });
   };
 
   const stars = useMemo(() => {
@@ -780,7 +774,7 @@ export default function SajuLearningApp() {
               </p>
             </div>
 
-            {/* 🔥 마법의 VVIP PDF 다운로드 버튼 (결제 완료 시 노출) 🔥 */}
+            {/* 🔥 다이렉트 PDF 다운로드 버튼 (결제 완료 시 노출) 🔥 */}
             {unlockedMenus.includes(selectedMenu.id) && (
               <div className="bg-[#111625] rounded-[20px] shadow-xl p-5 mb-6 relative overflow-hidden border border-[#E8C87A]/30">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
@@ -788,9 +782,9 @@ export default function SajuLearningApp() {
                   <p className="text-[11.5px] text-[#E8C87A] mb-4 leading-relaxed font-bold">
                     📢 <span className="text-white">서비스 제공기간 안내:</span> 본 결과지는 결제일로부터 <span className="text-white underline">30일 동안</span> 다운로드가 가능합니다.
                   </p>
-                  <button onClick={downloadDirectPDF} disabled={isDownloading} className="inline-flex items-center gap-2 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] font-black text-[13px] px-5 py-4 rounded-xl shadow-[0_4px_15px_rgba(212,168,67,0.3)] hover:scale-[1.02] disabled:opacity-50 disabled:scale-100 transition-transform w-full justify-center">
+                  <button onClick={downloadDirectPDF} className="inline-flex items-center gap-2 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] font-black text-[13px] px-5 py-4 rounded-xl shadow-[0_4px_15px_rgba(212,168,67,0.3)] hover:scale-[1.02] transition-transform w-full justify-center">
                     <Download size={18} strokeWidth={2.5} />
-                    {isDownloading ? "PDF 생성 중... 잠시만 기다려주세요" : "10,000자급 디자인 리포트 저장 (PDF)"}
+                    10,000자급 디자인 리포트 저장 (PDF)
                   </button>
                 </div>
               </div>
@@ -904,7 +898,7 @@ export default function SajuLearningApp() {
         </div>
       )}
 
-      {/* 5. FOOTER (사업자 정보 및 약관 - 결제 심사용) */}
+      {/* 5. FOOTER */}
       <footer className="relative z-20 bg-[#1A1530]/80 border-t border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.4)] text-[11px] p-6 pb-12 mt-12 break-keep font-sans">
         <div className="max-w-md mx-auto">
           <div className="flex gap-4 mb-4 font-bold text-[rgba(255,255,255,0.7)] text-[12px] px-4">
@@ -922,7 +916,7 @@ export default function SajuLearningApp() {
         </div>
       </footer>
 
-      {/* 6. 개인정보처리방침 팝업창 */}
+      {/* 6. 개인정보처리방침 팝업 */}
       {showPrivacy && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans">
           <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black">
@@ -943,7 +937,7 @@ export default function SajuLearningApp() {
         </div>
       )}
 
-      {/* 7. 이용약관 팝업창 */}
+      {/* 7. 이용약관 팝업 */}
       {showTerms && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans">
           <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black">
@@ -966,50 +960,49 @@ export default function SajuLearningApp() {
       {/* ================================================================= */}
       {/* 🖨️ [비밀 공간] 버튼을 누를 때 캡처될 A4 사이즈의 숨겨진 VVIP PDF 도화지 🖨️ */}
       {/* ================================================================= */}
-      {currentView === 'result' && unlockedMenus.includes(selectedMenu.id) && (
-        <div id="pdf-report-container" className="absolute top-0 left-[-9999px] w-[800px] bg-[#FDFBF7] text-[#111625] font-serif z-[-10]">
-          
-          {/* 1장. PDF 고급 표지 */}
-          <div className="flex flex-col justify-center items-center h-[1100px] border-[3px] border-[#E8C87A] p-10 mx-6 mt-6 mb-12 bg-white relative">
-            <div className="text-[60px] mb-8">🌙</div>
-            <div className="text-[#C89830] tracking-[5px] font-bold text-lg mb-8">VIP PRIVATE CONSULTING REPORT</div>
-            <h1 className="text-[40px] font-black leading-snug mb-16 text-[#111625] text-center border-b-[3px] border-[#C89830] pb-8">
-              해피메리벨 프라이빗 사주 컨설팅<br/>초정밀 운명 분석 보고서
-            </h1>
-            <div className="text-left w-full max-w-lg mb-20 space-y-5 text-lg">
-              <div className="flex justify-between border-b border-gray-300 pb-3"><span className="text-[#C89830] font-bold">대상자</span><span className="font-bold">{userInfo.name} 님</span></div>
-              <div className="flex justify-between border-b border-gray-300 pb-3"><span className="text-[#C89830] font-bold">명식 기준일</span><span className="font-bold">{userInfo.birthDate} ({userInfo.calendarType === 'solar' ? '양력' : '음력'})</span></div>
-              <div className="flex justify-between border-b border-gray-300 pb-3"><span className="text-[#C89830] font-bold">일간 기운</span><span className="font-bold">{userSaju.dayMaster} ({DAY_MASTERS[userSaju.dayMaster]?.name || '태양'})</span></div>
-              <div className="flex justify-between border-b border-gray-300 pb-3"><span className="text-[#C89830] font-bold">선택 메뉴</span><span className="font-bold">{selectedMenu.title.replace('\n', ' ')}</span></div>
-            </div>
-            <div className="absolute bottom-10 text-[#a0a5b5] text-sm tracking-[3px]">HAPPY MERRY BELL</div>
+      <div id="pdf-report-container" className="absolute top-0 left-0 w-[800px] bg-[#FDFBF7] text-[#111625] font-serif z-[-10]" style={{ display: 'none' }}>
+        
+        {/* 1장. PDF 고급 표지 */}
+        <div className="flex flex-col justify-center items-center h-[1100px] border-[3px] border-[#E8C87A] p-10 mx-6 mt-6 mb-12 bg-white relative">
+          <div className="text-[60px] mb-8">🌙</div>
+          <div className="text-[#C89830] tracking-[5px] font-bold text-lg mb-8">VIP PRIVATE CONSULTING REPORT</div>
+          <h1 className="text-[40px] font-black leading-snug mb-16 text-[#111625] text-center border-b-[3px] border-[#C89830] pb-8">
+            해피메리벨 프라이빗 사주 컨설팅<br/>초정밀 운명 분석 보고서
+          </h1>
+          <div className="text-left w-full max-w-lg mb-20 space-y-5 text-lg">
+            <div className="flex justify-between border-b border-gray-300 pb-3"><span className="text-[#C89830] font-bold">대상자</span><span className="font-bold">{userInfo.name} 님</span></div>
+            <div className="flex justify-between border-b border-gray-300 pb-3"><span className="text-[#C89830] font-bold">명식 기준일</span><span className="font-bold">{userInfo.birthDate} ({userInfo.calendarType === 'solar' ? '양력' : '음력'})</span></div>
+            <div className="flex justify-between border-b border-gray-300 pb-3"><span className="text-[#C89830] font-bold">일간 기운</span><span className="font-bold">{userSaju.dayMaster} ({DAY_MASTERS[userSaju.dayMaster]?.name || '태양'})</span></div>
+            <div className="flex justify-between border-b border-gray-300 pb-3"><span className="text-[#C89830] font-bold">선택 메뉴</span><span className="font-bold">{selectedMenu?.title.replace('\n', ' ') || '분석 메뉴'}</span></div>
           </div>
+          <div className="absolute bottom-10 text-[#a0a5b5] text-sm tracking-[3px]">HAPPY MERRY BELL</div>
+        </div>
 
-          {/* 2장~ PDF 10,000자 본문 내용 */}
-          <div className="px-12 pb-12 bg-[#FDFBF7]">
-            {generateProfessionalReport(userInfo, userSaju, selectedMenu.id).map((section, idx) => (
-              <div key={idx} className="mb-14" style={{ pageBreakInside: 'avoid' }}>
-                <h2 className="text-[24px] font-black text-[#111625] border-l-[6px] border-[#C89830] pl-5 mb-8 bg-[#F5EAD0]/30 py-2">{section.title}</h2>
-                {section.paragraphs && section.paragraphs.map((p, pIdx) => {
-                  const isSubtitle = p.startsWith('【') && p.endsWith('】');
-                  if (isSubtitle) {
-                    return <h5 key={pIdx} className="text-[18px] font-black text-[#A84050] mt-10 mb-4">{p.replace('【', '').replace('】', '')}</h5>;
-                  }
-                  return <p key={pIdx} className="text-[15.5px] leading-[2.1] mb-6 text-[#333] text-justify break-keep">{p}</p>;
-                })}
-              </div>
-            ))}
-
-            {/* 법적 고지사항 영역 */}
-            <div className="mt-20 pt-10 border-t-[3px] border-[#D4A843] text-[12px] text-[#777d8a] leading-relaxed">
-              <strong>■ 서비스 제공 기간 및 소비자 취소/환불 규정 안내 (PG사 고지용)</strong><br/>
-              본 사주 컨설팅 초정밀 분석 리포트는 전자상거래 등에서의 소비자보호에 관한 법률 제17조 제2항 제5호에 해당합니다. 구매와 동시에 결과지가 웹 화면에 즉시 노출되고 다운로드 기능이 인도되는 무형의 디지털 콘텐츠 특성상, 결제 후에는 소비자의 단순 변심으로 인한 취소 및 환불이 원칙적으로 불가능합니다.<br/><br/>
-              본 디지털 리포트 결과물은 개인정보 보호 정책에 따라 결제 완료 시점으로부터 정확히 30일 동안만 다운로드가 가능하며 30일이 경과한 데이터는 서버에서 영구적으로 파기됩니다.<br/><br/>
-              © 2026 Happy Merry Bell. All rights reserved.
+        {/* 2장~ PDF 10,000자 본문 내용 */}
+        <div className="px-12 pb-12 bg-[#FDFBF7]">
+          {selectedMenu && generateProfessionalReport(userInfo, userSaju, selectedMenu.id).map((section, idx) => (
+            <div key={idx} className="mb-14 pb-8" style={{ pageBreakInside: 'avoid' }}>
+              <h2 className="text-[24px] font-black text-[#111625] border-l-[6px] border-[#C89830] pl-5 mb-8 bg-[#F5EAD0]/30 py-2">{section.title}</h2>
+              {section.paragraphs && section.paragraphs.map((p, pIdx) => {
+                const isSubtitle = p.startsWith('【') && p.endsWith('】');
+                if (isSubtitle) {
+                  return <h5 key={pIdx} className="text-[18px] font-black text-[#A84050] mt-10 mb-4">{p.replace('【', '').replace('】', '')}</h5>;
+                }
+                return <p key={pIdx} className="text-[15.5px] leading-[2.1] mb-6 text-[#333] text-justify break-keep">{p}</p>;
+              })}
             </div>
+          ))}
+
+          {/* 법적 고지사항 영역 */}
+          <div className="mt-10 pt-10 border-t-[3px] border-[#D4A843] text-[12px] text-[#777d8a] leading-relaxed pb-20">
+            <strong>■ 서비스 제공 기간 및 소비자 취소/환불 규정 안내 (PG사 고지용)</strong><br/>
+            본 사주 컨설팅 초정밀 분석 리포트는 전자상거래 등에서의 소비자보호에 관한 법률 제17조 제2항 제5호에 해당합니다. 구매와 동시에 결과지가 웹 화면에 즉시 노출되고 다운로드 기능이 인도되는 무형의 디지털 콘텐츠 특성상, 결제 후에는 소비자의 단순 변심으로 인한 취소 및 환불이 원칙적으로 불가능합니다.<br/><br/>
+            본 디지털 리포트 결과물은 개인정보 보호 정책에 따라 결제 완료 시점으로부터 정확히 30일 동안만 다운로드가 가능하며 30일이 경과한 데이터는 서버에서 영구적으로 파기됩니다.<br/><br/>
+            © 2026 Happy Merry Bell. All rights reserved.
           </div>
         </div>
-      )}
+      </div>
+
     </div>
   );
 }
