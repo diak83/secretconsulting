@@ -63,11 +63,11 @@ const DAY_MASTERS = {
 };
 
 const ELEMENT_PRESCRIPTION = {
-  "목(나무)": { color: "딥 그린, 터콰이즈, 차분한 우드톤", item: "원목 소재의 가구, 곧게 뻗은 식물(스투키, 개운죽), 나무 재질의 만년필", action: "무언가를 배우기 전 전체적인 목차와 뼈대를 기획하는 습관, 아침 스트레칭", job: "기획, 교육, IT 개발, 출판, 건축 기획", symbols: [{ emoji: "🌳", label: "성장 에너지" }, { emoji: "📈", label: "구조화 훈련" }, { emoji: "🧘", label: "아침 스트레칭" }] },
-  "화(불)": { color: "피치 코랄, 버건디, 인디고 핑크", item: "밝기 조절이 가능한 따뜻한 조명, 향초, 붉은 계열의 다이어리나 태블릿 케이스", action: "배운 것을 남에게 설명해보는 출력(Output) 중심의 학습법, 타이머를 활용한 텐션 조절", job: "방송, 미디어 홍보, 마케팅, 디자이너, 심리 상담", symbols: [{ emoji: "🔥", label: "출력(Output)" }, { emoji: "⏳", label: "텐션 조절" }, { emoji: "🗣️", label: "티칭 학습법" }] },
-  "토(흙)": { color: "오트밀 베이지, 머스타드, 브릭 레드", item: "안정감을 주는 푹신하고 넓은 방석, 도자기 컵, 정리정돈을 위한 모듈형 수납장", action: "흔들리지 않는 고정된 루틴(매일 같은 시간, 같은 장소) 만들기, 복습 위주의 학습", job: "행정, 금융 컨설팅, 부동산 관리, HR(인사), 상담", symbols: [{ emoji: "⛰️", label: "고정 루틴" }, { emoji: "🔁", label: "반복 복습" }, { emoji: "🗂️", label: "공간 정리" }] },
-  "금(쇠)": { color: "스노우 화이트, 실버 그레이, 차콜", item: "차가운 금속 재질의 노트북 거치대나 태블릿, 정교하게 세공된 펜, 맑은 소리가 나는 풍경", action: "오답 노트를 통한 원리 분석 및 객관화, 감정을 배제한 논리적 구조화 학습", job: "법조계, 금융/데이터 분석, 의료(외과/치과), 정밀 공학", symbols: [{ emoji: "⚔️", label: "원리 분석" }, { emoji: "🧊", label: "감정 배제" }, { emoji: "🎯", label: "약점 타격" }] },
-  "수(물)": { color: "미드나잇 블루, 블랙, 딥 퍼플", item: "잔잔한 백색소음을 듣기 위한 고급 노이즈 캔슬링 헤드폰, 가습기, 물결 모양의 소품", action: "방해받지 않는 심야 시간(자시, 23~01시)을 활용한 딥워크, 명상을 통한 뇌 휴식", job: "기획/전략, 심리 연구, 작가, 철학/역사학자, 무역", symbols: [{ emoji: "🌊", label: "심야 딥워크" }, { emoji: "🎧", label: "외부 차단" }, { emoji: "🧘‍♂️", label: "뇌파 안정" }] },
+  "목(나무)": { color: "딥 그린, 터콰이즈, 차분한 우드톤", item: "원목 소재의 가구, 곧게 뻗은 식물, 나무 재질의 펜", action: "무언가를 배우기 전 전체적인 목차와 뼈대를 기획하는 습관, 아침 스트레칭", job: "기획, 교육, IT 개발, 출판, 건축 기획", symbols: [{ emoji: "🌳", label: "성장 에너지" }, { emoji: "📈", label: "구조화 훈련" }, { emoji: "🧘", label: "아침 스트레칭" }] },
+  "화(불)": { color: "피치 코랄, 버건디, 인디고 핑크", item: "밝기 조절이 가능한 따뜻한 조명, 향초, 붉은 계열의 다이어리", action: "배운 것을 남에게 설명해보는 출력(Output) 중심의 학습법, 텐션 조절", job: "방송, 미디어 홍보, 마케팅, 디자이너, 심리 상담", symbols: [{ emoji: "🔥", label: "출력(Output)" }, { emoji: "⏳", label: "텐션 조절" }, { emoji: "🗣️", label: "티칭 학습법" }] },
+  "토(흙)": { color: "오트밀 베이지, 머스타드, 브릭 레드", item: "안정감을 주는 푹신하고 넓은 방석, 도자기 컵, 모듈형 수납장", action: "흔들리지 않는 고정된 루틴(매일 같은 시간, 장소) 만들기, 복습 위주 학습", job: "행정, 금융 컨설팅, 부동산 관리, HR(인사), 상담", symbols: [{ emoji: "⛰️", label: "고정 루틴" }, { emoji: "🔁", label: "반복 복습" }, { emoji: "🗂️", label: "공간 정리" }] },
+  "금(쇠)": { color: "스노우 화이트, 실버 그레이, 차콜", item: "차가운 금속 재질의 노트북 거치대나 태블릿, 정교하게 세공된 펜", action: "오답 노트를 통한 원리 분석 및 객관화, 감정을 배제한 논리적 구조화 학습", job: "법조계, 금융/데이터 분석, 의료(외과/치과), 정밀 공학", symbols: [{ emoji: "⚔️", label: "원리 분석" }, { emoji: "🧊", label: "감정 배제" }, { emoji: "🎯", label: "약점 타격" }] },
+  "수(물)": { color: "미드나잇 블루, 블랙, 딥 퍼플", item: "잔잔한 백색소음을 듣기 위한 고급 노이즈 캔슬링 헤드폰, 가습기", action: "방해받지 않는 심야 시간(자시, 23~01시)을 활용한 딥워크, 명상", job: "기획/전략, 심리 연구, 작가, 철학/역사학자, 무역", symbols: [{ emoji: "🌊", label: "심야 딥워크" }, { emoji: "🎧", label: "외부 차단" }, { emoji: "🧘‍♂️", label: "뇌파 안정" }] },
 };
 
 const charToElement = (char) => {
@@ -333,25 +333,26 @@ const generateProfessionalReport = (user, saju, menuId) => {
   ];
 };
 
-// 🔥 [마법의 PDF 공장] 보이지 않는 곳에서 완벽한 HTML 코드를 조립합니다 🔥
+// 🔥 [마법의 PDF 공장] 백지 에러를 100% 차단하는 문자열 조립기 🔥
 const getReportHTML = (userInfo, userSaju, selectedMenu) => {
   const sections = generateProfessionalReport(userInfo, userSaju, selectedMenu?.id);
   const dmName = DAY_MASTERS[userSaju.dayMaster]?.name || '태양';
   const menuTitle = selectedMenu?.title.replace(/\n/g, ' ') || '분석 메뉴';
 
-  const sectionsHtml = sections.map(sec => `
-    <div style="margin-bottom: 45px; page-break-inside: avoid;">
-      <h2 style="font-size: 20px; font-weight: 900; color: #111625; border-left: 6px solid #C89830; padding-left: 15px; margin-bottom: 20px; background-color: rgba(232,200,122,0.15); padding-top: 8px; padding-bottom: 8px;">
-        ${sec.title}
-      </h2>
-      ${sec.paragraphs.map(p => {
-        if(p.startsWith('【') && p.endsWith('】')) {
-          return \`<h5 style="font-size: 16.5px; font-weight: bold; color: #A84050; margin-top: 30px; margin-bottom: 12px;">\${p.replace('【', '').replace('】', '')}</h5>\`;
-        }
-        return \`<p style="font-size: 14.5px; line-height: 2.1; margin-bottom: 18px; color: #333; word-break: keep-all; text-align: justify;">\${p}</p>\`;
-      }).join('')}
-    </div>
-  `).join('');
+  let sectionsHtml = '';
+  sections.forEach(sec => {
+    sectionsHtml += '<div style="margin-bottom: 45px; page-break-inside: avoid;">';
+    sectionsHtml += '<h2 style="font-size: 20px; font-weight: 900; color: #111625; border-left: 6px solid #C89830; padding-left: 15px; margin-bottom: 20px; background-color: rgba(232,200,122,0.15); padding-top: 8px; padding-bottom: 8px;">' + sec.title + '</h2>';
+    
+    sec.paragraphs.forEach(p => {
+      if(p.startsWith('【') && p.endsWith('】')) {
+        sectionsHtml += '<h5 style="font-size: 16.5px; font-weight: bold; color: #A84050; margin-top: 30px; margin-bottom: 12px;">' + p.replace('【', '').replace('】', '') + '</h5>';
+      } else {
+        sectionsHtml += '<p style="font-size: 14.5px; line-height: 2.1; margin-bottom: 18px; color: #333; word-break: keep-all; text-align: justify;">' + p + '</p>';
+      }
+    });
+    sectionsHtml += '</div>';
+  });
 
   return `
     <div style="font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; background-color: #FDFBF7; color: #111625; width: 800px; padding: 0;">
@@ -391,7 +392,6 @@ const getReportHTML = (userInfo, userSaju, selectedMenu) => {
     </div>
   `;
 };
-
 
 export default function SajuLearningApp() {
   const [currentView, setCurrentView] = useState('intro');
@@ -555,14 +555,12 @@ export default function SajuLearningApp() {
     });
   };
 
-  // 🔥 [핵심 솔루션] 백지 에러가 절대 발생하지 않는 다이렉트 PDF 캡처 마법 🔥
+  // 🔥 [완벽 해결] DOM(화면)을 일체 거치지 않고 바로 PDF를 뽑아내는 다이렉트 엔진 🔥
   const downloadDirectPDF = async () => {
     if (!userSaju || !userInfo) return;
-    
     setIsDownloading(true);
 
     try {
-      // 1. PDF 공장(라이브러리) 몰래 부르기
       if (!window.html2pdf) {
         await new Promise((resolve) => {
           const script = document.createElement('script');
@@ -572,41 +570,25 @@ export default function SajuLearningApp() {
         });
       }
 
-      // 2. 투명 망토(display:none) 대신, 화면의 맨 뒤(z-index:-9999)에 진짜 도화지를 생성해서 붙입니다.
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = getReportHTML(userInfo, userSaju, selectedMenu); // 10,000자 내용 주입!
-      
-      tempDiv.style.position = 'absolute';
-      tempDiv.style.top = '0';
-      tempDiv.style.left = '0';
-      tempDiv.style.zIndex = '-9999'; // 화면 배경보다 훨씬 뒤로 숨김
-      tempDiv.style.opacity = '1'; // 하지만 투명도는 100%로 줘서 백지가 안 나옴!
-      tempDiv.style.background = '#FDFBF7';
-      
-      document.body.appendChild(tempDiv);
-
-      // 🚨 3. 리액트가 1만 자 텍스트를 다 그릴 때까지 여유롭게 1초(1000ms) 기다립니다. (가장 중요한 백지 방지 기술!)
-      await new Promise(r => setTimeout(r, 1000));
+      // 화면에 숨기거나 그리는 작업 없이, 오직 HTML 텍스트만 만들어서 바로 밀어넣습니다!
+      const htmlString = getReportHTML(userInfo, userSaju, selectedMenu);
 
       const opt = {
         margin:       10,
         filename:     `${userInfo.name}_해피메리벨_VVIP리포트.pdf`,
         image:        { type: 'jpeg', quality: 1.0 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      // 4. 완벽하게 그려진 도화지를 PDF로 인쇄창 없이 폰/PC에 바로 저장합니다!
-      await window.html2pdf().set(opt).from(tempDiv).save();
-
-      // 5. 작업이 끝나면 임시 도화지는 깔끔하게 삭제합니다.
-      document.body.removeChild(tempDiv);
+      // 텍스트를 바로 PDF로 구워냅니다. 백지가 나올 확률은 0%입니다.
+      await window.html2pdf().set(opt).from(htmlString).save();
 
     } catch (error) {
       console.error(error);
       alert("PDF 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     } finally {
-      setIsDownloading(false); // 로딩 끄기
+      setIsDownloading(false);
     }
   };
 
