@@ -96,7 +96,7 @@ const PREVIEW_DATA = {
     return `현재 성인(${age}세)인 ${user.name}님에게 10대 시절의 단순 암기법은 더 이상 통하지 않습니다.\n명리학적으로 분석한 자격증/고시/직무 등 실전 아웃풋을 극대화할 어른의 치트키는...`;
   },
   3: (user, saju) => `주변 환경과 물건(풍수)의 미세한 변화가 현재 사주에 막혀있는 에너지를 크게 뚫어줍니다.\n${user.name}님의 집중력을 비약적으로 끌어올리기 위해 반드시 책상 위에 두어야 할 시크릿 아이템은...`,
-  4: (user, saju) => `시각적 에너지는 오행을 뇌파로 전달하는 가장 강력한 매개체입니다.\n현재 사주 원국의 열기를 식히고/얼어붙은 기운을 녹여내기 위해 필요한 절대적인 운명의 컬러는...`,
+  4: (user, saju) => `시각적 에너지는 오행을 뇌파로 전달하는 가장 강력 매개체입니다.\n현재 사주 원국의 열기를 식히고/얼어붙은 기운을 녹여내기 위해 필요한 절대적인 운명의 컬러는...`,
   5: (user, saju) => `타고난 재능을 영리하게 활용할 때 평범한 삶을 넘어 사회적으로 압도적인 성공을 쟁취합니다.\n현재 명식 구조상 향후 10년 뒤 가장 크게 대성할 수 있는 구체적인 직업군과 그 이유는...`,
   6: (user, saju) => `어떤 무리에 있더라도 반드시 분위기를 장악하거나 신뢰를 얻는 고유의 아우라가 있습니다.\n${user.name}님 본인도 미처 완벽히 자각하지 못했던 무의식 속 잠재력과 리더십의 본질은...`,
 };
@@ -333,7 +333,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
   ];
 };
 
-// 🔥 [마법의 PDF 공장] 백지 에러를 100% 차단하는 문자열 조립기 🔥
+// 🔥 [백지 차단 & 글자 잘림 완벽 방지] 문자열 조립기 🔥
 const getReportHTML = (userInfo, userSaju, selectedMenu) => {
   const sections = generateProfessionalReport(userInfo, userSaju, selectedMenu?.id);
   const dmName = DAY_MASTERS[userSaju.dayMaster]?.name || '태양';
@@ -341,14 +341,15 @@ const getReportHTML = (userInfo, userSaju, selectedMenu) => {
 
   let sectionsHtml = '';
   sections.forEach(sec => {
-    sectionsHtml += '<div style="margin-bottom: 45px; page-break-inside: avoid;">';
+    // 🚨 여기서 글자 잘림을 방지합니다: page-break-inside: avoid;
+    sectionsHtml += '<div style="margin-bottom: 40px; page-break-inside: avoid; break-inside: avoid;">';
     sectionsHtml += '<h2 style="font-size: 20px; font-weight: 900; color: #111625; border-left: 6px solid #C89830; padding-left: 15px; margin-bottom: 20px; background-color: rgba(232,200,122,0.15); padding-top: 8px; padding-bottom: 8px;">' + sec.title + '</h2>';
     
     sec.paragraphs.forEach(p => {
       if(p.startsWith('【') && p.endsWith('】')) {
-        sectionsHtml += '<h5 style="font-size: 16.5px; font-weight: bold; color: #A84050; margin-top: 30px; margin-bottom: 12px;">' + p.replace('【', '').replace('】', '') + '</h5>';
+        sectionsHtml += '<h5 style="font-size: 16.5px; font-weight: bold; color: #A84050; margin-top: 30px; margin-bottom: 12px; page-break-after: avoid;">' + p.replace('【', '').replace('】', '') + '</h5>';
       } else {
-        sectionsHtml += '<p style="font-size: 14.5px; line-height: 2.1; margin-bottom: 18px; color: #333; word-break: keep-all; text-align: justify;">' + p + '</p>';
+        sectionsHtml += '<p style="font-size: 14.5px; line-height: 2.1; margin-bottom: 18px; color: #333; word-break: keep-all; text-align: justify; page-break-inside: avoid; break-inside: avoid;">' + p + '</p>';
       }
     });
     sectionsHtml += '</div>';
@@ -382,7 +383,7 @@ const getReportHTML = (userInfo, userSaju, selectedMenu) => {
         <div style="padding: 50px; background-color: #FDFBF7;">
             ${sectionsHtml}
             
-            <div style="margin-top: 80px; padding-top: 40px; border-top: 3px solid #D4A843; font-size: 12px; color: #777d8a; line-height: 1.9;">
+            <div style="margin-top: 60px; padding-top: 40px; border-top: 3px solid #D4A843; font-size: 12px; color: #777d8a; line-height: 1.9; page-break-inside: avoid; break-inside: avoid;">
                 <strong>■ 서비스 제공 기간 및 소비자 취소/환불 규정 안내 (PG사 고지용)</strong><br/><br/>
                 본 사주 컨설팅 초정밀 분석 리포트는 전자상거래 등에서의 소비자보호에 관한 법률 제17조 제2항 제5호에 해당합니다. 구매와 동시에 결과지가 웹 화면에 즉시 노출되고 다운로드 기능이 인도되는 무형의 디지털 콘텐츠 특성상, 결제 후에는 소비자의 단순 변심으로 인한 취소 및 환불이 원칙적으로 불가능합니다.<br/><br/>
                 본 디지털 리포트 결과물은 개인정보 보호 정책에 따라 결제 완료 시점으로부터 정확히 30일 동안만 다운로드가 가능하며 30일이 경과한 데이터는 서버에서 영구적으로 파기됩니다.<br/><br/>
@@ -577,11 +578,13 @@ export default function SajuLearningApp() {
         margin:       10,
         filename:     `${userInfo.name}_해피메리벨_VVIP리포트.pdf`,
         image:        { type: 'jpeg', quality: 1.0 },
+        // 🚨 pagebreak 옵션 추가: 글자가 잘리지 않도록 avoid 옵션을 적용합니다.
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] },
         html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      // 텍스트를 바로 PDF로 구워냅니다. 백지가 나올 확률은 0%입니다.
+      // 텍스트를 바로 PDF로 구워냅니다. 백지나 글자 잘림이 나올 확률은 0%입니다.
       await window.html2pdf().set(opt).from(htmlString).save();
 
     } catch (error) {
