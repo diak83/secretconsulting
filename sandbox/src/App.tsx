@@ -87,25 +87,25 @@ const calculateAge = (birthDateStr) => {
 };
 
 const PREVIEW_DATA = {
-  1: (user, saju) => `사주 명리학의 정밀 분석 결과, ${user.name}님은 ${DAY_MASTERS[saju.dayMaster]?.name || '태양'}의 기운을 타고났습니다.\n상위 1%가 가진 본능적 직관을 가졌지만, 특정 오행의 불균형으로 인해 현재의 성취에 한계를 느낄 수 있습니다.`,
-  2: (user, saju) => `현재 ${calculateAge(user.birthDate)}세인 ${user.name}님에게 가장 완벽한 성적/성과 향상의 치트키는 전혀 다른 곳에 있습니다.\n명리학적으로 분석한 1등급 도약을 위한 맞춤형 학습법을 공개합니다.`,
-  3: (user, saju) => `주변 환경과 물건(풍수)의 미세한 변화가 현재 사주에 막혀있는 에너지를 크게 뚫어줍니다.\n${user.name}님의 집중력을 비약적으로 끌어올리기 위해 반드시 곁에 두어야 할 시크릿 아이템은...`,
+  1: (user, saju) => `사주 명리학의 정밀 분석 결과, ${user?.name || '고객'}님은 ${DAY_MASTERS[saju?.dayMaster]?.name || '태양'}의 기운을 타고났습니다.\n상위 1%가 가진 본능적 직관을 가졌지만, 특정 오행의 불균형으로 인해 현재의 성취에 한계를 느낄 수 있습니다.`,
+  2: (user, saju) => `현재 ${calculateAge(user?.birthDate)}세인 ${user?.name || '고객'}님에게 가장 완벽한 성적/성과 향상의 치트키는 전혀 다른 곳에 있습니다.\n명리학적으로 분석한 1등급 도약을 위한 맞춤형 학습법을 공개합니다.`,
+  3: (user, saju) => `주변 환경과 물건(풍수)의 미세한 변화가 현재 사주에 막혀있는 에너지를 크게 뚫어줍니다.\n${user?.name || '고객'}님의 집중력을 비약적으로 끌어올리기 위해 반드시 곁에 두어야 할 시크릿 아이템은...`,
   4: (user, saju) => `시각적 에너지는 오행을 뇌파로 전달하는 가장 강력한 매개체입니다.\n현재 사주 원국의 열기를 식히고/얼어붙은 기운을 녹여내기 위해 필요한 절대적인 운명의 컬러는...`,
   5: (user, saju) => `타고난 재능을 영리하게 활용할 때 평범한 삶을 넘어 압도적인 성공을 쟁취합니다.\n현재 명식 구조상 향후 가장 크게 대성할 수 있는 구체적인 직업군과 그 이유는...`,
-  6: (user, saju) => `어떤 무리에 있더라도 반드시 분위기를 장악하거나 신뢰를 얻는 고유의 아우라가 있습니다.\n${user.name}님 본인도 미처 완벽히 자각하지 못했던 잠재력과 리더십의 본질은...`,
+  6: (user, saju) => `어떤 무리에 있더라도 반드시 분위기를 장악하거나 신뢰를 얻는 고유의 아우라가 있습니다.\n${user?.name || '고객'}님 본인도 미처 완벽히 자각하지 못했던 잠재력과 리더십의 본질은...`,
 };
 
 // 🔥 10,000자 분량 VVIP 분석 보고서 생성 엔진 🔥
 const generateProfessionalReport = (user, saju, menuId) => {
-  const name = user.name;
+  if (!user || !saju) return [];
+  const name = user.name || '고객';
   const dm = DAY_MASTERS[saju.dayMaster] || DAY_MASTERS["丙"];
   const lackProp = ELEMENT_PRESCRIPTION[saju.lacking] || ELEMENT_PRESCRIPTION["수(물)"];
-  const excessEl = saju.excessive || saju.main;
+  const excessEl = saju.excessive || saju.main || '목(나무)';
   
   let elementCountsStr = "";
   Object.entries(saju.counts || {}).forEach(([el, cnt]) => { elementCountsStr += `${el.charAt(0)}(${cnt}개) `; });
 
-  // (VVIP 분석 텍스트 - 생략 없이 가득 담았습니다)
   const analysis1Text = [
     `본 프라이빗 컨설팅은 시중의 가벼운 점술이나 막연한 칭찬을 나열하는 행위를 엄격히 지양합니다. 천문학적 황경 기준으로 고객님의 명식을 심층 해부한다는 것은, 세상의 방대한 지식과 정보를 받아들이고 처리할 때 무의식적으로 작동하는 '가장 근본적인 인지 필터'를 찾아내는 일입니다. 정밀 해독 결과, ${name}님의 일간(Day Master)은 [ ${dm.name} ]의 기운으로 굳건하게 세팅되어 있습니다.`,
     `이 기운이 뜻하는 바는 명확합니다. ${dm.nature}처럼 당신은 본능적으로 지식을 흡수할 때 핵심 맥락을 단숨에 밝혀내며, 거시적인 관점에서 숲 전체를 조망하는 강력한 직관력을 천부적으로 부여받았습니다. 남들이 정해놓은 획일화된 정답만을 기계처럼 복사해 넣는 학습 환경에 노출될 경우, 당신의 뇌는 극심한 지루함을 느끼며 에너지가 급격히 방전됩니다.`,
@@ -137,16 +137,17 @@ const generateProfessionalReport = (user, saju, menuId) => {
     { id: "analysis1", title: "✨ [VVIP 명식 해단식] 객관적 원국 분석", paragraphs: analysis1Text },
     { id: "analysis2", title: "⚖️ [운기의 밸런스 진단] 천재성과 슬럼프의 경계", paragraphs: analysis2Text },
     { id: "solution", title: "🗝️ [VVIP 프라이빗 시크릿 솔루션] 실전 행동 지침", isHighlight: true, paragraphs: prescriptionText },
-    { id: "summary", title: "🎯 VVIP 핵심 요약 및 처방 상징", isHighlight: false, isSummary: true, paragraphs: [summaryText], symbols: symbolsToUse },
+    { id: "summary", title: "🎯 VVIP 핵심 요약 및 처방 상징", isHighlight: false, isSummary: true, paragraphs: [summaryText], symbols: lackProp.symbols },
     { id: "conclusion", title: "👑 에필로그: VVIP 멘탈 코어 가이드", paragraphs: conclusionText },
   ];
 };
 
-// 🔥 [백지 및 잘림 100% 방지] HTML 문자열 조립기 🔥
+// 🔥 [글자 찌그러짐/잘림 100% 방지] 튼튼한 HTML 문자열 조립기 🔥
 const getReportHTML = (userInfo, userSaju, selectedMenu) => {
-  const sections = generateProfessionalReport(userInfo, userSaju, selectedMenu?.id);
+  if (!userInfo || !userSaju) return '';
+  const sections = generateProfessionalReport(userInfo, userSaju, selectedMenu?.id || 1);
   const dmName = DAY_MASTERS[userSaju.dayMaster]?.name || '태양';
-  const menuTitle = selectedMenu?.title.replace(/\n/g, ' ') || '분석 메뉴';
+  const menuTitle = selectedMenu?.title?.replace(/\n/g, ' ') || '분석 메뉴';
 
   let sectionsHtml = '';
   sections.forEach(sec => {
@@ -164,7 +165,7 @@ const getReportHTML = (userInfo, userSaju, selectedMenu) => {
   });
 
   return `
-    <div style="width: 800px; background-color: #FDFBF7; padding: 0; margin: 0; font-family: 'Noto Sans KR', sans-serif;">
+    <div style="width: 800px; min-width: 800px; max-width: 800px; background-color: #FDFBF7; padding: 0; margin: 0; font-family: 'Noto Sans KR', sans-serif;">
         <div style="width: 800px; height: 1131px; padding: 60px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 4px solid #E8C87A; text-align: center; background: #fff; page-break-after: always;">
             <div style="font-size: 80px; margin-bottom: 30px;">🌙</div>
             <div style="color: #C89830; letter-spacing: 6px; font-weight: bold; font-size: 20px; margin-bottom: 40px;">VIP PRIVATE CONSULTING REPORT</div>
@@ -173,13 +174,13 @@ const getReportHTML = (userInfo, userSaju, selectedMenu) => {
             </h1>
             <div style="text-align: left; width: 100%; max-width: 500px; font-size: 20px; line-height: 2.5;">
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 12px; margin-bottom: 12px;">
-                    <span style="color: #C89830; font-weight: bold;">대상자</span><span style="font-weight:bold;">${userInfo.name} 님</span>
+                    <span style="color: #C89830; font-weight: bold;">대상자</span><span style="font-weight:bold;">${userInfo.name || '고객'} 님</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 12px; margin-bottom: 12px;">
-                    <span style="color: #C89830; font-weight: bold;">명식 기준일</span><span style="font-weight:bold;">${userInfo.birthDate}</span>
+                    <span style="color: #C89830; font-weight: bold;">명식 기준일</span><span style="font-weight:bold;">${userInfo.birthDate || ''}</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 12px; margin-bottom: 12px;">
-                    <span style="color: #C89830; font-weight: bold;">일간 기운</span><span style="font-weight:bold;">${userSaju.dayMaster} (${dmName})</span>
+                    <span style="color: #C89830; font-weight: bold;">일간 기운</span><span style="font-weight:bold;">${userSaju.dayMaster || ''} (${dmName})</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; padding-bottom: 12px; margin-bottom: 12px;">
                     <span style="color: #C89830; font-weight: bold;">선택 메뉴</span><span style="font-weight:bold;">${menuTitle}</span>
@@ -213,38 +214,43 @@ export default function SajuLearningApp() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
+  // 🚨 [앱 뻗음(Crash) 100% 방지] 결제 후 복구 로직 강화
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const isSuccess = urlParams.get('success');
     const isFail = urlParams.get('fail');
 
     if (isSuccess === 'true') {
-      const savedUserInfo = JSON.parse(localStorage.getItem('sajuApp_userInfo'));
-      const savedUserSaju = JSON.parse(localStorage.getItem('sajuApp_userSaju'));
-      const savedMenu = JSON.parse(localStorage.getItem('sajuApp_selectedMenu'));
+      try {
+        const savedUserInfo = JSON.parse(localStorage.getItem('sajuApp_userInfo') || 'null');
+        const savedUserSaju = JSON.parse(localStorage.getItem('sajuApp_userSaju') || 'null');
+        const savedMenu = JSON.parse(localStorage.getItem('sajuApp_selectedMenu') || 'null');
 
-      if (savedUserInfo && savedUserSaju && savedMenu) {
-        setUserInfo(savedUserInfo);
-        setUserSaju(savedUserSaju);
-        setSelectedMenu(savedMenu);
-        setUnlockedMenus([savedMenu.id]);
-        setCurrentView('result'); 
+        if (savedUserInfo && savedUserSaju && savedMenu) {
+          setUserInfo(savedUserInfo);
+          setUserSaju(savedUserSaju);
+          setSelectedMenu(savedMenu);
+          setUnlockedMenus([savedMenu.id]);
+          setCurrentView('result'); 
 
-        const saveToDatabase = async () => {
-          try {
-            await addDoc(collection(db, "paid_customers"), {
-              customerName: savedUserInfo.name,
-              birthDate: savedUserInfo.birthDate,
-              purchasedMenu: savedMenu.title,
-              sajuDayMaster: savedUserSaju.dayMaster,
-              paymentAmount: 1000,
-              paymentDate: new Date().toISOString()
-            });
-          } catch (e) {
-            console.error("금고 저장 에러: ", e);
-          }
-        };
-        saveToDatabase();
+          const saveToDatabase = async () => {
+            try {
+              await addDoc(collection(db, "paid_customers"), {
+                customerName: savedUserInfo.name,
+                birthDate: savedUserInfo.birthDate,
+                purchasedMenu: savedMenu.title,
+                sajuDayMaster: savedUserSaju.dayMaster,
+                paymentAmount: 1000,
+                paymentDate: new Date().toISOString()
+              });
+            } catch (e) {
+              console.error("금고 저장 에러: ", e);
+            }
+          };
+          saveToDatabase();
+        }
+      } catch (e) {
+        console.error("데이터 복구 에러: ", e);
       }
       window.history.replaceState({}, document.title, window.location.pathname);
     } else if (isFail === 'true') {
@@ -355,7 +361,7 @@ export default function SajuLearningApp() {
     tossPayments.requestPayment(method, {
       amount: 1000,
       orderId: 'order_' + new Date().getTime(),
-      orderName: `VVIP 사주 컨설팅 - ${selectedMenu.title.replace('\n', ' ')}`,
+      orderName: `VVIP 사주 컨설팅 - ${selectedMenu?.title?.replace('\n', ' ') || '분석'}`,
       customerName: userInfo.name || '고객',
       successUrl: window.location.origin + window.location.pathname + '?success=true',
       failUrl: window.location.origin + window.location.pathname + '?fail=true',
@@ -364,11 +370,10 @@ export default function SajuLearningApp() {
     });
   };
 
-  // 🔥 [백지 100% 차단] 화면 한가운데에 도화지를 깔고 완전히 가린 상태에서 사진을 찍습니다 🔥
+  // 🔥 [핵심 솔루션] 절대로 백지가 되거나 가로가 찌그러지지 않는 강철 PDF 엔진 🔥
   const downloadDirectPDF = async () => {
     if (!userSaju || !userInfo) return;
-    
-    window.scrollTo(0, 0); // 화면 스크롤 초기화
+    window.scrollTo(0, 0); 
     setIsDownloading(true);
 
     try {
@@ -381,40 +386,34 @@ export default function SajuLearningApp() {
         });
       }
 
-      // 기존 찌꺼기 도화지가 있으면 완벽 삭제
-      const oldDiv = document.getElementById('vvip-pdf-container');
-      if (oldDiv) document.body.removeChild(oldDiv);
-
-      // 🚨 핵심 해결책: 숨기지 않고(display:none 안됨) 화면 왼쪽 위(0,0)에 진짜 도화지를 붙입니다.
-      // 대신 z-index를 1000으로 주어 로딩 커튼(9999) 뒤에 완벽히 숨게 만듭니다!
+      // 🚨 화면에 아예 독립적이고 완벽한 도화지를 강제로 만듭니다 (display: none 금지!)
       const tempDiv = document.createElement('div');
       tempDiv.id = 'vvip-pdf-container';
       tempDiv.innerHTML = getReportHTML(userInfo, userSaju, selectedMenu);
       
+      // 모바일 기기에서도 도화지가 800px 크기로 "빳빳하게" 유지되도록 강제 속성 부여
       tempDiv.style.position = 'absolute';
       tempDiv.style.top = '0';
       tempDiv.style.left = '0';
       tempDiv.style.width = '800px'; 
-      tempDiv.style.zIndex = '1000'; // 로딩창(9999) 보단 낮고 메인화면보단 높게!
+      tempDiv.style.minWidth = '800px'; 
+      tempDiv.style.zIndex = '1000'; // 로딩창(9999) 뒤에 완벽히 숨겨서 사용자 눈엔 안 보입니다.
       tempDiv.style.backgroundColor = '#FDFBF7';
       document.body.appendChild(tempDiv);
 
-      // 브라우저가 도화지에 색칠을 끝낼 때까지 2초(2000ms) 넉넉하게 기다립니다.
+      // 브라우저가 도화지에 색칠하고 글씨를 쓸 때까지 2초(2000ms) 넉넉하게 대기 (백지 원천 차단)
       await new Promise(r => setTimeout(r, 2000));
 
       const opt = {
-        margin:       [15, 0, 15, 0],
+        margin:       [10, 0, 10, 0],
         filename:     `${userInfo.name}_해피메리벨_VVIP리포트.pdf`,
         image:        { type: 'jpeg', quality: 1.0 },
         pagebreak:    { mode: ['css', 'legacy'] },
-        html2canvas:  { scale: 2, useCORS: true, windowWidth: 800, scrollY: 0 },
+        html2canvas:  { scale: 2, useCORS: true, windowWidth: 800, width: 800, scrollY: 0, scrollX: 0 }, // 가로 압착 방지
         jsPDF:        { unit: 'px', format: [800, 1131], orientation: 'portrait' } 
       };
 
-      // 도화지를 사진 찍어 PDF로 저장!
       await window.html2pdf().set(opt).from(tempDiv).save();
-      
-      // 저장 완료 후 도화지 즉각 폐기
       document.body.removeChild(tempDiv);
 
     } catch (error) {
@@ -439,9 +438,7 @@ export default function SajuLearningApp() {
   return (
     <div className="min-h-screen text-[rgba(255,255,255,0.88)] font-sans relative bg-[#0D0B1A]">
       
-      {/* 🔥 [가장 중요] 새까만 로딩 커튼! 
-          이 커튼이 화면 전체(z-index: 9999)를 완벽하게 가려주기 때문에, 
-          그 뒤에서 800px짜리 거대한 도화지를 마음껏 펼쳐놓고 캡처할 수 있습니다! 🔥 */}
+      {/* 🔥 [가장 중요] PDF 캡처용 도화지를 완벽히 가려주는 까만 로딩 커튼! 🔥 */}
       {isDownloading && (
         <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0D0B1A] text-white transition-all duration-300">
           <div className="w-14 h-14 border-4 border-amber-400 border-t-transparent rounded-full animate-spin mb-6"></div>
@@ -577,7 +574,7 @@ export default function SajuLearningApp() {
             <div className="w-3 h-3 rounded-full bg-[#7EC8B8] animate-[obounce_1.2s_ease-in-out_infinite]" style={{animationDelay: '0.45s'}}></div>
           </div>
           <h2 className="font-serif text-[18px] font-black text-white mb-2 text-gradient-lavender">숨겨진 비밀을 분석 중이에요 🌙</h2>
-          <p className="text-[#A090C0] text-[12.5px] text-center">타고난 운명의 궤적을 추적하여<br/>{userInfo.name}님만의 잠재력을 분석하고 있습니다.</p>
+          <p className="text-[#A090C0] text-[12.5px] text-center">타고난 운명의 궤적을 추적하여<br/>{userInfo.name || '고객'}님만의 잠재력을 분석하고 있습니다.</p>
         </div>
       )}
 
@@ -594,7 +591,7 @@ export default function SajuLearningApp() {
               명식 진단 완료
             </div>
             <p className="font-serif text-[15px] font-black text-white mt-3 mb-3">
-              <span className="text-[#E8C87A]">{userInfo.name}</span> 님의 사주 팔자
+              <span className="text-[#E8C87A]">{userInfo.name || '고객'}</span> 님의 사주 팔자
             </p>
             <div className="flex justify-center gap-2 w-full px-2">
               {userSaju.pillars.map((pillar, idx) => (
@@ -635,15 +632,15 @@ export default function SajuLearningApp() {
         </div>
       )}
 
-      {/* 4. RESULT VIEW */}
-      {currentView === 'result' && (
+      {/* 4. RESULT VIEW (🚨 안전망 추가: selectedMenu가 정상적으로 있을 때만 보여줍니다!) */}
+      {currentView === 'result' && selectedMenu && userSaju && (
         <div className="relative z-20 min-h-screen bg-[#FDFBF7] text-[#1A1530] pb-12 animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)]">
           <div className="px-4 py-4 flex items-center sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur border-b border-[#EAE1D8]">
             <button onClick={() => setCurrentView('menu')} className="p-2 mr-2 bg-white border border-[#EAE1D8] rounded-full text-[#1A1530] shadow-sm">
               <ChevronLeft size={20} />
             </button>
             <h2 className="text-[15px] font-black flex-1 text-center pr-10 font-sans whitespace-pre-line leading-tight">
-              {selectedMenu.title.replace('\n', ' ')}
+              {selectedMenu?.title?.replace('\n', ' ') || '분석 메뉴'}
             </h2>
           </div>
 
@@ -655,21 +652,21 @@ export default function SajuLearningApp() {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
               
               <div className="relative z-10 flex flex-col items-center">
-                <h3 className="font-serif text-[#E8C87A] text-xl mb-4 text-center tracking-widest">{DAY_MASTERS[userSaju.dayMaster]?.name || '태양'}</h3>
+                <h3 className="font-serif text-[#E8C87A] text-xl mb-4 text-center tracking-widest">{DAY_MASTERS[userSaju?.dayMaster]?.name || '태양'}</h3>
                 
                 <div className="w-[120px] h-[120px] rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(212,168,67,0.3)] flex items-center justify-center mb-5 shadow-[0_0_20px_rgba(212,168,67,0.15)] relative">
                   <div className="absolute inset-0 rounded-full bg-[rgba(212,168,67,0.2)] blur-xl"></div>
-                  {React.createElement(DAY_MASTERS[userSaju.dayMaster]?.icon || Star, { size: 56, className: "text-[#E8C87A] relative z-10", strokeWidth: 1.5 })}
+                  {React.createElement(DAY_MASTERS[userSaju?.dayMaster]?.icon || Star, { size: 56, className: "text-[#E8C87A] relative z-10", strokeWidth: 1.5 })}
                 </div>
 
                 <div className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl p-3 text-center mb-5 w-full">
                   <p className="text-[rgba(255,255,255,0.9)] font-medium text-[12px] leading-relaxed break-keep">
-                    저는 <span className="text-[#E8C87A] font-bold">[{DAY_MASTERS[userSaju.dayMaster]?.nature || '세상을 밝히는 별'}]</span> 의 기운을 품고 태어났습니다.
+                    저는 <span className="text-[#E8C87A] font-bold">[{DAY_MASTERS[userSaju?.dayMaster]?.nature || '세상을 밝히는 별'}]</span> 의 기운을 품고 태어났습니다.
                   </p>
                 </div>
 
                 <h1 className="text-3xl font-black text-white tracking-[0.2em] mb-4 font-serif drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
-                  {userSaju.main?.split('(')[0] || '화'}
+                  {userSaju?.main?.split('(')[0] || '화'}
                 </h1>
               </div>
             </div>
@@ -680,12 +677,12 @@ export default function SajuLearningApp() {
                 ✦ 핵심 진단 (미리보기)
               </div>
               <p className="text-[13.5px] text-[#2A1530] leading-[1.8] font-medium break-keep whitespace-pre-line">
-                {PREVIEW_DATA[selectedMenu.id](userInfo, userSaju)}
+                {PREVIEW_DATA[selectedMenu?.id || 1](userInfo, userSaju)}
               </p>
             </div>
 
             {/* 🔥 다이렉트 PDF 다운로드 버튼 (결제 완료 시 노출) 🔥 */}
-            {unlockedMenus.includes(selectedMenu.id) && (
+            {unlockedMenus.includes(selectedMenu?.id) && (
               <div className="bg-[#111625] rounded-[20px] shadow-xl p-5 mb-6 relative overflow-hidden border border-[#E8C87A]/30">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
                 <div className="relative z-10 text-center">
@@ -701,7 +698,7 @@ export default function SajuLearningApp() {
             )}
 
             {/* 잠금/결제 UI or 전체 결과 렌더링 */}
-            {!unlockedMenus.includes(selectedMenu.id) ? (
+            {!unlockedMenus.includes(selectedMenu?.id) ? (
               <div className="mt-4">
                 {isProcessing ? (
                   <div className="flex flex-col items-center py-10 gap-3">
@@ -749,7 +746,7 @@ export default function SajuLearningApp() {
               </div>
             ) : (
               <div className="space-y-4 animate-[sup_0.4s_ease-out_forwards]">
-                {generateProfessionalReport(userInfo, userSaju, selectedMenu.id).map((section, idx) => {
+                {generateProfessionalReport(userInfo, userSaju, selectedMenu?.id).map((section, idx) => {
                   if (section.isSummary) {
                     return (
                       <div key={idx} className="bg-white border-[2.5px] border-[#E8C87A] rounded-[20px] p-[24px_20px] shadow-[0_6px_20px_rgba(212,168,67,0.2)] my-8 relative overflow-hidden">
@@ -767,7 +764,7 @@ export default function SajuLearningApp() {
                         </div>
 
                         <div className="flex justify-center gap-6 mt-6">
-                          {section.symbols.map((sym, sIdx) => (
+                          {section.symbols?.map((sym, sIdx) => (
                             <div key={sIdx} className="flex flex-col items-center">
                               <div className="w-[56px] h-[56px] bg-white rounded-full flex items-center justify-center text-[26px] shadow-md border-[2px] border-[#E8C87A]/40 mb-3 transform hover:scale-110 transition-transform">
                                 {sym.emoji}
