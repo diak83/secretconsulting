@@ -217,7 +217,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
       ];
       analysis2Text = [
         `현재 ${name}님이 성인 학습자로서 뿜어낼 수 있는 가장 무서운 지적 포텐셜은 당신이 가진 풍부한 '${excessEl}' 기운 덕분입니다. 본인의 커리어에 직결되거나 완벽하게 납득이 가는 실무적 개념을 만났을 때, 남들이 몇 달 걸릴 분량을 단 며칠 만에 마스터해 버리는 괴물 같은 효율과 통찰력을 보여줍니다. 이 기운이 터지면 당신의 뇌는 지식을 빨아들여 곧바로 무기로 치환하는 거대한 용광로가 됩니다.`,
-        `그러나 성인기 합격과 승진의 목줄을 틀어쥐고 당신 깊은 늪으로 끌어내리는 주범은 바로 '${saju.lacking}' 기운의 결핍으로 인해 발생하는 '행동과 출력의 마비 현상'에 있습니다. 이론은 완벽하게 꿰고 있으나 막상 실전 시험장이나 실무 프로젝트 앞에서 손이 차갑게 굳어버리거나, 완벽주의에 빠져 시작조차 하지 못하고 ${dm.weakness} 성향이 폭발하여 무기력증의 슬럼프가 주기적으로 찾아오게 됩니다. 머리에 집어넣은 방대한 고급 지식을 현실 세계의 점수와 커리어로 치환해 내는 통로가 바로 이 결핍된 오행의 자리에 위치해 있기 때문입니다.`,
+        `그러나 성인기 합격과 승진의 목줄을 틀어쥐고 당신을 깊은 늪으로 끌어내리는 주범은 바로 '${saju.lacking}' 기운의 결핍으로 인해 발생하는 '행동과 출력의 마비 현상'에 있습니다. 이론은 완벽하게 꿰고 있으나 막상 실전 시험장이나 실무 프로젝트 앞에서 손이 차갑게 굳어버리거나, 완벽주의에 빠져 시작조차 하지 못하고 ${dm.weakness} 성향이 폭발하여 무기력증의 슬럼프가 주기적으로 찾아오게 됩니다. 머리에 집어넣은 방대한 고급 지식을 현실 세계의 점수와 커리어로 치환해 내는 통로가 바로 이 결핍된 오행의 자리에 위치해 있기 때문입니다.`,
       ];
       prescriptionText = [
         `성인기 학습의 효율을 인간의 한계치까지 극대화하여 가장 빠른 시간 안에 '합격'과 '성과'라는 아웃풋을 쥐어짜 내기 위해서는, 타고난 '${dm.name}'의 본능적인 방식대로 과감하게 주도권을 쥐고 공부를 시작해야 합니다. 그러나 그보다 백배 더 중요한 것은, 하루 공부를 마무리하고 책을 덮는 닫는 단계에서 반드시 꽉 막혀있는 '${saju.lacking}'의 기운을 강제로라도 소통시켜야 한다는 점입니다. 그래야만 오늘 뇌에 집어넣은 지식들이 실전에서 즉시 튀어나오는 반사 신경으로 굳어집니다. 오직 ${name}님의 명식표에만 통용되는, 잔혹하리만치 정교하고 치밀한 맞춤형 VVIP 성인 학습 시크릿 5단계를 공개합니다.`,
@@ -333,7 +333,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
   ];
 };
 
-// 🔥 [1:1 픽셀 매핑] 글자가 절대로 찌그러지거나 잘리지 않는 마법의 HTML 공장 🔥
+// 🔥 [1:1 픽셀 매핑] 화면 밖의 "숨겨진 독립 도화지"에 HTML을 렌더링 🔥
 const getReportHTML = (userInfo, userSaju, selectedMenu) => {
   const sections = generateProfessionalReport(userInfo, userSaju, selectedMenu?.id);
   const dmName = DAY_MASTERS[userSaju.dayMaster]?.name || '태양';
@@ -341,7 +341,7 @@ const getReportHTML = (userInfo, userSaju, selectedMenu) => {
 
   let sectionsHtml = '';
   sections.forEach(sec => {
-    // page-break-inside: avoid 로 문단이 통째로 넘어가게 보호합니다.
+    // 문단이 통째로 다음 장으로 넘어가도록 page-break-inside 적용
     sectionsHtml += '<div style="margin-bottom: 40px; page-break-inside: avoid;">';
     sectionsHtml += '<h2 style="font-size: 22px; font-weight: 900; color: #111625; border-left: 6px solid #C89830; padding-left: 15px; margin-bottom: 20px; background-color: rgba(232,200,122,0.15); padding-top: 10px; padding-bottom: 10px;">' + sec.title + '</h2>';
     
@@ -559,6 +559,9 @@ export default function SajuLearningApp() {
   // 🔥 [핵심 솔루션] 절대로 가로가 잘리지 않는 1:1 픽셀 매핑 PDF 엔진 🔥
   const downloadDirectPDF = async () => {
     if (!userSaju || !userInfo) return;
+    
+    // 버튼을 누르면 먼저 스크롤을 맨 위로 올립니다 (html2canvas 스크롤 캡처 버그 방지)
+    window.scrollTo(0, 0);
     setIsDownloading(true);
 
     try {
@@ -575,26 +578,26 @@ export default function SajuLearningApp() {
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = getReportHTML(userInfo, userSaju, selectedMenu);
       
-      // 스마트폰 화면이 좁아도 도화지는 무조건 800px로 빳빳하게 펴지게 강제 고정!
+      // 스마트폰 화면이 좁아도 도화지는 무조건 가로 800px로 빳빳하게 펴지게 강제 고정!
       tempDiv.style.position = 'absolute';
       tempDiv.style.top = '0';
       tempDiv.style.left = '0';
       tempDiv.style.width = '800px'; 
       tempDiv.style.maxWidth = '800px'; 
-      tempDiv.style.zIndex = '-9999';
+      tempDiv.style.zIndex = '-9999'; // 화면 최하단으로 숨김
       tempDiv.style.background = '#FDFBF7';
       document.body.appendChild(tempDiv);
 
-      // 리액트가 도화지에 글자를 다 쓸 때까지 0.8초 기다려줍니다. (세로 잘림 방지)
-      await new Promise(r => setTimeout(r, 800));
+      // 리액트가 도화지에 10,000자를 렌더링할 때까지 1.5초를 넉넉하게 기다려줍니다. (하얀 백지 방지 기술)
+      await new Promise(r => setTimeout(r, 1500));
 
-      // PDF의 폭을 HTML 도화지와 똑같이 800px, 1131px로 맞춰버립니다! (가로 잘림 완벽 방지)
+      // PDF의 폭을 HTML 도화지와 똑같이 800px, 1131px(A4비율)로 강제 지정해버립니다! (가로 잘림 완벽 방지)
       const opt = {
         margin:       0,
         filename:     `${userInfo.name}_해피메리벨_VVIP리포트.pdf`,
         image:        { type: 'jpeg', quality: 1.0 },
-        pagebreak:    { mode: ['css', 'legacy'] },
-        html2canvas:  { scale: 2, useCORS: true, windowWidth: 800 },
+        pagebreak:    { mode: ['css', 'legacy'] }, // 문단 중간이 썰리는 것을 방지
+        html2canvas:  { scale: 2, useCORS: true, windowWidth: 800, scrollY: 0 },
         jsPDF:        { unit: 'px', format: [800, 1131], orientation: 'portrait' } 
       };
 
@@ -622,6 +625,19 @@ export default function SajuLearningApp() {
 
   return (
     <div className="min-h-screen text-[rgba(255,255,255,0.88)] font-sans relative bg-[#0D0B1A]">
+      
+      {/* 🔥 [추가] PDF 생성 중 로딩 화면 (화면 덮기) 🔥 */}
+      {isDownloading && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0D0B1A]/95 text-white backdrop-blur-sm transition-all duration-300">
+          <div className="w-14 h-14 border-4 border-amber-400 border-t-transparent rounded-full animate-spin mb-6"></div>
+          <h2 className="text-2xl font-bold text-amber-400 mb-3 tracking-wider">VVIP 리포트 생성 중...</h2>
+          <p className="text-[13px] text-[rgba(255,255,255,0.7)] text-center leading-relaxed break-keep px-6">
+            10,000자 분량의 분석 데이터를 고해상도 PDF로 조립하고 있습니다.<br/>
+            최대 5~10초 정도 소요될 수 있으니 창을 닫지 마세요.
+          </p>
+        </div>
+      )}
+
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,#2A1B4A_0%,transparent_70%),radial-gradient(ellipse_50%_40%_at_80%_100%,#1A2840_0%,transparent_60%)]"></div>
         {stars}
