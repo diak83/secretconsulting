@@ -557,81 +557,60 @@ export default function SajuLearningApp() {
   };
 
   // 🔥 [핵심 솔루션] 절대로 가로가 잘리지 않는 1:1 픽셀 매핑 PDF 엔진 🔥
-const downloadDirectPDF = async () => {
-  if (!userSaju || !userInfo) return;
-  setIsDownloading(true);
+  const downloadDirectPDF = async () => {
+    if (!userSaju || !userInfo) return;
+    
+    // 버튼을 누르면 먼저 스크롤을 맨 위로 올립니다 (html2canvas 스크롤 캡처 버그 방지)
+    window.scrollTo(0, 0);
+    setIsDownloading(true);
 
-  let tempDiv = null;
+    try {
+      if (!window.html2pdf) {
+        await new Promise((resolve) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+          script.onload = resolve;
+          document.head.appendChild(script);
+        });
+      }
 
-  try {
-    // html2pdf 로드
-    if (!window.html2pdf) {
-      await new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-        script.onload = resolve;
-        script.onerror = () => reject(new Error('html2pdf 로드 실패'));
-        document.head.appendChild(script);
-      });
-    }
+      // 화면에 영향을 받지 않는 독립적인 도화지를 맨 뒤에 생성합니다.
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = getReportHTML(userInfo, userSaju, selectedMenu);
+      
+      // 스마트폰 화면이 좁아도 도화지는 무조건 가로 800px로 빳빳하게 펴지게 강제 고정!
+      tempDiv.style.position = 'absolute';
+      tempDiv.style.top = '0';
+      tempDiv.style.left = '0';
+      tempDiv.style.width = '800px'; 
+      tempDiv.style.maxWidth = '800px'; 
+      tempDiv.style.zIndex = '-9999'; // 화면 최하단으로 숨김
+      tempDiv.style.background = '#FDFBF7';
+      document.body.appendChild(tempDiv);
 
-    tempDiv = document.createElement('div');
-    tempDiv.innerHTML = getReportHTML(userInfo, userSaju, selectedMenu);
+      // 리액트가 도화지에 10,000자를 렌더링할 때까지 1.5초를 넉넉하게 기다려줍니다. (하얀 백지 방지 기술)
+      await new Promise(r => setTimeout(r, 1500));
 
-    // ✅ 핵심 수정 3가지:
-    // 1. position:fixed + top:0,left:0 → html2canvas 렌더링 가능 영역 안에 배치
-    // 2. zIndex:9998 → 로딩 오버레이(9999)보다 낮아 유저 눈에 안 보임
-    //    (html2canvas는 형제 요소인 오버레이를 캡처하지 않으므로 PDF는 깨끗함)
-    // 3. document.fonts.ready → 구글 폰트 완전 로드 후 캡처
-    Object.assign(tempDiv.style, {
-      position:      'fixed',
-      top:           '0',
-      left:          '0',
-      width:         '800px',
-      zIndex:        '9998',
-      background:    '#FDFBF7',
-      pointerEvents: 'none',
-    });
+      // PDF의 폭을 HTML 도화지와 똑같이 800px, 1131px(A4비율)로 강제 지정해버립니다! (가로 잘림 완벽 방지)
+      const opt = {
+        margin:       0,
+        filename:     `${userInfo.name}_해피메리벨_VVIP리포트.pdf`,
+        image:        { type: 'jpeg', quality: 1.0 },
+        pagebreak:    { mode: ['css', 'legacy'] }, // 문단 중간이 썰리는 것을 방지
+        html2canvas:  { scale: 2, useCORS: true, windowWidth: 800, scrollY: 0 },
+        jsPDF:        { unit: 'px', format: [800, 1131], orientation: 'portrait' } 
+      };
 
-    document.body.appendChild(tempDiv);
-
-    // 폰트 완전 로드 + 레이아웃 완성 대기
-    await document.fonts.ready;
-    await new Promise(r => setTimeout(r, 2500));
-
-    const opt = {
-      margin:    0,
-      filename:  `${userInfo.name}_해피메리벨_VVIP리포트.pdf`,
-      image:     { type: 'jpeg', quality: 1.0 },
-      pagebreak: { mode: ['css', 'legacy'] },
-      html2canvas: {
-        scale:       2,
-        useCORS:     true,
-        allowTaint:  false,
-        logging:     false,
-        windowWidth: 800,
-        scrollX:     0,   // ✅ 스크롤 오프셋 보정
-        scrollY:     0,
-      },
-      jsPDF: {
-        unit:        'px',
-        format:      [800, 1131],
-        orientation: 'portrait',
-      },
-    };
-
-    await window.html2pdf().set(opt).from(tempDiv).save();
-
-  } catch (error) {
-    console.error('PDF 생성 오류:', error);
-    alert('PDF 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-  } finally {
-    if (tempDiv && document.body.contains(tempDiv)) {
+      await window.html2pdf().set(opt).from(tempDiv).save();
       document.body.removeChild(tempDiv);
+
+    } catch (error) {
+      console.error(error);
+      alert("PDF 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    } finally {
+      setIsDownloading(false);
     }
-    setIsDownloading(false);
-  }
-};
+  };
 
   const stars = useMemo(() => {
     return Array.from({ length: 50 }).map((_, i) => {
