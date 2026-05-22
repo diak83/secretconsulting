@@ -100,13 +100,13 @@ const generateProfessionalReport = (user, saju, menuId) => {
 
   const analysis1Text = [
     `본 프라이빗 컨설팅은 시중의 가벼운 점술이나 막연한 칭찬을 나열하는 행위를 엄격히 지양합니다. 천문학적 황경 기준으로 고객님의 명식을 심층 해부한다는 것은, 세상의 방대한 지식과 정보를 받아들이고 처리할 때 무의식적으로 작동하는 '가장 근본적인 인지 필터'를 찾아내는 일입니다. 정밀 해독 결과, ${name}님의 일간(Day Master)은 [ ${dm.name} ]의 기운으로 굳건하게 세팅되어 있습니다.`,
-    `이 기운이 뜻하는 바는 명확합니다. ${dm.nature}처럼 당신은 본능적으로 지식을 흡수할 때 핵심 맥락을 단숨에 밝혀내며, 거시적인 관점에서 숲 전체를 조망하는 강력한 직관력을 천부적으로 부여받았습니다. 남들이 정해놓은 획일화된 정답만을 기계처럼 복사해 넣는 학습 환경에 노출될 경우, 당신의 뇌는 극심한 지루함을 느끼며 에너지가 급격히 방전됩니다. 상위 1%의 영역으로 진입하기 위해서는 당신이 가진 본연의 폭발적인 열정과 통찰의 렌즈를 가장 정교한 궤도 위에 올려놓아야만 합니다. 이것은 단순한 노력의 문제가 아니라, 당신의 뇌가 세상을 인식하는 방식을 완벽하게 해킹하는 고도의 전략적 접근을 요구합니다.`,
-    `현재 당신을 이루고 있는 5가지 기운(오행)의 분포를 스캔해보면 [ ${elementCountsStr}] 로 구성되어 있습니다. 특정 기운이 편중되거나 텅 비어버리면, 뇌의 특정 회로가 치명적인 병목 현상(Bottleneck)을 겪으며 성취의 한계치에 부딪히게 됩니다.`
+    `이 기운이 뜻하는 바는 명확합니다. ${dm.nature}처럼 당신은 본능적으로 지식을 흡수할 때 핵심 맥락을 단숨에 밝혀내며, 거시적인 관점에서 숲 전체를 조망하는 강력한 직관력을 천부적으로 부여받았습니다. 남들이 정해놓은 획일화된 정답만을 기계처럼 복사해 넣는 학습 환경에 노출될 경우, 당신의 뇌는 극심한 지루함을 느끼며 에너지가 급격히 방전됩니다.`,
+    `현재 당신을 이루고 있는 오행의 분포를 스캔해보면 [ ${elementCountsStr}] 로 구성되어 있습니다. 특정 기운이 편중되거나 텅 비어버리면, 뇌의 특정 회로가 치명적인 병목 현상(Bottleneck)을 겪으며 성취의 한계치에 부딪히게 됩니다.`
   ];
   
   const analysis2Text = [
     `명리학의 오행 균형은 뇌과학의 신경전달물질 분비 패턴과 소름 돋을 정도로 일치합니다. 현재 ${name}님의 패턴에서 뿜어져 나오는 극강의 천재성과 잠재력은 '${excessEl}' 기운에서 발현됩니다. 본인의 흥미를 자극하는 주제를 만났을 때, 당신은 남들이 10시간 걸려 구겨 넣을 분량을 단 1시간 만에 꿰뚫어 보는 파괴적인 몰입도를 보여줍니다.`,
-    `하지만 가장 객관적인 취약점이자 깊은 슬럼프의 수렁으로 당신을 밀어 넣는 뇌의 블랙홀은 바로 '${saju.lacking}' 기운의 심각한 결핍입니다. 이 에너지가 순환되지 못하면, 아무리 의지력을 불태우며 밤을 새워도 지식이 머리에서 튕겨 나가게 됩니다. 중요한 시험이나 실전 프로젝트 앞에서 머릿속이 하얗게 백지장처럼 얼어붙는 근본적인 이유가 바로 이 밸런스의 붕괴에 숨겨져 있었습니다.`,
+    `하지만 가장 객관적인 취약점이자 깊은 슬럼프의 수렁으로 당신을 밀어 넣는 뇌의 블랙홀은 바로 '${saju.lacking}' 기운의 결핍입니다. 이 에너지가 순환되지 못하면, 아무리 의지력을 불태우며 밤을 새워도 지식이 머리에서 튕겨 나가게 됩니다. 중요한 시험이나 실전 프로젝트 앞에서 머릿속이 하얗게 백지장처럼 얼어붙는 근본적인 이유가 바로 이 밸런스의 붕괴에 숨겨져 있었습니다.`,
   ];
   
   const prescriptionText = [
@@ -134,6 +134,21 @@ const generateProfessionalReport = (user, saju, menuId) => {
   ];
 };
 
+const PREVIEW_DATA = {
+  1: (user, saju) => `사주 명리학의 정밀 분석 결과, ${user.name}님은 ${DAY_MASTERS[saju.dayMaster]?.name || '태양'}의 기운을 타고났습니다.\n상위 1%가 가진 본능적 직관을 가졌지만, 특정 오행의 불균형으로 인해 현재의 성취에 한계를 느낄 수 있습니다.`,
+  2: (user, saju) => {
+    const age = calculateAge(user.birthDate);
+    if (age <= 7) return `현재 ${age}세 유아기인 ${user.name} 아이에게 억지로 주입하는 교육은 사주의 기운을 질식시킵니다.\n명리학적으로 분석한 가장 완벽한 두뇌 발달과 영재성 발현의 치트키는 전혀 다른 곳에 있습니다.`;
+    if (age <= 13) return `현재 ${age}세 초등 시기인 ${user.name} 학생의 평생 공부 그릇이 결정되는 골든타임입니다.\n명리학적으로 분석한 자기주도학습의 완성을 위한 시크릿 치트키는 무엇일까요?`;
+    if (age <= 19) return `현재 ${age}세 수험생인 ${user.name} 학생에게 대치동식 스파르타 교육은 오히려 독이 될 수 있습니다.\n명리학적으로 분석한 1등급 도약을 위한 가장 완벽한 성적 향상의 치트키는 전혀 다른 곳에 있습니다.`;
+    return `현재 성인(${age}세)인 ${user.name}님에게 10대 시절의 단순 암기법은 더 이상 통하지 않습니다.\n명리학적으로 분석한 자격증/고시/직무 등 실전 아웃풋을 극대화할 어른의 치트키는...`;
+  },
+  3: (user, saju) => `주변 환경과 물건(풍수)의 미세한 변화가 현재 사주에 막혀있는 에너지를 크게 뚫어줍니다.\n${user.name}님의 집중력을 비약적으로 끌어올리기 위해 반드시 책상 위에 두어야 할 시크릿 아이템은...`,
+  4: (user, saju) => `시각적 에너지는 오행을 뇌파로 전달하는 가장 강력한 매개체입니다.\n현재 사주 원국의 열기를 식히고/얼어붙은 기운을 녹여내기 위해 필요한 절대적인 운명의 컬러는...`,
+  5: (user, saju) => `타고난 재능을 영리하게 활용할 때 평범한 삶을 넘어 압도적인 성공을 쟁취합니다.\n현재 명식 구조상 향후 가장 크게 대성할 수 있는 구체적인 직업군과 그 이유는...`,
+  6: (user, saju) => `어떤 무리에 있더라도 반드시 분위기를 장악하거나 신뢰를 얻는 고유의 아우라가 있습니다.\n${user.name}님 본인도 미처 완벽히 자각하지 못했던 잠재력과 리더십의 본질은...`,
+};
+
 export default function SajuLearningApp() {
   const [currentView, setCurrentView] = useState('intro');
   const [userInfo, setUserInfo] = useState({ name: '', birthDate: '', birthTime: '', calendarType: 'solar', isTimeUnknown: false });
@@ -144,7 +159,6 @@ export default function SajuLearningApp() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
-  // 🚨 [앱 뻗음 방지] 결제 후 복구 로직 (에러 캐치 완벽 강화)
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const isSuccess = urlParams.get('success');
@@ -300,7 +314,7 @@ export default function SajuLearningApp() {
     });
   };
 
-  // 🔥 [안전한 운영 모드] 인쇄 창을 띄워 고객이 스스로 PDF로 깔끔하게 저장하게 유도합니다 🔥
+  // 🔥 1만 자 리포트를 백지/크래시 없이 PDF로 저장하게 유도하는 안전한 인쇄 창 호출 함수
   const openPrintDialog = () => {
     window.print();
   };
@@ -318,7 +332,6 @@ export default function SajuLearningApp() {
 
   return (
     <div className="min-h-screen text-[rgba(255,255,255,0.88)] font-sans relative bg-[#0D0B1A]">
-      
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden no-print">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,#2A1B4A_0%,transparent_70%),radial-gradient(ellipse_50%_40%_at_80%_100%,#1A2840_0%,transparent_60%)]"></div>
         {stars}
@@ -398,6 +411,27 @@ export default function SajuLearningApp() {
                   <input type="date" required
                     className="w-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.15)] rounded-xl text-white text-[13.5px] px-3 py-3.5 outline-none focus:border-[rgba(212,168,67,0.5)] [color-scheme:dark]"
                     value={userInfo.birthDate} onChange={(e) => setUserInfo({...userInfo, birthDate: e.target.value})}
+                  />
+                </div>
+
+                {/* 🔥 부활한 시간 입력창! 🔥 */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold flex items-center gap-1">⏰ 태어난 시</label>
+                    <label className="flex items-center gap-1.5 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="w-3.5 h-3.5 accent-[#E8C87A] bg-[rgba(255,255,255,0.07)] border-[rgba(255,255,255,0.15)] rounded cursor-pointer"
+                        checked={userInfo.isTimeUnknown}
+                        onChange={(e) => setUserInfo({...userInfo, isTimeUnknown: e.target.checked, birthTime: e.target.checked ? '' : userInfo.birthTime})}
+                      />
+                      <span className={`text-[10.5px] font-bold ${userInfo.isTimeUnknown ? 'text-[#E8C87A]' : 'text-[rgba(255,255,255,0.5)]'}`}>모름</span>
+                    </label>
+                  </div>
+                  <input type="time"
+                    disabled={userInfo.isTimeUnknown}
+                    className={`w-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.15)] rounded-xl text-white text-[13.5px] px-3 py-3.5 outline-none focus:border-[rgba(212,168,67,0.5)] [color-scheme:dark] ${userInfo.isTimeUnknown ? 'opacity-30 cursor-not-allowed' : ''}`}
+                    value={userInfo.birthTime} onChange={(e) => setUserInfo({...userInfo, birthTime: e.target.value})}
                   />
                 </div>
 
