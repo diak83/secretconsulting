@@ -574,26 +574,23 @@ export default function SajuLearningApp() {
         });
       }
 
-      // 화면에 영향을 받지 않는 독립적인 도화지를 맨 뒤에 생성합니다.
+      // 화면에 영향을 받지 않는 독립적인 도화지를 물리적으로 화면 "맨 왼쪽 밖"에 생성합니다.
+      // 이렇게 해야 모바일 좁은 화면에서도 800px이 절대 안 구겨지고 강제 유지됩니다!
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = getReportHTML(userInfo, userSaju, selectedMenu);
       
-      // 스마트폰 화면이 좁아도 도화지는 무조건 가로 800px로 빳빳하게 펴지게 강제 고정!
       tempDiv.style.position = 'absolute';
       tempDiv.style.top = '0';
-      tempDiv.style.left = '0';
+      tempDiv.style.left = '-15000px'; // 🚨 핵심: 화면 뒷단이 아닌, 화면 아주 멀리 밖으로 보냅니다!
       tempDiv.style.width = '800px'; 
-      tempDiv.style.maxWidth = '800px'; 
-      tempDiv.style.zIndex = '-9999'; // 화면 최하단으로 숨김
-      tempDiv.style.background = '#FDFBF7';
+      tempDiv.style.backgroundColor = '#FDFBF7';
       document.body.appendChild(tempDiv);
 
-      // 리액트가 도화지에 10,000자를 렌더링할 때까지 1.5초를 넉넉하게 기다려줍니다. (하얀 백지 방지 기술)
-      await new Promise(r => setTimeout(r, 1500));
+      // 리액트가 도화지에 10,000자를 렌더링할 때까지 2초를 넉넉하게 기다려줍니다. (하얀 백지 완벽 방지)
+      await new Promise(r => setTimeout(r, 2000));
 
-      // PDF의 폭을 HTML 도화지와 똑같이 800px, 1131px(A4비율)로 강제 지정해버립니다! (가로 잘림 완벽 방지)
       const opt = {
-        margin:       0,
+        margin:       [15, 0, 15, 0], // 상하 여백만 주고 좌우는 꽉 채웁니다.
         filename:     `${userInfo.name}_해피메리벨_VVIP리포트.pdf`,
         image:        { type: 'jpeg', quality: 1.0 },
         pagebreak:    { mode: ['css', 'legacy'] }, // 문단 중간이 썰리는 것을 방지
@@ -602,6 +599,8 @@ export default function SajuLearningApp() {
       };
 
       await window.html2pdf().set(opt).from(tempDiv).save();
+      
+      // 다운로드가 끝나면 임시 도화지를 깔끔하게 지웁니다.
       document.body.removeChild(tempDiv);
 
     } catch (error) {
@@ -648,7 +647,7 @@ export default function SajuLearningApp() {
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap');
         .font-serif { font-family: 'Noto Serif KR', serif; }
-        .font-sans { font-family: 'Noto Sans KR', sans-serif; }
+        .font-sans { font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; }
         @keyframes twinkle { 0%, 100% { transform: scale(1); } 50% { opacity: 0.9 !important; transform: scale(1.3); } }
         @keyframes ndrift { 0%, 100% { transform: translate(0,0) scale(1); } 33% { transform: translate(20px,-15px) scale(1.05); } 66% { transform: translate(-10px,20px) scale(0.95); } }
         @keyframes ndrift-reverse { 0%, 100% { transform: translate(0,0) scale(1); } 33% { transform: translate(-10px,20px) scale(0.95); } 66% { transform: translate(20px,-15px) scale(1.05); } }
