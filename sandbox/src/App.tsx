@@ -64,9 +64,9 @@ const DAY_MASTERS = {
 };
 
 const ELEMENT_PRESCRIPTION = {
-  "목(나무)": { color: "딥 그린, 터콰이즈, 차분한 우드톤", item: "원목 소재의 가구, 곧게 뻗은 식물", action: "무언가를 배우기 전 전체적인 목차와 뼈대를 기획하는 습관", symbols: [{ emoji: "🌳", label: "성장 에너지" }, { emoji: "📈", label: "구조화 훈련" }, { emoji: "🧘", label: "아침 스트레칭" }] },
+  "목(나무)": { color: "딥 그린, 터콰이즈, 차분한 우드톤", item: "원목 소재의 가구, 곧게 뻗은 식물", action: "전체적인 목차와 뼈대를 기획하는 습관", symbols: [{ emoji: "🌳", label: "성장 에너지" }, { emoji: "📈", label: "구조화 훈련" }, { emoji: "🧘", label: "아침 스트레칭" }] },
   "화(불)": { color: "피치 코랄, 버건디, 인디고 핑크", item: "따뜻한 조명, 향초, 붉은 계열의 다이어리", action: "배운 것을 남에게 설명해보는 출력(Output) 중심의 학습법", symbols: [{ emoji: "🔥", label: "출력(Output)" }, { emoji: "⏳", label: "텐션 조절" }, { emoji: "🗣️", label: "티칭 학습법" }] },
-  "토(흙)": { color: "오트밀 베이지, 머스타드, 브릭 레드", item: "안정감을 주는 방석, 도자기 컵, 정리 수납장", action: "흔들리지 않는 고정된 루틴 만들기, 복습 위주 학습", symbols: [{ emoji: "⛰️", label: "고정 루틴" }, { emoji: "🔁", label: "반복 복습" }, { emoji: "🗂️", label: "공간 정리" }] },
+  "토(흙)": { color: "오트밀 베이지, 머스타드, 브릭 레드", item: "안정감을 주는 방석, 도자기 컵, 정리 수납장", action: "흔들리지 않는 고정된 루틴(매일 같은 시간, 장소) 만들기", symbols: [{ emoji: "⛰️", label: "고정 루틴" }, { emoji: "🔁", label: "반복 복습" }, { emoji: "🗂️", label: "공간 정리" }] },
   "금(쇠)": { color: "스노우 화이트, 실버 그레이, 차콜", item: "금속 재질의 거치대나 태블릿, 세공된 펜", action: "오답 노트를 통한 원리 분석 및 객관화, 감정 배제", symbols: [{ emoji: "⚔️", label: "원리 분석" }, { emoji: "🧊", label: "감정 배제" }, { emoji: "🎯", label: "약점 타격" }] },
   "수(물)": { color: "미드나잇 블루, 블랙, 딥 퍼플", item: "노이즈 캔슬링 헤드폰, 가습기", action: "방해받지 않는 심야 시간을 활용한 딥워크, 명상", symbols: [{ emoji: "🌊", label: "심야 딥워크" }, { emoji: "🎧", label: "외부 차단" }, { emoji: "🧘‍♂️", label: "뇌파 안정" }] },
 };
@@ -87,7 +87,16 @@ const calculateAge = (birthDateStr) => {
   return currentYear - birthYear + 1; 
 };
 
-// 🔥 10,000자 분량 VVIP 분석 보고서 생성 엔진 🔥
+const PREVIEW_DATA = {
+  1: (user, saju) => `사주 명리학의 정밀 분석 결과, ${user?.name || '고객'}님은 ${DAY_MASTERS[saju?.dayMaster]?.name || '태양'}의 기운을 타고났습니다.\n상위 1%가 가진 본능적 직관을 가졌지만, 특정 오행의 불균형으로 인해 현재의 성취에 한계를 느낄 수 있습니다.`,
+  2: (user, saju) => `현재 ${calculateAge(user?.birthDate)}세인 ${user?.name || '고객'}님에게 가장 완벽한 성적/성과 향상의 치트키는 전혀 다른 곳에 있습니다.\n명리학적으로 분석한 1등급 도약을 위한 맞춤형 학습법을 공개합니다.`,
+  3: (user, saju) => `주변 환경과 물건(풍수)의 미세한 변화가 현재 사주에 막혀있는 에너지를 크게 뚫어줍니다.\n${user?.name || '고객'}님의 집중력을 비약적으로 끌어올리기 위해 반드시 곁에 두어야 할 시크릿 아이템은...`,
+  4: (user, saju) => `시각적 에너지는 오행을 뇌파로 전달하는 가장 강력한 매개체입니다.\n현재 사주 원국의 열기를 식히고/얼어붙은 기운을 녹여내기 위해 필요한 절대적인 운명의 컬러는...`,
+  5: (user, saju) => `타고난 재능을 영리하게 활용할 때 평범한 삶을 넘어 압도적인 성공을 쟁취합니다.\n현재 명식 구조상 향후 가장 크게 대성할 수 있는 구체적인 직업군과 그 이유는...`,
+  6: (user, saju) => `어떤 무리에 있더라도 반드시 분위기를 장악하거나 신뢰를 얻는 고유의 아우라가 있습니다.\n${user?.name || '고객'}님 본인도 미처 완벽히 자각하지 못했던 잠재력과 리더십의 본질은...`,
+};
+
+// 🔥 5,000자 분량 VVIP 분석 보고서 생성 엔진 🔥
 const generateProfessionalReport = (user, saju, menuId) => {
   if (!user || !saju) return [];
   const name = user.name || '고객';
@@ -134,21 +143,6 @@ const generateProfessionalReport = (user, saju, menuId) => {
   ];
 };
 
-const PREVIEW_DATA = {
-  1: (user, saju) => `사주 명리학의 정밀 분석 결과, ${user.name}님은 ${DAY_MASTERS[saju.dayMaster]?.name || '태양'}의 기운을 타고났습니다.\n상위 1%가 가진 본능적 직관을 가졌지만, 특정 오행의 불균형으로 인해 현재의 성취에 한계를 느낄 수 있습니다.`,
-  2: (user, saju) => {
-    const age = calculateAge(user.birthDate);
-    if (age <= 7) return `현재 ${age}세 유아기인 ${user.name} 아이에게 억지로 주입하는 교육은 사주의 기운을 질식시킵니다.\n명리학적으로 분석한 가장 완벽한 두뇌 발달과 영재성 발현의 치트키는 전혀 다른 곳에 있습니다.`;
-    if (age <= 13) return `현재 ${age}세 초등 시기인 ${user.name} 학생의 평생 공부 그릇이 결정되는 골든타임입니다.\n명리학적으로 분석한 자기주도학습의 완성을 위한 시크릿 치트키는 무엇일까요?`;
-    if (age <= 19) return `현재 ${age}세 수험생인 ${user.name} 학생에게 대치동식 스파르타 교육은 오히려 독이 될 수 있습니다.\n명리학적으로 분석한 1등급 도약을 위한 가장 완벽한 성적 향상의 치트키는 전혀 다른 곳에 있습니다.`;
-    return `현재 성인(${age}세)인 ${user.name}님에게 10대 시절의 단순 암기법은 더 이상 통하지 않습니다.\n명리학적으로 분석한 자격증/고시/직무 등 실전 아웃풋을 극대화할 어른의 치트키는...`;
-  },
-  3: (user, saju) => `주변 환경과 물건(풍수)의 미세한 변화가 현재 사주에 막혀있는 에너지를 크게 뚫어줍니다.\n${user.name}님의 집중력을 비약적으로 끌어올리기 위해 반드시 책상 위에 두어야 할 시크릿 아이템은...`,
-  4: (user, saju) => `시각적 에너지는 오행을 뇌파로 전달하는 가장 강력한 매개체입니다.\n현재 사주 원국의 열기를 식히고/얼어붙은 기운을 녹여내기 위해 필요한 절대적인 운명의 컬러는...`,
-  5: (user, saju) => `타고난 재능을 영리하게 활용할 때 평범한 삶을 넘어 압도적인 성공을 쟁취합니다.\n현재 명식 구조상 향후 가장 크게 대성할 수 있는 구체적인 직업군과 그 이유는...`,
-  6: (user, saju) => `어떤 무리에 있더라도 반드시 분위기를 장악하거나 신뢰를 얻는 고유의 아우라가 있습니다.\n${user.name}님 본인도 미처 완벽히 자각하지 못했던 잠재력과 리더십의 본질은...`,
-};
-
 export default function SajuLearningApp() {
   const [currentView, setCurrentView] = useState('intro');
   const [userInfo, setUserInfo] = useState({ name: '', birthDate: '', birthTime: '', calendarType: 'solar', isTimeUnknown: false });
@@ -159,6 +153,7 @@ export default function SajuLearningApp() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
+  // 🚨 안전한 결제 데이터 복구 로직 (에러 캐치)
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const isSuccess = urlParams.get('success');
@@ -314,7 +309,7 @@ export default function SajuLearningApp() {
     });
   };
 
-  // 🔥 1만 자 리포트를 백지/크래시 없이 PDF로 저장하게 유도하는 안전한 인쇄 창 호출 함수
+  // 🔥 확실하고 안전한 인쇄(PDF 변환) 창 호출 로직
   const openPrintDialog = () => {
     window.print();
   };
@@ -357,7 +352,6 @@ export default function SajuLearningApp() {
           .print-text-gray { color: #444 !important; }
           .print-border { border-color: #E8C87A !important; }
           .print-bg-light { background-color: #FDFBF7 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-          /* 페이지 잘림 방지 (핵심!) */
           .page-break-avoid { page-break-inside: avoid !important; break-inside: avoid !important; }
           .page-break-after { page-break-after: always !important; break-after: page !important; }
         }
@@ -396,9 +390,11 @@ export default function SajuLearningApp() {
                   <div className="flex items-center justify-between mb-2">
                     <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold flex items-center gap-1">🗓 생년월일</label>
                     <div className="flex bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-lg p-0.5 gap-0.5">
+                      {/* 🔥 윤달 버튼 완벽 복구 🔥 */}
                       {[
                         { id: 'solar', label: '양력' },
-                        { id: 'lunar', label: '음력' }
+                        { id: 'lunar', label: '음력' },
+                        { id: 'leap', label: '윤달' }
                       ].map(type => (
                         <button key={type.id} type="button" onClick={() => setUserInfo({...userInfo, calendarType: type.id})}
                           className={`text-[9.5px] font-bold px-2 py-1 rounded-md transition-colors ${userInfo.calendarType === type.id ? 'bg-[#E8C87A] text-[#1A1530]' : 'text-[rgba(255,255,255,0.5)] hover:text-white'}`}
@@ -414,7 +410,6 @@ export default function SajuLearningApp() {
                   />
                 </div>
 
-                {/* 🔥 부활한 시간 입력창! 🔥 */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold flex items-center gap-1">⏰ 태어난 시</label>
@@ -509,6 +504,16 @@ export default function SajuLearningApp() {
                 </h1>
               </div>
 
+              {/* 미리보기 (항상 노출) */}
+              <div className="bg-[linear-gradient(135deg,#FFF8F0,#FEF0F8)] border-[1.5px] border-[#F5D8C8] rounded-[18px] p-[18px_16px] mb-4">
+                <div className="inline-flex items-center gap-1 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] text-[9.5px] font-bold px-[10px] py-[3px] rounded-full mb-2.5 tracking-[0.5px]">
+                  ✦ 핵심 진단 (미리보기)
+                </div>
+                <p className="text-[13.5px] text-[#2A1530] leading-[1.8] font-medium break-keep whitespace-pre-line">
+                  {PREVIEW_DATA[selectedMenu?.id || 1](userInfo, userSaju)}
+                </p>
+              </div>
+
               {/* 🔥 안전한 인쇄(PDF 저장) UI 및 안내문 🔥 */}
               {unlockedMenus.includes(selectedMenu?.id) ? (
                 <div className="bg-[#111625] rounded-[20px] shadow-xl p-5 mb-6 relative overflow-hidden border border-[#E8C87A]/30">
@@ -518,7 +523,7 @@ export default function SajuLearningApp() {
                     </p>
                     <button onClick={openPrintDialog} className="inline-flex items-center gap-2 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] font-black text-[13px] px-5 py-4 rounded-xl w-full justify-center shadow-lg active:scale-95 transition-transform">
                       <Printer size={18} strokeWidth={2.5} />
-                      10,000자 VVIP 리포트 저장 (PDF)
+                      VVIP 리포트 저장하기 (PDF)
                     </button>
                   </div>
                 </div>
@@ -529,7 +534,7 @@ export default function SajuLearningApp() {
                   ) : (
                     <>
                       <div className="text-center mb-5">
-                        <h3 className="font-serif text-[16px] font-black text-[#1A1530] mb-2">✨ 10,000자 전체 분석 열람하기</h3>
+                        <h3 className="font-serif text-[16px] font-black text-[#1A1530] mb-2">✨ VVIP 정밀 분석 열람하기</h3>
                         <div className="flex items-baseline justify-center gap-2">
                           <span className="text-[26px] font-black text-[#E8607A] font-serif">1,000</span>
                           <span className="text-[13px] text-[#5A4080] font-bold">원</span>
@@ -554,7 +559,7 @@ export default function SajuLearningApp() {
                       {section.paragraphs.map((text, pIdx) => {
                         const isSubtitle = text.startsWith('【');
                         if (isSubtitle) return <h5 key={pIdx} className="font-serif text-[15px] font-black text-[#A84050] mt-8 mb-3">{text.replace('【', '').replace('】', '')}</h5>;
-                        return <p key={pIdx} className="text-[14px] text-[#2A1530] leading-[1.9] mb-4 text-justify">{text}</p>;
+                        return <p key={pIdx} className="text-[14px] text-[#2A1530] leading-[1.9] mb-4 text-justify break-keep">{text}</p>;
                       })}
                     </div>
                   ))}
