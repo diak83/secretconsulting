@@ -561,62 +561,74 @@ const downloadDirectPDF = async () => {
   if (!userSaju || !userInfo) return;
   setIsDownloading(true);
 
+  let tempDiv = null;
+
   try {
+    // html2pdf 로드
     if (!window.html2pdf) {
       await new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
         script.onload = resolve;
-        script.onerror = reject;
+        script.onerror = () => reject(new Error('html2pdf 로드 실패'));
         document.head.appendChild(script);
       });
     }
 
-    const tempDiv = document.createElement('div');
+    tempDiv = document.createElement('div');
     tempDiv.innerHTML = getReportHTML(userInfo, userSaju, selectedMenu);
 
-    // ✅ 핵심 수정: z-index 음수 제거 → 화면 왼쪽 밖으로 위치 이동
+    // ✅ 핵심 수정 3가지:
+    // 1. position:fixed + top:0,left:0 → html2canvas 렌더링 가능 영역 안에 배치
+    // 2. zIndex:9998 → 로딩 오버레이(9999)보다 낮아 유저 눈에 안 보임
+    //    (html2canvas는 형제 요소인 오버레이를 캡처하지 않으므로 PDF는 깨끗함)
+    // 3. document.fonts.ready → 구글 폰트 완전 로드 후 캡처
     Object.assign(tempDiv.style, {
-      position: 'absolute',
-      top: '0px',
-      left: '-9999px',   // 화면 밖으로 밀어냄 (기존 left:0 + z-index:-9999 방식 제거)
-      width: '800px',
-      maxWidth: '800px',
-      background: '#FDFBF7',
-      zIndex: '1',        // 양수 z-index → html2canvas 정상 캡처 가능
-      overflow: 'visible',
+      position:      'fixed',
+      top:           '0',
+      left:          '0',
+      width:         '800px',
+      zIndex:        '9998',
+      background:    '#FDFBF7',
+      pointerEvents: 'none',
     });
 
     document.body.appendChild(tempDiv);
 
-    // ✅ 구글 폰트(Noto Sans KR) 완전 로드까지 대기
+    // 폰트 완전 로드 + 레이아웃 완성 대기
     await document.fonts.ready;
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 2500));
 
     const opt = {
-      margin: 0,
-      filename: `${userInfo.name}_해피메리벨_VVIP리포트.pdf`,
-      image: { type: 'jpeg', quality: 1.0 },
+      margin:    0,
+      filename:  `${userInfo.name}_해피메리벨_VVIP리포트.pdf`,
+      image:     { type: 'jpeg', quality: 1.0 },
       pagebreak: { mode: ['css', 'legacy'] },
       html2canvas: {
-        scale: 2,
-        useCORS: true,
-        allowTaint: false,
-        logging: false,
+        scale:       2,
+        useCORS:     true,
+        allowTaint:  false,
+        logging:     false,
         windowWidth: 800,
-        x: 0,
-        y: 0,
+        scrollX:     0,   // ✅ 스크롤 오프셋 보정
+        scrollY:     0,
       },
-      jsPDF: { unit: 'px', format: [800, 1131], orientation: 'portrait' },
+      jsPDF: {
+        unit:        'px',
+        format:      [800, 1131],
+        orientation: 'portrait',
+      },
     };
 
     await window.html2pdf().set(opt).from(tempDiv).save();
-    document.body.removeChild(tempDiv);
 
   } catch (error) {
     console.error('PDF 생성 오류:', error);
     alert('PDF 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
   } finally {
+    if (tempDiv && document.body.contains(tempDiv)) {
+      document.body.removeChild(tempDiv);
+    }
     setIsDownloading(false);
   }
 };
