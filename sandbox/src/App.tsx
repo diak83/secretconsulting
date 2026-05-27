@@ -4,7 +4,7 @@ import {
   Download, Lock, ChevronLeft, MessageCircle, Building, Crown, Sprout,
   Sun, Mountain, Zap, Droplets,
 } from "lucide-react";
-import * as PortOne from "@portone/browser-sdk/v2";
+import PortOne from "@portone/browser-sdk";
 // 👇 파이어베이스 연결 마스터 키 👇
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
