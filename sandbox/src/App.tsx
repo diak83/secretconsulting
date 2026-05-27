@@ -4,7 +4,7 @@ import {
   Download, Lock, ChevronLeft, MessageCircle, Building, Crown, Sprout,
   Sun, Mountain, Zap, Droplets,
 } from "lucide-react";
-import { loadTossPayments } from "@tosspayments/payment-sdk";
+import PortOne from "@portone/browser-sdk/v2";
 // 👇 파이어베이스 연결 마스터 키 👇
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
@@ -356,46 +356,55 @@ export default function SajuLearningApp() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
-  // 파이어베이스 데이터베이스 저장
+  // 결제 성공 처리 공통 함수
+  const handlePaymentSuccess = async (savedUserInfo, savedUserSaju, savedMenu) => {
+    setUserInfo(savedUserInfo);
+    setUserSaju(savedUserSaju);
+    setSelectedMenu(savedMenu);
+    setUnlockedMenus([savedMenu.id]);
+    setCurrentView('result');
+
+    try {
+      await addDoc(collection(db, "paid_customers"), {
+        customerName: savedUserInfo.name,
+        birthDate: savedUserInfo.birthDate,
+        purchasedMenu: savedMenu.title,
+        sajuDayMaster: savedUserSaju.dayMaster,
+        paymentAmount: 1000,
+        paymentDate: new Date().toISOString()
+      });
+      alert("🎉 결제가 완료되었습니다!\n프라이빗 사주 컨설팅 결과를 확인하세요.");
+    } catch (e) {
+      console.error("데이터베이스 저장 오류: ", e);
+      alert("결제는 성공했으나, 저장 중 오류가 발생했습니다. 고객센터로 문의해주세요.");
+    }
+  };
+
+  // 파이어베이스 데이터베이스 저장 (포트원 V2 리다이렉트 결과 처리)
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
+    // 포트원 V2: 성공 시 paymentId / txId, 실패 시 code / message
+    const portonePaymentId = urlParams.get('paymentId');
+    const portoneCode = urlParams.get('code');
+    // 레거시 호환
     const isSuccess = urlParams.get('success');
     const isFail = urlParams.get('fail');
 
-    if (isSuccess === 'true') {
+    const isPaymentSuccess = isSuccess === 'true' || !!portonePaymentId;
+    const isPaymentFail = isFail === 'true' || !!portoneCode;
+
+    if (isPaymentSuccess) {
       const savedUserInfo = JSON.parse(localStorage.getItem('sajuApp_userInfo'));
       const savedUserSaju = JSON.parse(localStorage.getItem('sajuApp_userSaju'));
       const savedMenu = JSON.parse(localStorage.getItem('sajuApp_selectedMenu'));
 
       if (savedUserInfo && savedUserSaju && savedMenu) {
-        setUserInfo(savedUserInfo);
-        setUserSaju(savedUserSaju);
-        setSelectedMenu(savedMenu);
-        setUnlockedMenus([savedMenu.id]);
-        setCurrentView('result'); 
-
-        const saveToDatabase = async () => {
-          try {
-            await addDoc(collection(db, "paid_customers"), {
-              customerName: savedUserInfo.name,
-              birthDate: savedUserInfo.birthDate,
-              purchasedMenu: savedMenu.title,
-              sajuDayMaster: savedUserSaju.dayMaster,
-              paymentAmount: 1000,
-              paymentDate: new Date().toISOString()
-            });
-            alert("🎉 테스트 결제가 완료되었습니다!\n(대표님의 파이어베이스 금고에 고객 정보가 저장되었습니다.)");
-          } catch (e) {
-            console.error("금고 저장 에러: ", e);
-            alert("결제는 성공했으나, 금고 저장 중 오류가 발생했습니다.");
-          }
-        };
-
-        saveToDatabase();
+        handlePaymentSuccess(savedUserInfo, savedUserSaju, savedMenu);
       }
       window.history.replaceState({}, document.title, window.location.pathname);
-    } else if (isFail === 'true') {
-      alert("결제 과정에서 오류가 발생했거나 취소하셨습니다.");
+    } else if (isPaymentFail) {
+      const errorMsg = urlParams.get('message') || '결제 과정에서 오류가 발생했거나 취소하셨습니다.';
+      alert(errorMsg);
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
@@ -493,25 +502,53 @@ export default function SajuLearningApp() {
   };
 
   const handlePayment = async (method = '카드') => {
+    // 결제 전 로컬스토리지에 사용자 정보 저장 (리다이렉트 후 복구용)
     localStorage.setItem('sajuApp_userInfo', JSON.stringify(userInfo));
     localStorage.setItem('sajuApp_userSaju', JSON.stringify(userSaju));
     localStorage.setItem('sajuApp_selectedMenu', JSON.stringify(selectedMenu));
 
-    const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'; 
-    const tossPayments = await loadTossPayments(clientKey);
+    const paymentId = `payment_${new Date().getTime()}`;
 
-    tossPayments.requestPayment(method, {
-      amount: 1000,
-      orderId: 'order_' + new Date().getTime(),
-      orderName: `VVIP 사주 컨설팅 - ${selectedMenu.title.replace('\n', ' ')}`,
-      customerName: userInfo.name || '고객',
-      successUrl: window.location.origin + window.location.pathname + '?success=true',
-      failUrl: window.location.origin + window.location.pathname + '?fail=true',
-    }).catch(function (error) {
-      if (error.code === 'USER_CANCEL') {
-        alert("결제를 취소하셨습니다.");
+    try {
+      // 포트원 V2 결제 요청 (KG이니시스)
+      const response = await PortOne.requestPayment({
+        storeId: "store-ec48c4ea-79d3-4eaa-a2e8-3511a8dafb66",
+        channelKey: "channel-key-5cf13f4a-9e21-4d0b-acd7-3092fc702f11",
+        paymentId: paymentId,
+        orderName: `VVIP 사주 컨설팅 - ${selectedMenu.title.replace('\n', ' ')}`,
+        totalAmount: 1000,
+        currency: "KRW",
+        payMethod: "CARD",
+        // 모바일 리다이렉트 시 반환 URL (포트원이 paymentId 파라미터를 붙여서 리다이렉트)
+        redirectUrl: window.location.origin + window.location.pathname + '?paymentId=' + paymentId,
+        customer: {
+          fullName: userInfo.name || '고객',
+        },
+      });
+
+      // PC 팝업 모드: response가 바로 반환됨
+      if (response) {
+        if (response.code) {
+          // 결제 실패 또는 취소
+          if (response.code === 'FAILURE_TYPE_PG') {
+            alert("결제가 취소되었습니다.");
+          } else {
+            alert(`결제 중 오류가 발생했습니다.\n오류코드: ${response.code}\n${response.message || ''}`);
+          }
+        } else {
+          // 팝업 결제 성공 → 직접 성공 처리
+          const savedUserInfo = JSON.parse(localStorage.getItem('sajuApp_userInfo'));
+          const savedUserSaju = JSON.parse(localStorage.getItem('sajuApp_userSaju'));
+          const savedMenu = JSON.parse(localStorage.getItem('sajuApp_selectedMenu'));
+          if (savedUserInfo && savedUserSaju && savedMenu) {
+            await handlePaymentSuccess(savedUserInfo, savedUserSaju, savedMenu);
+          }
+        }
       }
-    });
+    } catch (error) {
+      console.error("포트원 결제 오류:", error);
+      alert("결제 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    }
   };
 
   // 🔥 VVIP PDF 다운로드 마법 함수 (브라우저 인쇄 모드 호출) 🔥
