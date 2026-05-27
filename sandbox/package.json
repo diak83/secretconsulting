@@ -1,9 +1,4 @@
 {
-"dependencies": {
-  "@portone/browser-sdk": "^2.0.0",   ← 이 줄 추가
-  "react": "...",
-  ...
-}
   "name": "react-vite-ts",
   "private": true,
   "version": "0.0.0",
@@ -15,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-   "firebase": "^10.11.1",
+  "@portone/browser-sdk": "^2.0.0",    
+    "firebase": "^10.11.1",
     "@tosspayments/payment-sdk": "^1.5.2",
     "lucide-react": "1.16.0",
     "react": "^19.0.0",
