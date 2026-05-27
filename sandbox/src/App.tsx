@@ -4,7 +4,7 @@ import {
   Download, Lock, ChevronLeft, MessageCircle, Building, Crown, Sprout,
   Sun, Mountain, Zap, Droplets,
 } from "lucide-react";
-import PortOne from "@portone/browser-sdk";
+
 // 👇 파이어베이스 연결 마스터 키 👇
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
@@ -511,7 +511,7 @@ export default function SajuLearningApp() {
 
     try {
       // 포트원 V2 결제 요청 (KG이니시스)
-      const response = await PortOne.requestPayment({
+      const response = await window.PortOne.requestPayment({
         storeId: "store-ec48c4ea-79d3-4eaa-a2e8-3511a8dafb66",
         channelKey: "channel-key-5cf13f4a-9e21-4d0b-acd7-3092fc702f11",
         paymentId: paymentId,
