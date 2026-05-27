@@ -348,7 +348,7 @@ const Starfield = () => {
 
 export default function SajuLearningApp() {
   const [currentView, setCurrentView] = useState('intro');
-  const [userInfo, setUserInfo] = useState({ name: '', birthDate: '', birthTime: '', calendarType: 'solar', isTimeUnknown: false });
+  const [userInfo, setUserInfo] = useState({ name: '', birthDate: '', birthTime: '', calendarType: 'solar', isTimeUnknown: false, email: '' });
   const [userSaju, setUserSaju] = useState({ dayMaster: '', main: '', lacking: '', excessive: '', pillars: [], counts: {} });
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [unlockedMenus, setUnlockedMenus] = useState([]);
@@ -562,8 +562,9 @@ export default function SajuLearningApp() {
         // 모바일 리다이렉트 시 반환 URL (포트원이 paymentId 파라미터를 붙여서 리다이렉트)
         redirectUrl: window.location.origin + window.location.pathname + '?paymentId=' + paymentId,
         customer: {
-          fullName: userInfo.name || '고객',
-        },
+  fullName: userInfo.name || '고객',
+  email: userInfo.email || 'guest@example.com',
+},
       });
 
       // PC 팝업 모드: response가 바로 반환됨
@@ -664,7 +665,13 @@ export default function SajuLearningApp() {
                     value={userInfo.name} onChange={(e) => setUserInfo({...userInfo, name: e.target.value})}
                   />
                 </div>
-                
+                <div>
+  <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold mb-2 flex items-center gap-1">✉️ 이메일</label>
+  <input type="email" placeholder="이메일을 입력해주세요" required
+    className="w-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.15)] rounded-xl text-white text-[13.5px] px-4 py-3.5 outline-none transition-colors focus:border-[rgba(212,168,67,0.5)] placeholder-[rgba(255,255,255,0.28)]"
+    value={userInfo.email} onChange={(e) => setUserInfo({...userInfo, email: e.target.value})}
+  />
+</div>
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold flex items-center gap-1">🗓 생년월일</label>
