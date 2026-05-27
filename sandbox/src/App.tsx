@@ -4,6 +4,7 @@ import {
   Download, Lock, ChevronLeft, MessageCircle, Building, Crown, Sprout,
   Sun, Mountain, Zap, Droplets,
 } from "lucide-react";
+import * as PortOne from "@portone/browser-sdk/v2";
 // 👇 파이어베이스 연결 마스터 키 👇
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
@@ -508,20 +509,9 @@ export default function SajuLearningApp() {
 
     const paymentId = `payment_${new Date().getTime()}`;
 
-    // 포트원 CDN SDK 동적 로드 (npm 패키지 불필요 - package.json 수정 없이 동작)
-    if (!window.PortOne) {
-      await new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.portone.io/v2/browser-sdk.js';
-        script.onload = resolve;
-        script.onerror = () => reject(new Error('포트원 SDK 로드 실패'));
-        document.head.appendChild(script);
-      });
-    }
-
     try {
       // 포트원 V2 결제 요청 (KG이니시스)
-      const response = await window.PortOne.requestPayment({
+      const response = await PortOne.requestPayment({
         storeId: "store-ec48c4ea-79d3-4eaa-a2e8-3511a8dafb66",
         channelKey: "channel-key-5cf13f4a-9e21-4d0b-acd7-3092fc702f11",
         paymentId: paymentId,
