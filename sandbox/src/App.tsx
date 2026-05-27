@@ -348,7 +348,7 @@ const Starfield = () => {
 
 export default function SajuLearningApp() {
   const [currentView, setCurrentView] = useState('intro');
-  const [userInfo, setUserInfo] = useState({ name: '', birthDate: '', birthTime: '', calendarType: 'solar', isTimeUnknown: false, email: '' });
+  const [userInfo, setUserInfo] = useState({ name: '', birthDate: '', birthTime: '', calendarType: 'solar', isTimeUnknown: false, email: '', phone: '' });
   const [userSaju, setUserSaju] = useState({ dayMaster: '', main: '', lacking: '', excessive: '', pillars: [], counts: {} });
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [unlockedMenus, setUnlockedMenus] = useState([]);
@@ -502,46 +502,11 @@ export default function SajuLearningApp() {
   };
 
   const handlePayment = async (method = '카드') => {
-    // PortOne SDK 동적 로딩 (CDN이 아직 안 됐을 경우 대비)
-    const loadPortOne = (): Promise<void> => new Promise((resolve, reject) => {
-      if ((window as any).PortOne) { resolve(); return; }
-      const existing = document.querySelector('script[src*="portone.io/v2"]');
-      if (existing) {
-        let waited = 0;
-        const check = setInterval(() => {
-          waited += 100;
-          if ((window as any).PortOne) { clearInterval(check); resolve(); }
-          else if (waited > 5000) { clearInterval(check); reject(new Error('timeout')); }
-        }, 100);
-        return;
-      }
-      const s = document.createElement('script');
-      s.src = 'https://cdn.portone.io/v2/browser-sdk.umd.js';
-      s.onload = () => {
-        let waited = 0;
-        const check = setInterval(() => {
-          waited += 100;
-          if ((window as any).PortOne) { clearInterval(check); resolve(); }
-          else if (waited > 3000) { clearInterval(check); reject(new Error('not found')); }
-        }, 100);
-      };
-      s.onerror = () => reject(new Error('load error'));
-      document.head.appendChild(s);
-    });
-
-    try {
-      await loadPortOne();
-    } catch {
-      alert("결제 모듈을 불러오지 못했습니다.\n페이지를 새로고침(F5) 후 다시 시도해주세요.");
-      return;
-    }
-
-    const po = (window as any).PortOne;
-    if (!po) {
-      alert("결제 모듈 초기화 실패. 페이지를 새로고침해주세요.");
-      return;
-    }
-
+// 👉 휴대폰 번호 필수 입력 방어 로직 추가
+  if (!userInfo.email || !userInfo.phone) {
+    alert("안전한 결제 내역 발송 및 결제 진행을 위해\n이메일과 휴대폰 번호를 모두 입력해주세요.");
+    return;
+  }
     // 결제 전 로컬스토리지에 사용자 정보 저장 (리다이렉트 후 복구용)
     localStorage.setItem('sajuApp_userInfo', JSON.stringify(userInfo));
     localStorage.setItem('sajuApp_userSaju', JSON.stringify(userSaju));
@@ -551,7 +516,7 @@ export default function SajuLearningApp() {
 
     try {
       // 포트원 V2 결제 요청 (KG이니시스)
-      const response = await po.requestPayment({
+      const response = await window.PortOne.requestPayment({
         storeId: "store-ec48c4ea-79d3-4eaa-a2e8-3511a8dafb66",
         channelKey: "channel-key-5cf13f4a-9e21-4d0b-acd7-3092fc702f11",
         paymentId: paymentId,
@@ -562,9 +527,10 @@ export default function SajuLearningApp() {
         // 모바일 리다이렉트 시 반환 URL (포트원이 paymentId 파라미터를 붙여서 리다이렉트)
         redirectUrl: window.location.origin + window.location.pathname + '?paymentId=' + paymentId,
         customer: {
-  fullName: userInfo.name || '고객',
-  email: userInfo.email || 'guest@example.com',
-},
+          fullName: userInfo.name || '고객',
+          email: userInfo.email || 'guest@guest.com',
+          phoneNumber: (userInfo.phone || '').replace(/-/g, ''),
+        },
       });
 
       // PC 팝업 모드: response가 바로 반환됨
@@ -665,13 +631,6 @@ export default function SajuLearningApp() {
                     value={userInfo.name} onChange={(e) => setUserInfo({...userInfo, name: e.target.value})}
                   />
                 </div>
-                <div>
-  <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold mb-2 flex items-center gap-1">✉️ 이메일</label>
-  <input type="email" placeholder="이메일을 입력해주세요" required
-    className="w-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.15)] rounded-xl text-white text-[13.5px] px-4 py-3.5 outline-none transition-colors focus:border-[rgba(212,168,67,0.5)] placeholder-[rgba(255,255,255,0.28)]"
-    value={userInfo.email} onChange={(e) => setUserInfo({...userInfo, email: e.target.value})}
-  />
-</div>
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold flex items-center gap-1">🗓 생년월일</label>
@@ -889,28 +848,45 @@ export default function SajuLearningApp() {
                         </div>
                       </div>
                       
-                      <div className="text-center mb-5">
-                        <h3 className="font-serif text-[16px] font-black text-[#1A1530] mb-2">✨ 전체 분석 열람하기</h3>
-                        <div className="flex items-baseline justify-center gap-2">
-                          <span className="text-[13px] text-[#C0B0C0] line-through">10,000원</span>
-                          <span className="text-[26px] font-black text-[#E8607A] font-serif">1,000</span>
-                          <span className="text-[13px] text-[#5A4080] font-bold">원</span>
-                          <span className="inline-block bg-[#E8607A] text-white text-[10px] font-bold px-[8px] py-[2px] rounded-full ml-1 align-middle">90% 할인</span>
-                        </div>
-                      </div>
+  <div className="text-center mb-5">
+          <h3 className="font-serif text-[16px] font-black text-[#1A1530] mb-2">✨ 전체 분석 열람하기</h3>
+          <div className="flex items-baseline justify-center gap-2">
+            <span className="text-[13px] text-[#C0B0C0] line-through">10,000원</span>
+            <span className="text-[26px] font-black text-[#E8607A] font-serif">1,000</span>
+            <span className="text-[13px] text-[#5A4080] font-bold">원</span>
+            <span className="inline-block bg-[#E8607A] text-white text-[10px] font-bold px-[8px] py-[2px] rounded-full ml-1 align-middle">90% 할인</span>
+          </div>
+        </div>
 
-                      <div className="flex flex-col gap-2.5">
-                        <button onClick={() => handlePayment('카드')} className="w-full bg-[#FEE500] text-[#3C1E1E] p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-sm">
-                          <MessageCircle size={18} fill="#3C1E1E" /> 테스트 카드 결제해보기
-                        </button>
-                        <button onClick={() => handlePayment('가상계좌')} className="w-full bg-[linear-gradient(135deg,#2D2550,#4A3580)] text-white p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-md">
-                          <Building size={18} /> 테스트 가상계좌 (계좌이체)
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              ) : (
+        {/* 👉 새로 추가된 결제 직전 연락처/이메일 입력 영역 */}
+        <div className="mb-5 space-y-3">
+          <div className="text-left">
+            <input type="email" placeholder="결제 내역을 받을 이메일" required
+              className="w-full bg-white border border-[#EAE1D8] rounded-xl text-[#1A1530] text-[13.5px] px-4 py-3.5 outline-none transition-colors focus:border-[#D4A843] placeholder-[#A090C0] shadow-sm"
+              value={userInfo.email} onChange={(e) => setUserInfo({...userInfo, email: e.target.value})}
+            />
+          </div>
+          <div className="text-left">
+            <input type="tel" placeholder="휴대폰 번호 (- 없이 숫자만 입력)" required
+              className="w-full bg-white border border-[#EAE1D8] rounded-xl text-[#1A1530] text-[13.5px] px-4 py-3.5 outline-none transition-colors focus:border-[#D4A843] placeholder-[#A090C0] shadow-sm"
+              value={userInfo.phone} onChange={(e) => setUserInfo({...userInfo, phone: e.target.value.replace(/[^0-9]/g, '')})}
+            />
+          </div>
+        </div>
+
+        {/* 👉 텍스트가 수정된 결제 버튼 */}
+        <div className="flex flex-col gap-2.5">
+          <button onClick={() => handlePayment('카드')} className="w-full bg-[#FEE500] text-[#3C1E1E] p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-sm">
+            <MessageCircle size={18} fill="#3C1E1E" /> 카드 결제하기
+          </button>
+          <button onClick={() => handlePayment('가상계좌')} className="w-full bg-[linear-gradient(135deg,#2D2550,#4A3580)] text-white p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-md">
+            <Building size={18} /> 가상계좌 (계좌이체)
+          </button>
+        </div>
+      </>
+    )}
+  </div>
+) : (
                 <div className="space-y-4 animate-[sup_0.4s_ease-out_forwards]">
                   {generateProfessionalReport(userInfo, userSaju, selectedMenu.id).map((section, idx) => {
                     if (section.isSummary) {
