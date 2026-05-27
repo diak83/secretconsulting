@@ -502,6 +502,10 @@ export default function SajuLearningApp() {
   };
 
   const handlePayment = async (method = '카드') => {
+ if (!window.PortOne) {
+    alert("결제 모듈 로딩 중입니다. 잠시 후 다시 시도해주세요.");
+    return;
+  }
     // 결제 전 로컬스토리지에 사용자 정보 저장 (리다이렉트 후 복구용)
     localStorage.setItem('sajuApp_userInfo', JSON.stringify(userInfo));
     localStorage.setItem('sajuApp_userSaju', JSON.stringify(userSaju));
