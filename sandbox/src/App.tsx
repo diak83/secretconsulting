@@ -858,10 +858,10 @@ export default function SajuLearningApp() {
 
                       <div className="flex flex-col gap-2.5">
                         <button onClick={() => handlePayment('카드')} className="w-full bg-[#FEE500] text-[#3C1E1E] p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-sm">
-                          <MessageCircle size={18} fill="#3C1E1E" /> 테스트 카드 결제해보기
+                          <MessageCircle size={18} fill="#3C1E1E" /> 카드 결제해보기
                         </button>
                         <button onClick={() => handlePayment('가상계좌')} className="w-full bg-[linear-gradient(135deg,#2D2550,#4A3580)] text-white p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-md">
-                          <Building size={18} /> 테스트 가상계좌 (계좌이체)
+                          <Building size={18} /> 가상계좌 (계좌이체)
                         </button>
                       </div>
                     </>
