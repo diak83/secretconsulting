@@ -502,10 +502,46 @@ export default function SajuLearningApp() {
   };
 
   const handlePayment = async (method = '카드') => {
- if (!window.PortOne) {
-    alert("결제 모듈 로딩 중입니다. 잠시 후 다시 시도해주세요.");
-    return;
-  }
+    // PortOne SDK 동적 로딩 (CDN이 아직 안 됐을 경우 대비)
+    const loadPortOne = (): Promise<void> => new Promise((resolve, reject) => {
+      if ((window as any).PortOne) { resolve(); return; }
+      const existing = document.querySelector('script[src*="portone.io/v2"]');
+      if (existing) {
+        let waited = 0;
+        const check = setInterval(() => {
+          waited += 100;
+          if ((window as any).PortOne) { clearInterval(check); resolve(); }
+          else if (waited > 5000) { clearInterval(check); reject(new Error('timeout')); }
+        }, 100);
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = 'https://cdn.portone.io/v2/browser-sdk.umd.js';
+      s.onload = () => {
+        let waited = 0;
+        const check = setInterval(() => {
+          waited += 100;
+          if ((window as any).PortOne) { clearInterval(check); resolve(); }
+          else if (waited > 3000) { clearInterval(check); reject(new Error('not found')); }
+        }, 100);
+      };
+      s.onerror = () => reject(new Error('load error'));
+      document.head.appendChild(s);
+    });
+
+    try {
+      await loadPortOne();
+    } catch {
+      alert("결제 모듈을 불러오지 못했습니다.\n페이지를 새로고침(F5) 후 다시 시도해주세요.");
+      return;
+    }
+
+    const po = (window as any).PortOne;
+    if (!po) {
+      alert("결제 모듈 초기화 실패. 페이지를 새로고침해주세요.");
+      return;
+    }
+
     // 결제 전 로컬스토리지에 사용자 정보 저장 (리다이렉트 후 복구용)
     localStorage.setItem('sajuApp_userInfo', JSON.stringify(userInfo));
     localStorage.setItem('sajuApp_userSaju', JSON.stringify(userSaju));
@@ -515,7 +551,7 @@ export default function SajuLearningApp() {
 
     try {
       // 포트원 V2 결제 요청 (KG이니시스)
-      const response = await window.PortOne.requestPayment({
+      const response = await po.requestPayment({
         storeId: "store-ec48c4ea-79d3-4eaa-a2e8-3511a8dafb66",
         channelKey: "channel-key-5cf13f4a-9e21-4d0b-acd7-3092fc702f11",
         paymentId: paymentId,
@@ -858,10 +894,10 @@ export default function SajuLearningApp() {
 
                       <div className="flex flex-col gap-2.5">
                         <button onClick={() => handlePayment('카드')} className="w-full bg-[#FEE500] text-[#3C1E1E] p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-sm">
-                          <MessageCircle size={18} fill="#3C1E1E" /> 카드 결제해보기
+                          <MessageCircle size={18} fill="#3C1E1E" /> 테스트 카드 결제해보기
                         </button>
                         <button onClick={() => handlePayment('가상계좌')} className="w-full bg-[linear-gradient(135deg,#2D2550,#4A3580)] text-white p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-md">
-                          <Building size={18} /> 가상계좌 (계좌이체)
+                          <Building size={18} /> 테스트 가상계좌 (계좌이체)
                         </button>
                       </div>
                     </>
