@@ -871,6 +871,10 @@ export default function SajuLearningApp() {
               className="w-full bg-white border border-[#EAE1D8] rounded-xl text-[#1A1530] text-[13.5px] px-4 py-3.5 outline-none transition-colors focus:border-[#D4A843] placeholder-[#A090C0] shadow-sm"
               value={userInfo.phone} onChange={(e) => setUserInfo({...userInfo, phone: e.target.value.replace(/[^0-9]/g, '')})}
             />
+{/* 👉 이메일 입력창 아래에 추가된 작은 안내 문구 */}
+    <p className="text-[11px] text-[#A090C0] mt-1.5 ml-1 font-medium">
+      * 온라인상품 구매 후 바로 사용 가능
+    </p>
           </div>
         </div>
 
