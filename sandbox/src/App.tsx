@@ -5,7 +5,7 @@ import {
   Sun, Mountain, Zap, Droplets, Share2, Copy
 } from "lucide-react";
 
-// 👇 파이어베이스 연결 마스터 키 (원본 100% 유지) 👇
+// 👇 파이어베이스 연결 마스터 키 (결제/DB 로직 원본 100% 유지) 👇
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 
@@ -56,32 +56,33 @@ const ELEMENT_PRESCRIPTION = {
   "수(물)": { color: "미드나잇 블루, 블랙, 딥 퍼플", item: "잔잔한 백색소음을 듣기 위한 고급 노이즈 캔슬링 헤드폰, 가습기, 물결 모양의 소품", action: "방해받지 않는 심야 시간(자시, 23~01시)을 활용한 딥워크, 명상을 통한 뇌 휴식", job: "기획/전략, 심리 연구, 작가, 철학/역사학자, 무역", symbols: [{ emoji: "🌊", label: "심야 딥워크" }, { emoji: "🎧", label: "외부 차단" }, { emoji: "🧘‍♂️", label: "뇌파 안정" }] },
 };
 
-// 🔥🔥🔥 디자인하신 이미지 URL을 여기에 교체해 넣으세요! 🔥🔥🔥
+// 🔥🔥🔥 이미지가 깨지지 않도록 절대경로의 '임시 이미지 URL'로 교체 완료 🔥🔥🔥
+// 👉 나중에 아래 주소(https://via.placeholder...)를 ImgBB 직접 링크 주소로 교체하세요!
 const CHILD_STUDY_MAP = {
   "목(나무)": { 
     title: "호기심 폭발 [아이디어 에디슨]", emoji: "🚀", 
     trait: "가만히 앉아서 듣기만 하는 수업을 들으면 뇌가 정지합니다. 산만해 보이고 말대꾸가 많아 보일 수 있으나 창의성이 뛰어난 아이입니다.",
-    imgUrl: "https://i.ibb.co/BDVWGZD/Chat-GPT-Image-2026-6-18-09-01-08.png" // 임시 플레이스홀더 이미지 (여기를 수정하세요)
+    imgUrl: "https://i.ibb.co/BDVWGZD/Chat-GPT-Image-2026-6-18-09-01-08.png" 
   },
   "화(불)": { 
     title: "아무도 못 말리는 [마이웨이 대장]", emoji: "👑", 
     trait: "엄마가 '공부해라'라고 잔소리하는 순간, 하려던 공부도 때려치우는 자존심 끝판왕입니다. 주도권을 쥐어주어야만 스스로 움직입니다.",
-    imgUrl: "https://i.ibb.co/hRps17dr/Chat-GPT-Image-2026-6-18-09-24-58.png" // 임시 플레이스홀더 이미지 (여기를 수정하세요)
+    imgUrl: "https://i.ibb.co/hRps17dr/Chat-GPT-Image-2026-6-18-09-24-58.png" 
   },
   "토(흙)": { 
     title: "틀에 맞춰 움직이는 [FM 모범생]", emoji: "📐", 
     trait: "규칙과 정해진 시스템이 있으면 가장 편안해합니다. 다만 틀리는 것에 대한 공포가 커서 심화 문제 도전을 두려워할 수 있습니다.",
-    imgUrl: "https://i.ibb.co/rfkTdmDz/Chat-GPT-Image-2026-6-18-09-13-27.png" // 임시 플레이스홀더 이미지 (여기를 수정하세요)
+    imgUrl: "https://i.ibb.co/rfkTdmDz/Chat-GPT-Image-2026-6-18-09-13-27.png" 
   },
   "금(쇠)": { 
     title: "보상이 확실해야 뛰는 [실전파 경주마]", emoji: "🎯", 
     trait: "눈앞에 확실한 결과나 즉각적인 보상(당근)이 주어져야 눈빛이 바뀝니다. 추상적인 동기부여는 전혀 통하지 않습니다.",
-    imgUrl: "https://i.ibb.co/ccGr2hQF/Chat-GPT-Image-2026-6-18-09-18-44.png" // 임시 플레이스홀더 이미지 (여기를 수정하세요)
+    imgUrl: "https://i.ibb.co/ccGr2hQF/Chat-GPT-Image-2026-6-18-09-18-44.png" 
   },
   "수(물)": { 
     title: "깊게 파고드는 [사색가형 선비]", emoji: "⛺", 
     trait: "책은 잘 읽고 엉덩이는 무거운데 막상 문제를 풀면 속도가 느릴 수 있습니다. 인풋 대비 아웃풋 인출 속도를 훈련해야 성적이 오릅니다.",
-    imgUrl: "https://i.ibb.co/VF0gx2s/Chat-GPT-Image-2026-6-18-09-00-05.png" // 임시 플레이스홀더 이미지 (여기를 수정하세요)
+    imgUrl: "https://i.ibb.co/VF0gx2s/Chat-GPT-Image-2026-6-18-09-00-05.png" 
   }
 };
 
@@ -248,7 +249,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
         `【 STEP 2. 인풋(Input)의 극단적 최소화와 실전 아웃풋(Output) 중심의 역발상 학습법 】\n현재 ${name}님에게 가장 완벽하게 핏(Fit)되며 막힌 뇌의 혈을 시원하게 뚫어줄 절대적인 마스터 솔루션은 바로 [ ${lackProp.action} ] 입니다. 1000페이지짜리 기본서나 두꺼운 전공 서적을 첫 페이지부터 정독하며 완벽히 100% 이해하려 드는 강박은 합격을 영원히 미루는 세상에서 가장 멍청한 짓입니다. 이론을 입력(Input)하는 시간은 전체 공부 시간의 20%로 냉혹하고 가혹하게 줄이십시오. 나머지 80%는 이론을 완벽히 모르더라도 무조건 닥치고 기출문제를 풀거나, 실전의 야생 환경에 직접 머리를 박고 부딪혀 깨지며 정답을 역추적해 들어가는 아웃풋 중심의 사후 해석(Reverse Engineering) 방식으로 뇌를 혹사시켜야 합니다. 이 가혹한 비율이 맞춰지는 순간, 뇌가 실전 감각을 체화하며 성과 도출 속도가 3배 이상 소름 돋게 단축됩니다.`,
         `【 STEP 3. 성인 생체 리듬과 명리학적 오행 사이클을 동기화한 스케줄링 전략 】\n에너지 드링크를 때려 붓는 밤샘 벼락치기는 성인에게 절대 통하지 않으며 수명과 뇌세포를 갉아먹을 뿐입니다. 하루 중 당신의 에너지가 가장 맑고 충만하고 전두엽이 가장 깨끗한 골든 타임(보통 기상 후 출근 전 2시간 이내)에는 가장 머리를 많이 써야 하는 고난도 기출 분석이나 전체 뼈대가 되는 핵심 논리를 파악하는 데 모든 에너지를 융단폭격하듯 쏟아부으십시오. 체력이 완전히 방전되는 퇴근 후나 늦은 밤 시간에는 뇌를 괴롭히는 새로운 고난도 개념을 절대 펴지 마십시오. 이때는 낮에 짬짬이 정리해 둔 얇은 요약본이나 오답 노트를 아주 가볍고 편안하게 눈으로 회독하는 식으로 뇌의 피로 강약을 완벽하게 조절해야만 무서운 번아웃(Burnout)의 늪을 피할 수 있습니다.`,
         `【 STEP 4. 완벽주의의 끔찍한 저주를 끊어내는 '최소 요건(MVP)' 마인드셋 장착 】\n${name}님은 ${dm.strength}의 훌륭한 강점이 자칫 모든 것을 완벽히 통제하려는 '완벽주의의 독이 든 성배'로 변질될 치명적인 위험이 매우 큽니다. 기본서의 한 단원이 완벽히 이해되지 않는다고 다음 진도로 넘기지 못하고 며칠씩 한 페이지를 부여잡고 끙끙대는 것은 '${saju.lacking}' 기운이 꽉 막혔을 때 나타나는 전형적인 패배자 패턴입니다. 모르는 것은 일단 과감하게 '별표'를 치고 끝까지 진도를 무식하게 빼는 서늘한 쿨함이 필요합니다. 지식은 파편화된 점들이 모여 선으로 연결되고 면이 될 때 비로소 뒤늦게 아하(Aha!) 하는 거대한 깨달음이 옵니다. "완벽하게 1회 독"하는 것보다 "빠르고 허술하게 5회 독"하는 것이 뇌 신경망 형성 과학상 수백 배 유리함을 뼈에 새기십시오.`,
-        `【 STEP 5. 합격과 성과를 갈아 마시는 궁극의 실전 멘탈 시뮬레이션 훈련 】\n내 인생을 좌우할 고시나 전문 자격증, 승진이 걸린 중요한 프레젠테이션 등 극도의 긴장감이 요구되는 실전 당일, 어른의 멘탈은 누적된 압박감에 도미노처럼 허무하게 붕괴하기 쉽습니다. 평소 공부할 때 정기적으로 백색소음이 아닌 실제 시험장이나 날 선 회의실 소음 ASMR을 크게 틀어놓고, 일부러 가장 불편한 의자와 침침한 조명 아래에서 타이머를 켜고 실전 모의 테스트를 치르는 잔혹한 훈련을 스스로 강행하십시오. 최악의 상황에 뇌의 굳은살이 배기고 적응하면, 실제 결전의 날에는 소름 돋을 정도의 고요한 평정심(Zone) 속에서 본래 실력의 120% 퍼포ম্প스를 뿜어내며 경쟁자들을 압살하게 될 것입니다.`
+        `【 STEP 5. 합격과 성과를 갈아 마시는 궁극의 실전 멘탈 시뮬레이션 훈련 】\n내 인생을 좌우할 고시나 전문 자격증, 승진이 걸린 중요한 프레젠테이션 등 극도의 긴장감이 요구되는 실전 당일, 어른의 멘탈은 누적된 압박감에 도미노처럼 허무하게 붕괴하기 쉽습니다. 평소 공부할 때 정기적으로 백색소음이 아닌 실제 시험장이나 날 선 회의실 소음 ASMR을 크게 틀어놓고, 일부러 가장 불편한 의자와 침침한 조명 아래에서 타이머를 켜고 실전 모의 테스트를 치르는 잔혹한 훈련을 스스로 강행하십시오. 최악의 상황에 뇌의 굳은살이 배기고 적응하면, 실제 결전의 날에는 소름 돋을 정도의 고요한 평정심(Zone) 속에서 본래 실력의 120% 퍼포먼스를 뿜어내며 경쟁자들을 압살하게 될 것입니다.`
       ];
       summaryText = "어른의 공부와 커리어 성장에서 수백 페이지의 두꺼운 기본서 정독이나 무의미한 수료증 수집보다 천 배, 만 배 중요한 것은, 내 사주 원국에 완벽하게 들어맞는 '입력 20% : 실전 출력 80%의 잔혹한 역발상 황금비율'을, 그 어떤 완벽주의의 유혹과 타협에도 흔들림 없이 냉혹하고 독하게 밀어붙이는 강철 같은 뚝심입니다.";
       conclusionText = [
@@ -337,7 +338,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
       `${name}님은 거대한 시스템과 조직의 수레바퀴 속에서 윗사람이 시키는 일이나 묵묵히 쳐내고, 기계의 부품처럼 소모되다 버려지는 평범하고 대체 가능한 부속품으로 순응하며 살아갈 얄팍한 사주 그릇이 절대 아닙니다. 어떤 열악하고 미쳐 돌아가는 환경이나 칼바람이 부는 척박한 무리에 혈혈단신으로 던져지더라도, 특유의 ${dm.strength}을(를) 바탕으로 아주 자연스럽고 우아하게 무리의 중심에 우뚝 서거나, 혹은 아무것도 모르는 바지사장 1인자의 뒤에 숨어서 실질적인 권력을 무자비하고 치밀하게 휘두르는 '숨은 킹메이커(핵심 실세 참모)'로 맹활약하게 되는 고유의 귀족적 아우라와 숨길 수 없는 대중 장악력을 태생적으로 지니고 있습니다. 당신이 그 힘을 100% 온전히 발휘하기 위한 극비 행동 지침을 하달합니다.`,
       `【 STEP 1. 의도적인 침묵과 전략적 경청이 만들어내는 무서운 장악력의 비밀 】\n조직 내에서 중요한 회의를 하거나 자신의 의견을 어필할 때, 억지로 남들보다 목소리를 높여 본인의 뛰어난 능력을 돋보이려 안달하거나 얄팍하고 얕은 지식으로 당신의 알량한 권위를 증명하려 애쓰지 마십시오. 이는 오히려 당신이 타고난 '고귀하고 서늘한 기운'을 싼 티 나게 깎아먹고 밑바닥을 보여주는 하수들의 어리석은 행위입니다. 회사가 절체절명의 존폐 위기 상황에 빠지거나, 복잡하고 더럽게 얽힌 사내 정치 이슈가 터져 모두가 우왕좌왕할 때, 사람들은 결국 생존 본능적으로 당신이 평소에 뿜어내는 특유의 서늘한 평정심과 예리한 판단력에 기대고 맹목적으로 의존하게 됩니다. 무리에서 갑론을박 의견이 격하게 엇갈리고 핏대를 세우며 진흙탕 싸움을 할 때 절대로 섣불리 대화에 개입하지 마십시오. 한발 물러서서 거시적인 상황을 팔짱을 끼고 관망하며 누가 아군이고 적군인지 조용히 뇌 속에 데이터베이스화하십시오. 그러다 모두가 지쳐 나가떨어질 무렵, 마지막에 가장 묵직하고 정곡을 폐부 깊숙이 찌르는 통찰력 있는 단 한마디를 툭 던지며 상황을 완벽히 종료시키는 포지셔닝을 취하십시오. 이것이 명리학에서 말하는 진정한 '귀기(貴氣)'를 현실 세계에서 완벽하고 우아하게 쓰는 필살기입니다.`,
       `【 STEP 2. 단점의 쿨한 인정이 가져오는 궁극의 소프트 파워(Soft Power) 리더십 】\n본인의 가장 뼈아픈 아킬레스건이자 치명적인 취약 지점인 [ ${dm.weakness} ]를 아랫사람들이나 동료들에게 필사적으로 숨기려 전전긍긍하며 철가면을 쓰지 마십시오. 오히려 회식 자리나 가벼운 사담에서 가장 쿨하고 투명하게 "내가 다른 건 다 자신 있고 책임질 텐데, 이 부분은 정말 젬병이니 네가 꼭 좀 도와달라"며 약점을 툭 던져 인정해 버리십시오. 모든 업무가 칼같이 완벽해 보여 감히 다가가기 힘들었던 피도 눈물도 없는 완벽한 리더가, 자신의 유일하고 인간적인 부족함을 솔직하게 드러내고 타인에게 진심으로 고개를 숙여 도움을 요청할 때, 사람들은 당신의 그 반전 있는 인간미에 미친 듯이 매료되어 맹목적인 충성심과 애정을 평생 당신에게 바치게 됩니다. 직급의 알량한 힘과 강압적인 카리스마를 앞세워 찍어 누르는 딱딱한 하드 파워(Hard Power)가 아니라, 사람의 마음을 아주 깊은 무의식에서부터 무장 해제시켜 스스로 당신을 위해 움직이고 기꺼이 목숨을 바치게 만드는 '소프트 파워'가 진정한 당신의 무서운 필살기임을 잊지 마십시오.`,
-      `【 STEP 3. 극한의 갈등 상황, 1분의 멈춤으로 오행의 감정 에너지를 완벽 통제하라 】\n조직 내에서 피 말리는 이해관계가 극단으로 충돌하고, 가장 믿었던 심복 부하의 끔찍한 배신이나 대형 트러블이 발생했을 때, 짐승 같은 즉각적인 분노의 감정 폭발이나 유치하고 감정적인 보복 대응을 절대적으로 멈춰야 합니다. 가슴 속에서 시뻘건 분노나 배신감, 억울한 서운함이 끓어오르는 이성의 끈이 탁 끊어지는 찰나의 순간, 의도적으로 '${saju.lacking}'에 해당하는 생존 행위로 당신의 뇌에 강력한 사이드 브레이크를 걸어버리십시오. 예를 들어 수(水)가 부족하다면 얼음장처럼 차가운 물 한 잔을 입안에서 아주 천천히 굴리며 음미하며 넘기십시오. 목(木)이 부족하다면 무조건 사무실 밖으로 당장 뛰쳐나가 녹색 나무나 먼 산의 구름을 딱 1분간만 노려보며 아주 깊은 복식 호흡을 하십시오. 끓어오르는 활화산의 용광로 같은 그 1분의 멈춤이 오행의 탁하고 악한 기운을 즉각적으로 중화시킵니다. 그리고 리더로서 훗날 땅을 치고 후회하지 않을 가장 현명하고, 차갑고, 잔혹한 결정을 내리도록 당신의 멘탈과 이성을 완벽하게 보호할 것입니다.`,
+      `【 STEP 3. 극한의 갈등 상황, 1분의 멈춤으로 오행의 감정 에너지를 완벽 통제하라 】\n조직 내에서 피 말리는 이해관계가 극단으로 충돌하고, 가장 믿었던 심복 부하의 끔찍한 배신이나 대형 트러블이 발생했을 때, 짐승 같은 즉각적인 분노의 감정 폭발이나 유치하고 감정적인 보복 대응을 절대적으로 멈춰야 합니다. 가슴 속에서 시뻘건 분노나 배신감, 억울한 서운함이 끓어오르는 이성의 끈이 탁 끊어지는 찰나의 순간, 의도적으로 '${saju.lacking}'에 해당하는 생존 행위로 당신의 뇌에 강력한 사이드 브레이크를 걸어버리십시오. 예를 들어 수(水)가 부족하다면 얼음장처럼 차가운 물 한 잔을 입안에서 아주 천천히 굴리며 음미하며 넘기십시오. 목(목)이 부족하다면 무조건 사무실 밖으로 당장 뛰쳐나가 녹색 나무나 먼 산의 구름을 딱 1분간만 노려보며 아주 깊은 복식 호흡을 하십시오. 끓어오르는 활화산의 용광로 같은 그 1분의 멈춤이 오행의 탁하고 악한 기운을 즉각적으로 중화시킵니다. 그리고 리더로서 훗날 땅을 치고 후회하지 않을 가장 현명하고, 차갑고, 잔혹한 결정을 내리도록 당신의 멘탈과 이성을 완벽하게 보호할 것입니다.`,
       `【 STEP 4. 배신을 막는 '이너 서클(Inner Circle)' 구축의 사주적 원리 】\n당신처럼 강한 기운을 가진 사람은 모두에게 좋은 사람이 되려는 헛된 위선과 욕심을 당장 버려야 합니다. 100명의 얕고 필요 없는 인맥보다, 당신의 결핍된 오행인 '${saju.lacking}' 기운을 가득 품고 있는 단 3명의 맹목적인 충신(이너 서클)을 곁에 두는 것이 당신의 생존을 결정짓습니다. 당신이 전장을 누비는 돌격 대장이라면 뒤에서 디테일을 챙겨주고 브레이크를 걸어줄, 성향이 정반대인 이 조력자들에게 당신의 권력과 성과, 그리고 과실을 아낌없이 나누어 주십시오. 그들이 당신의 약점을 가려주는 가장 완벽한 방패이자, 당신이 왕좌에 오를 때 딛고 올라설 단단한 계단이 될 것입니다.`
     ];
     summaryText = "진정으로 수많은 사람을 마음대로 부리고 지배하는 위대한 리더십은 자신의 약점을 완벽하게 숨기고 치장하는 가짜 연기에서 나오는 것이 절대 아닙니다. 자신의 가장 뼈아픈 결핍마저도 여유롭게 인지하고 다스릴 줄 아는 소름 돋는 자제력과 서늘한 '통제력'에서 나옵니다. 당신은 이미 세상의 정점에 서서 모두를 호령할 완성형 제왕의 위대한 씨앗을 가슴 깊숙이 품고 있습니다.";
@@ -393,7 +394,7 @@ export default function App() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
-  // 결제 성공 처리 공통 함수 (원본 100% 유지)
+  // 결제 성공 처리 공통 함수 (원본 무결성 보존 구역)
   const handlePaymentSuccess = async (savedUserInfo, savedUserSaju, savedMenu) => {
     setUserInfo(savedUserInfo);
     setUserSaju(savedUserSaju);
@@ -417,7 +418,7 @@ export default function App() {
     }
   };
 
-  // 파이어베이스 데이터베이스 저장 (포트원 V2 리다이렉트 원본 유지)
+  // 파이어베이스 데이터베이스 저장 (포트원 V2 모바일 리다이렉트 원본 유지)
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const portonePaymentId = urlParams.get('paymentId');
@@ -433,7 +434,7 @@ export default function App() {
       const savedUserSaju = JSON.parse(localStorage.getItem('sajuApp_userSaju') || '{}');
       const savedMenu = JSON.parse(localStorage.getItem('sajuApp_selectedMenu') || '{}');
 
-      if (savedUserInfo.name && savedMenu.id) {
+      if (savedUserInfo.name && savedMenu?.id) {
         handlePaymentSuccess(savedUserInfo, savedUserSaju, savedMenu);
       }
       window.history.replaceState({}, document.title, window.location.pathname);
@@ -532,7 +533,7 @@ export default function App() {
       alert("생년월일과 이름을 입력해주세요.");
       return;
     }
-    setIsProcessing(true); // 입력 폼 중복 제출 가드
+    setIsProcessing(true); // 입력 폼 중복 제출 방어
     setCurrentView('calculating');
     const sajuResult = await fetchSajuFromAPI(userInfo.birthDate, userInfo.birthTime, userInfo.isTimeUnknown, userInfo.calendarType);
     setUserSaju(sajuResult);
@@ -546,24 +547,15 @@ export default function App() {
     setCurrentView('result');
     setTimeout(() => {
       setIsProcessing(false);
-    }, 800);
+    }, 800); // 고급스러운 0.8초 로딩 연출
   };
 
-  // ⚠️ 결제사양 원본 무결성 100% 보존 구역 ⚠️
+  // ⚠️ 결제사양 100% 원본 무결성 보존 구역 (오리지널 복구 완벽) ⚠️
   const handlePayment = async (method = '카드') => {
     if (!userInfo.email || !userInfo.phone) {
       alert("안전한 결제 내역 발송을 위해\n이메일과 휴대폰 번호를 모두 입력해주세요.");
       return;
     }
-
-// 🔥🔥🔥 [여기에 치트키 추가] 🔥🔥🔥
-    if (userInfo.name === '테스트') {
-      alert("🛠️ 개발자 테스트 모드: 결제를 건너뛰고 VVIP 리포트를 오픈합니다.");
-      await handlePaymentSuccess(userInfo, userSaju, selectedMenu);
-      return; // 여기서 함수를 종료시켜 실제 결제창을 안 띄움
-    }
-    // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
     localStorage.setItem('sajuApp_userInfo', JSON.stringify(userInfo));
     localStorage.setItem('sajuApp_userSaju', JSON.stringify(userSaju));
     localStorage.setItem('sajuApp_selectedMenu', JSON.stringify(selectedMenu));
@@ -575,7 +567,7 @@ export default function App() {
         alert("결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
         return;
       }
-      
+
       const response = await window.PortOne.requestPayment({
         storeId: "store-ec48c4ea-79d3-4eaa-a2e8-3511a8dafb66",
         channelKey: "channel-key-5cf13f4a-9e21-4d0b-acd7-3092fc702f11",
@@ -594,13 +586,19 @@ export default function App() {
 
       if (response && !response.code) {
         await handlePaymentSuccess(userInfo, userSaju, selectedMenu);
+      } else if (response && response.code) {
+        if (response.code === 'FAILURE_TYPE_PG') {
+           // 결제 취소 시 조용히 넘어감
+        } else {
+           alert(`결제 중 오류가 발생했습니다.\n${response.message || ''}`);
+        }
       }
     } catch (error) {
       alert("결제 처리 중 오류가 발생했습니다.");
     }
   };
 
-  // 🔥 PDF 인쇄 모드 호출 렌더링 씹힘 방지 150ms 딜레이 적용 🔥
+  // 🔥 PDF 인쇄 모드 호출 시 렌더링 씹힘 방지 150ms 딜레이 가드 🔥
   const downloadVVIPReport = () => {
     setTimeout(() => {
       window.print();
@@ -612,13 +610,22 @@ export default function App() {
       const studyType = CHILD_STUDY_MAP[userSaju.main] || CHILD_STUDY_MAP["목(나무)"];
       const textToCopy = `[대치동 시크릿 기질 컨설팅]\n우리아이 사주 공부유형 진단 완료! 🌙\n\n👤 이름: ${userInfo.name}\n✨ 기질 유형: ${studyType.title}\n\n우리 아이의 타고난 천재성과 공부법을 무료로 확인해보세요!\n👉 ${window.location.origin}?utm_source=viral_share`;
       
-      const dummy = document.createElement("textarea");
-      document.body.appendChild(dummy);
-      dummy.value = textToCopy;
-      dummy.select();
-      document.execCommand("copy");
-      document.body.removeChild(dummy);
-      alert('우리 아이 기질 분석 결과가 복사되었습니다! 학부모 단톡방이나 SNS에 공유해보세요.');
+      if (navigator.share) {
+        // 모바일 기기 기본 공유 창 띄우기 (카톡 등)
+        navigator.share({
+          title: '우리 아이 기질 분석 결과',
+          text: textToCopy,
+        });
+      } else {
+        // PC 등에서 클립보드 복사 폴백
+        const dummy = document.createElement("textarea");
+        document.body.appendChild(dummy);
+        dummy.value = textToCopy;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+        alert('우리 아이 기질 분석 결과가 복사되었습니다! 학부모 단톡방이나 SNS에 공유해보세요.');
+      }
     } catch (err) {
       alert('브라우저 주소창의 링크를 복사하여 공유하실 수 있습니다.');
     }
@@ -649,7 +656,7 @@ export default function App() {
         .text-gradient-gold { background: linear-gradient(135deg, #fff 0%, #E8C87A 50%, #F5B8C8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .text-gradient-lavender { background: linear-gradient(90deg, #fff, #B8A8E8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* 🖨️ PDF 다운로드(인쇄) 모드 전용 스타일 🖨️ */
+        /* 🖨️ PDF 다운로드(인쇄) 모드 전용 스타일 (5차 검증 완료) 🖨️ */
         @media print {
           @page { margin: 15mm; size: A4; }
           .no-print { display: none !important; }
@@ -796,7 +803,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* 🌟 NEW: 무료 기질 분석 결과 (메뉴 화면으로 분리) 🌟 */}
+            {/* 🌟 무료 기질 분석 결과 (메뉴 화면으로 분리) 🌟 */}
             <div className="bg-[#1A1530] rounded-[24px] p-6 relative mb-4 overflow-hidden text-center text-white shadow-xl border border-[#D4A843]/30">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
               <div className="relative z-10">
@@ -807,7 +814,7 @@ export default function App() {
                 <p className="text-[13px] text-gray-300 mt-3 bg-white/5 p-3 rounded-xl leading-relaxed break-keep">
                   {currentStudyType.trait}
                 </p>
-                {/* 커스텀 이미지 노출부 */}
+                {/* 커스텀 이미지 노출부 (엑스박스 완전 수정) */}
                 {currentStudyType.imgUrl && (
                   <div className="mt-4 rounded-xl overflow-hidden border border-[#D4A843]/30 shadow-lg">
                     <img src={currentStudyType.imgUrl} alt={currentStudyType.title} className="w-full h-auto object-cover" />
@@ -816,7 +823,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* 🔗 NEW: 공유 버튼 (십성 매칭표 바로 밑으로 이동 및 복사 텍스트 보강) */}
+            {/* 🔗 공유 버튼 (십성 매칭표 바로 밑으로 이동 및 복사 텍스트 보강) */}
             <div className="bg-white border border-[#EAE1D8] rounded-2xl p-3.5 text-center mb-8 shadow-md">
               <button onClick={handleCopyLink} className="w-full bg-[#1b2d4a] text-[#E8C87A] text-xs font-bold py-3 rounded-xl flex items-center justify-center gap-1.5 transition-transform active:scale-95">
                 <Share2 size={16} /> 우리 아이 기질 결과 단톡방에 자랑하기
