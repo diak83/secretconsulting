@@ -62,27 +62,27 @@ const CHILD_STUDY_MAP = {
   "목(나무)": { 
     title: "호기심 폭발 [아이디어 에디슨]", emoji: "🚀", 
     trait: "가만히 앉아서 듣기만 하는 수업을 들으면 뇌가 정지합니다. 산만해 보이고 말대꾸가 많아 보일 수 있으나 창의성이 뛰어난 아이입니다.",
-    imgUrl: "https://i.ibb.co/BDVWGZD/Chat-GPT-Image-2026-6-18-09-01-08.png" 
+    imgUrl: "https://i.ibb.co/8Dkx1GT1/03.png" 
   },
   "화(불)": { 
     title: "아무도 못 말리는 [마이웨이 대장]", emoji: "👑", 
     trait: "엄마가 '공부해라'라고 잔소리하는 순간, 하려던 공부도 때려치우는 자존심 끝판왕입니다. 주도권을 쥐어주어야만 스스로 움직입니다.",
-    imgUrl: "https://i.ibb.co/hRps17dr/Chat-GPT-Image-2026-6-18-09-24-58.png" 
+    imgUrl: "https://i.ibb.co/m5ZNg27F/01.png" 
   },
   "토(흙)": { 
     title: "틀에 맞춰 움직이는 [FM 모범생]", emoji: "📐", 
     trait: "규칙과 정해진 시스템이 있으면 가장 편안해합니다. 다만 틀리는 것에 대한 공포가 커서 심화 문제 도전을 두려워할 수 있습니다.",
-    imgUrl: "https://i.ibb.co/rfkTdmDz/Chat-GPT-Image-2026-6-18-09-13-27.png" 
+    imgUrl: "https://i.ibb.co/050CHBD/02.png" 
   },
   "금(쇠)": { 
     title: "보상이 확실해야 뛰는 [실전파 경주마]", emoji: "🎯", 
     trait: "눈앞에 확실한 결과나 즉각적인 보상(당근)이 주어져야 눈빛이 바뀝니다. 추상적인 동기부여는 전혀 통하지 않습니다.",
-    imgUrl: "https://i.ibb.co/ccGr2hQF/Chat-GPT-Image-2026-6-18-09-18-44.png" 
+    imgUrl: "https://i.ibb.co/W4pjbsL4/05.png" 
   },
   "수(물)": { 
     title: "깊게 파고드는 [사색가형 선비]", emoji: "⛺", 
     trait: "책은 잘 읽고 엉덩이는 무거운데 막상 문제를 풀면 속도가 느릴 수 있습니다. 인풋 대비 아웃풋 인출 속도를 훈련해야 성적이 오릅니다.",
-    imgUrl: "https://i.ibb.co/VF0gx2s/Chat-GPT-Image-2026-6-18-09-00-05.png" 
+    imgUrl: "https://i.ibb.co/HLtZGfgn/04.png" 
   }
 };
 
