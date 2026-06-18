@@ -556,6 +556,16 @@ export default function App() {
       alert("안전한 결제 내역 발송을 위해\n이메일과 휴대폰 번호를 모두 입력해주세요.");
       return;
     }
+
+// 🔥🔥🔥 [여기에 치트키 추가] 🔥🔥🔥
+    if (userInfo.name === '테스트') {
+      alert("🛠️ 개발자 테스트 모드: 결제를 건너뛰고 VVIP 리포트를 오픈합니다.");
+      await handlePaymentSuccess(userInfo, userSaju, selectedMenu);
+      return; // 여기서 함수를 종료시켜 실제 결제창을 안 띄움
+    }
+    // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+
     localStorage.setItem('sajuApp_userInfo', JSON.stringify(userInfo));
     localStorage.setItem('sajuApp_userSaju', JSON.stringify(userSaju));
     localStorage.setItem('sajuApp_selectedMenu', JSON.stringify(selectedMenu));
