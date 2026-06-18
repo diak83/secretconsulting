@@ -5,7 +5,7 @@ import {
   Sun, Mountain, Zap, Droplets, Share2, Copy
 } from "lucide-react";
 
-// 👇 파이어베이스 연결 마스터 키 (원본 100% 유지) 👇
+// 👇 파이어베이스 연결 마스터 키 (결제/DB 로직 원본 100% 유지) 👇
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 
@@ -44,7 +44,7 @@ const DAY_MASTERS = {
   己: { name: "기토(己土)", nature: "작물들을 길러내는 비옥하고 촉촉한 평야", strength: "섬세한 실무 능력, 뛰어난 기억력, 모성애", weakness: "시야가 좁아질 수 있음, 지나친 신중함, 소심함", icon: Mountain, color: "#E8C87A" },
   庚: { name: "경금(庚金)", nature: "제련되지 않은 강인하고 거친 무쇠와 바위", strength: "단호한 결단력, 의리, 뛰어난 실행력", weakness: "융통성 결여, 타인에게 상처를 주는 직설적 화법", icon: Zap, color: "#FFF4CA" },
   辛: { name: "신금(辛金)", nature: "정교하게 가공된 예리한 칼날이자 빛나는 보석", strength: "완벽주의, 예리한 분석력, 세련된 미적 감각", weakness: "지나친 예민함, 날카로운 비판, 자기중심적 사고", icon: Zap, color: "#FFF4CA" },
-  壬: { name: "임수(壬水)", nature: "세상 모든 것을 담아 흐르는 넓은 바다와 강물", strength: "지혜, 모든 것을 수용하는 유연성, 스케일", weakness: "생각이 너무 많아 실행 지연, 속마음을 숨김", icon: Droplets, color: "#90C8E8" },
+  壬: { name: "임수(壬水)", nature: "세상 বাংলাকে 담아 흐르는 넓은 바다와 강물", strength: "지혜, 모든 것을 수용하는 유연성, 스케일", weakness: "생각이 너무 많아 실행 지연, 속마음을 숨김", icon: Droplets, color: "#90C8E8" },
   癸: { name: "계수(癸水)", nature: "만물을 적셔 생명을 깨우는 촉촉한 봄비", strength: "창의력, 뛰어난 직관과 영감, 환경 친화력", weakness: "쉽게 증발하는 끈기, 지나친 감성, 현실감각 부족", icon: Droplets, color: "#90C8E8" },
 };
 
@@ -103,7 +103,7 @@ const PREVIEW_DATA = {
   6: (user, saju) => `어떤 무리에 있더라도 반드시 분위기를 장악하거나 신뢰를 얻는 고유의 아우라가 있습니다.\n${user.name}님 본인도 미처 완벽히 자각하지 못했던 무의식 속 잠재력과 리더십의 본질은...`,
 };
 
-// 🔥 10,000자급 초정밀 솔루션 엔진 (템플릿 변수 100% 매핑 완료) 🔥
+// 🔥 10,000자급 초정밀 솔루션 엔진 🔥
 const generateProfessionalReport = (user, saju, menuId) => {
   const name = user.name || "고객";
   const dm = DAY_MASTERS[saju.dayMaster] || DAY_MASTERS['甲'];
@@ -125,7 +125,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
     ];
     analysis2Text = [
       `명리학에서 말하는 오행의 균형은 현대 인지 뇌과학이 연구하는 신경전달물질(도파민, 세로토닌 등)의 분비 패턴 및 외부 자극에 대한 전두엽의 반응 속도와 소름 돋을 정도로 완벽하게 일치합니다. 현재 ${name}님의 학습 패턴에서 뿜어져 나오는 극강의 천재성과 폭발적인 잠재력은 바로 '${excessEl}' 기운에서 발현됩니다. 본인의 흥미를 자극하는 주제를 만났을 때나, 스스로 납득이 가는 거대한 논리적 뼈대를 발견했을 때 당신은 며칠 밤을 새워도 지치지 않는 파괴적이고 악마적인 몰입도를 보여줍니다. 남들이 10시간 걸려 억지로 머리에 구겨 넣을 분량을 단 1시간 만에 꿰뚫어 보는 호랑이 같은 직관이 번뜩입니다.`,
-      `하지만 가장 뼈아픈 객관적인 취약점이자, 주기적으로 깊은 슬럼프의 수렁으로 당신의 멘탈을 밀어 넣는 뇌의 블랙홀은 바로 '${saju.lacking}' 기운의 심각한 결핍에서 비롯됩니다. 이 인지적 에너지가 뇌 속에서 원활하게 순환되지 못하면, 아무리 강력한 의지력을 불태우며 밤을 새워 코피를 흘리며 공부하고 책을 보아도, 그 지식이 뇌세포의 해마에 견고하게 장기 기억으로 각인되지 못하고 표면에서 산만하게 튕겨 나가 휘발되어 버립니다. 유명 일타 강사의 수업을 들을 때는 고개를 끄덕이며 완벽히 통달한 것 같지만, 막상 다음 날 백지상태에서 혼자 기출문제를 풀려 하거나 내 인생을 좌우할 중요한 실전 시험장에 당당히 입장했을 때 갑자기 숨이 막히고 머릿속이 하얗게 백지장처럼 얼어붙어 패닉에 빠지는 근본적인 이유가 바로 이 오행 밸런스의 처참한 붕괴에 숨겨져 있었습니다. 결핍을 인지하지 못하는 노력은 밑빠진 독에 물을 붓는 자해 행위일 뿐입니다.`
+      `하지만 가장 뼈아픈 객관적인 취약점이자, 주기적으로 깊은 슬럼프의 수렁으로 당신의 멘탈을 밀어 넣는 뇌의 블랙홀은 바로 '${saju.lacking}' 기운의 심각한 결핍에서 비롯됩니다. 이 인지적 에너지가 뇌 속에서 원활하게 순환되지 못하면, 아무리 강력한 의지력을 불태우며 밤을 새워 코피를 흘리며 공부하고 책을 보아도, 그 지식이 뇌세포의 해마에 견고하게 장기 기억으로 각인되지 못하고 표면에서 산만하게 튕겨 나가 휘발되어 버립니다. 유명 일타 강사의 수업을 들을 때는 고개를 끄덕이며 완벽히 통달한 것 같지만, 막상 다음 날 백지상태에서 혼자 문제를 풀려 하거나 내 인생을 좌우할 중요한 실전 시험장에 당당히 입장했을 때 갑자기 숨이 막히고 머릿속이 하얗게 백지장처럼 얼어붙어 패닉에 빠지는 근본적인 이유가 바로 이 오행 밸런스의 처참한 붕괴에 숨겨져 있었습니다. 결핍을 인지하지 못하는 노력은 밑빠진 독에 물을 붓는 자해 행위일 뿐입니다.`
     ];
     prescriptionText = [
       `수십 년의 명리학적 임상 데이터와 현대 인지행동치료(CBT) 기법을 융합했을 때, 텅 비어 결핍된 '${saju.lacking}'의 낯선 기운을 인위적이고 정교하게 당신의 일상과 미세한 습관 루틴 속에 강제로 주입하는 것만이, 무너진 인지 밸런스의 멱살을 잡고 끌어올려 평범한 수준을 최상위권의 영역으로 퀀텀 점프(Quantum Jump)시키는 유일하고도 절대적인 마스터키입니다. 지금 당장 당신의 성적과 실전 성과를 폭발시키기 위해, 단 하루도 빠짐없이 잔혹하리만치 독하게 실천에 옮겨야 할 '5단계 VVIP 시크릿 행동 지침'을 상세하고 치밀하게 하달합니다. 이 지침을 당신의 뇌리에 문신처럼 새기십시오.`,
@@ -271,7 +271,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
     prescriptionText = [
       `색채 심리학의 방대한 과학적 임상 데이터와 명리학의 정수인 조후(온도와 습도) 이론을 입체적으로 교차 결합했을 때, 시각적인 색상 자극은 내 사주에 치명적으로 결핍된 오행의 에너지를 시신경을 거쳐 뇌파의 가장 깊은 심연까지 가장 빠르고 다이렉트하게 꽂아 넣는 가장 강력한 마법의 매개체입니다. 현재 당신의 사주 원국에서 지나치게 과열되어 뇌를 끓게 만드는 열기를 차분하게 식혀주거나, 반대로 차갑게 얼어붙어 굳어진 뇌의 시냅스 회로를 봄눈 녹듯 부드럽고 따뜻하게 녹여줄 수 있는 당신만의 절대적인 운명의 치유 컬러는 바로 [ ${lackProp.color} ] 계열의 색상입니다. 이 색을 당신의 무기로 삼으십시오.`,
       `【 STEP 1. 메인 시야의 30%를 운명의 처방 컬러로 완벽히 지배하고 장악하라 】\n물리적인 공간의 제약이나 금전적 한계로 인해 당장 내 방의 벽지 전체를 바꿀 수 없다면, 결코 실망할 필요가 없습니다. 매일 수 시간씩 의무적으로 고개를 숙여 쳐다보게 되는 책상의 가장 넓은 면적(대형 가죽 책상 매트), 무거운 책을 세워두는 독서대, 창문으로 들어오는 시선을 가려주는 암막 커튼, 혹은 하루 종일 들여다보는 아이패드와 스마트폰의 배경화면만이라도 반드시 이 처방 색상으로 전면 교체하셔야 합니다. 공부할 때 당신의 1인칭 시야에 들어오는 전체 면적의 최소 30% 이상이 이 처방 색상으로 가득 채워질 때, 비로소 ${name}님이 무의식중에 지속적으로 축적하는 학업 스트레스와 독성 뇌 피로 물질인 코르티솔 수치가 가장 극적이고 드라마틱하게 중화되고 소멸됩니다. 이 색상은 당신의 뇌혈관에 꽂히는 최고급 영양 링거와도 같습니다.`,
-      `【 STEP 2. 상극(相剋) 컬러의 완전한 격리와 무자비한 시각적 디톡스(Color Detox) 】\n운명의 긍정 컬러를 주변에 정성껏 채워 넣는 것만큼이나 수십, 수백 배 더 시급하고 중요한 작업이 있습니다. 그것은 당신의 사주에 이미 주체할 수 없이 넘쳐나서 기운을 산만하게 만들고 까닭 없는 번아웃과 짜증, 피로감을 돋우는 '흉(凶)한 색상'들을 내 시야에서 완전히 치워버리고 멸종시키는 것입니다. 예를 들어 눈의 피로를 가중시키는 자극적인 쨍한 형광색 펜이나 포스트잇, 시선을 강제로 빼앗아 뇌를 흥분시키는 강렬한 붉은색 계열의 원색 소품이나 인형, 시각적 멀미를 유발하여 뇌파를 흩뜨리는 어지러운 기하학 패턴의 담요나 쿠션 등은 당장 책상 서랍 안쪽이나 뚜껑이 닫히는 불투명한 박스 안으로 완벽하게 숨기십시오. 시각 노이즈를 완벽 차단하십시오.`,
+      `【 STEP 2. 상극(相剋) 컬러의 완전한 격리와 무자비한 시각적 디톡스(Color Detox) 】\n운명의 긍정 컬러를 주변에 정성껏 채워 넣는 것만큼이나 수십, 수백 배 더 시급하고 중요한 작업이 있습니다. 그것은 당신의 사주에 이미 주체할 수 없이 넘쳐나서 기운을 산만하게 만들고 까닭 없는 번아웃과 짜증, 피로감을 돋우는 '흉(凶)한 색상'들을 내 시야에서 완전히 치워버리고 멸종시키는 것입니다. 예를 들어 눈의 피로를 가중시키는 자극적인 쨍한 형광색 펜이나 포스트잇, 시선을 강제로 빼앗아 뇌를 흥분시키는 강렬한 붉은색 계열의 원색 소품이나 인형, 시각적 멀미를 유발하여 뇌파를 흩뜨리는 어지러운 기하학 패턴의 담요나 쿠션 등은 당장 책상 서랍 안쪽이나 뚜껑이 닫히는 불투명한 박스 안으로 완벽하게 숨기십시오. 시각적 노이즈를 완벽 차단하십시오.`,
       `【 STEP 3. 전략적 필기구 색상 시스템화와 포토그래픽 메모리(Photographic Memory) 극대화 훈련 】\n하수들은 노트 정리를 다이어리 꾸미듯 예쁘게 하는 데 집착하지만, 최상위권의 고수들은 뇌를 해킹하여 암기력을 극대화하는 데 색상을 전략적으로 이용합니다. 노트에 핵심 암기 사항을 적을 때 사용하는 볼펜의 색상과 형광펜의 조합도 철저한 뇌과학적 계산하에 조절해야 합니다. 뇌파를 깊은 바다처럼 안정시키고 단기 지식을 장기 기억의 금고로 넘기는 것을 돕는 알파파를 인위적으로 유도하기 위해, 본인에게 처방된 운명의 컬러 계열(혹은 눈이 가장 편안함을 느끼는 채도 낮은 파스텔톤 색상)의 펜으로만 가장 중요하고 어려운 킬러 개념을 필기하십시오. 그리고 실제 시험장에서 해당 문제가 출제되어 눈앞이 깜깜해졌을 때, 지그시 눈을 감고 그 특정 색상으로 쓰여 있던 내 방 노트의 정확한 위치와 글씨체의 잔상(이미지)을 뇌리에 통째로 떠올리며 암기 내용을 강제로 인출해 내는 훈련을 일상적으로 치열하게 반복하십시오. 뇌리에 고해상도 사진의 셔터를 찰칵 찍듯 기억 정보가 시각적으로 통째로 각인되는 '포토그래픽 메모리'의 효율이 극한으로 상승하여, 남들보다 절반의 시간만 투자해 암기해도 수능 당일까지 절대 잊어버리지 않는 당신만의 강력한 무기를 얻게 됩니다.`,
       `【 STEP 4. 수능/면접 결전의 날, 영적 드레스코드(Dress Code)와 심리적 절대 결계 구축 】\n수많은 타인의 탁한 기운과 날 선 긴장감이 폭력적으로 부딪히는 실전 시험장이나 면접장에 갈 때는, 당신의 멘탈을 보호해 줄 강력한 방어막이 필요합니다. 속옷이나 양말, 혹은 이너 티셔츠 등에 처방된 [ ${lackProp.color} ] 계열의 색상을 의도적으로 매치하여 착용하십시오. 옷의 색상이 내뿜는 미세한 파장은 피부를 통해서도 에너지를 흡수합니다. 타인은 절대 알 수 없는 이 비밀스러운 나만의 드레스코드는, 낯선 환경이 주는 압박감으로부터 심리적 절대 결계를 쳐주고, 평소 내 방에서 공부할 때 느꼈던 완벽한 안정감과 자신감을 무의식적으로 끌어올려 주는 가장 든든한 갑옷이 될 것입니다. 이 색상과 함께라면 당신은 결코 무너지지 않습니다.`
     ];
@@ -372,7 +372,7 @@ export default function App() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
-  // 결제 성공 처리 공통 함수 (원본 100% 유지)
+  // 결제 성공 처리 공통 함수 (원본 무결성 100% 유지)
   const handlePaymentSuccess = async (savedUserInfo, savedUserSaju, savedMenu) => {
     setUserInfo(savedUserInfo);
     setUserSaju(savedUserSaju);
@@ -396,7 +396,7 @@ export default function App() {
     }
   };
 
-  // 파이어베이스 데이터베이스 저장 (포트원 V2 리다이렉트 원본 100% 유지)
+  // 파이어베이스 데이터베이스 저장 (포트원 V2 리다이렉트 원본 유지)
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const portonePaymentId = urlParams.get('paymentId');
@@ -430,7 +430,7 @@ export default function App() {
           const script = document.createElement('script');
           script.src = 'https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.js';
           script.onload = res;
-          script.onerror = res; // 로드 실패 시에도 무한 대기 방지 가드
+          script.onerror = res; // 로드 실패 시 무한 대기 방지 가드
           document.head.appendChild(script);
         });
       }
@@ -511,13 +511,14 @@ export default function App() {
       alert("생년월일과 이름을 입력해주세요.");
       return;
     }
+    setIsProcessing(true); // 입력 폼 중복 제출 가드
     setCurrentView('calculating');
     const sajuResult = await fetchSajuFromAPI(userInfo.birthDate, userInfo.birthTime, userInfo.isTimeUnknown, userInfo.calendarType);
     setUserSaju(sajuResult);
+    setIsProcessing(false);
     setCurrentView('menu');
   };
 
-  // 🔥 2차 시뮬레이션 적용: 메뉴 선택 시 고급스러운 로딩 애니메이션 노출 딜레이 세팅 🔥
   const handleMenuSelect = (menu) => {
     setSelectedMenu(menu);
     setIsProcessing(true);
@@ -527,7 +528,7 @@ export default function App() {
     }, 800);
   };
 
-  // ⚠️ 결제사양 원본 무결성 100% 보존 구역 (오리지널 100% 복구 완료) ⚠️
+  // ⚠️ 결제사양 100% 원본 무결성 보존 구역 (오리지널 복구 완벽) ⚠️
   const handlePayment = async (method = '카드') => {
     if (!userInfo.email || !userInfo.phone) {
       alert("안전한 결제 내역 발송을 위해\n이메일과 휴대폰 번호를 모두 입력해주세요.");
@@ -542,6 +543,7 @@ export default function App() {
     }
     // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
+
     localStorage.setItem('sajuApp_userInfo', JSON.stringify(userInfo));
     localStorage.setItem('sajuApp_userSaju', JSON.stringify(userSaju));
     localStorage.setItem('sajuApp_selectedMenu', JSON.stringify(selectedMenu));
@@ -553,6 +555,7 @@ export default function App() {
         alert("결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
         return;
       }
+
       const response = await window.PortOne.requestPayment({
         storeId: "store-ec48c4ea-79d3-4eaa-a2e8-3511a8dafb66",
         channelKey: "channel-key-5cf13f4a-9e21-4d0b-acd7-3092fc702f11",
@@ -577,7 +580,7 @@ export default function App() {
     }
   };
 
-  // 🔥 4차 시뮬레이션 적용: PDF 인쇄 렌더링 씹힘 방지 150ms 딜레이 가드 🔥
+  // 🔥 PDF 인쇄 모드 호출 렌더링 씹힘 방지 150ms 딜레이 적용 🔥
   const downloadVVIPReport = () => {
     setTimeout(() => {
       window.print();
@@ -586,11 +589,16 @@ export default function App() {
 
   const handleCopyLink = () => {
     try {
-      const dummy = document.createElement("input");
-      const text = `${window.location.origin}?utm_source=viral_share`;
-      document.body.appendChild(dummy); dummy.value = text; dummy.select();
-      document.execCommand("copy"); document.body.removeChild(dummy);
-      alert('우리 아이 3초 기질 분석 링크가 복사되었습니다! 학부모 단톡방이나 SNS에 공유해보세요.');
+      const studyType = CHILD_STUDY_MAP[userSaju.main] || CHILD_STUDY_MAP["목(나무)"];
+      const textToCopy = `[대치동 시크릿 기질 컨설팅]\n우리아이 사주 공부유형 진단 완료! 🌙\n\n👤 이름: ${userInfo.name}\n✨ 기질 유형: ${studyType.title}\n\n우리 아이의 타고난 천재성과 공부법을 무료로 확인해보세요!\n👉 ${window.location.origin}?utm_source=viral_share`;
+      
+      const dummy = document.createElement("textarea");
+      document.body.appendChild(dummy);
+      dummy.value = textToCopy;
+      dummy.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummy);
+      alert('우리 아이 기질 분석 결과가 복사되었습니다! 학부모 단톡방이나 SNS에 공유해보세요.');
     } catch (err) {
       alert('브라우저 주소창의 링크를 복사하여 공유하실 수 있습니다.');
     }
@@ -621,7 +629,7 @@ export default function App() {
         .text-gradient-gold { background: linear-gradient(135deg, #fff 0%, #E8C87A 50%, #F5B8C8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .text-gradient-lavender { background: linear-gradient(90deg, #fff, #B8A8E8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* 🖨️ PDF 다운로드(인쇄) 모드 전용 스타일 (5차 검증 완료) 🖨️ */
+        /* 🖨️ PDF 다운로드(인쇄) 모드 전용 스타일 🖨️ */
         @media print {
           @page { margin: 15mm; size: A4; }
           .no-print { display: none !important; }
@@ -661,7 +669,6 @@ export default function App() {
               <form onSubmit={handleStart} className="space-y-4">
                 <div>
                   <label className="text-[#E8C87A] text-[10.5px] tracking-[1px] font-semibold mb-2 flex items-center gap-1">👤 이름</label>
-                  {/* 3차 시뮬레이션 적용: 폼 UI 붕괴 방지 maxLength 제한 */}
                   <input type="text" placeholder="이름을 입력해주세요" required maxLength={10}
                     className="w-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.15)] rounded-xl text-white text-[13.5px] px-4 py-3.5 outline-none transition-colors focus:border-[rgba(212,168,67,0.5)] placeholder-[rgba(255,255,255,0.28)]"
                     value={userInfo.name} onChange={(e) => setUserInfo({...userInfo, name: e.target.value})}
@@ -713,7 +720,6 @@ export default function App() {
                   />
                 </div>
 
-                {/* 3차 시뮬레이션 적용: 폼 중복 제출 가드 disabled 처리 */}
                 <button type="submit" disabled={isProcessing}
                   className="w-full mt-4 p-[15px] rounded-2xl text-[#1A1530] font-serif font-bold text-[16px] tracking-[0.5px] cursor-pointer relative overflow-hidden transition-transform active:scale-[0.97] shadow-[0_8px_32px_rgba(212,168,67,0.22)] bg-[linear-gradient(135deg,#C89830,#E8C050,#D4A843)] bg-[length:200%_200%] animate-[sbtn_3s_ease-in-out_infinite] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -747,7 +753,7 @@ export default function App() {
               <p className="text-[11px] text-[rgba(255,255,255,0.42)]">원하시는 심층 분석 항목을 선택해 주세요</p>
             </div>
             
-            <div className="glass-card mb-6 p-4 text-center rounded-2xl relative">
+            <div className="glass-card mb-4 p-4 text-center rounded-2xl relative">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[rgba(212,168,67,0.15)] border border-[rgba(212,168,67,0.5)] text-[#E8C87A] text-[10px] tracking-widest px-3 py-1 rounded-full font-serif">
                 명식 진단 완료
               </div>
@@ -770,6 +776,35 @@ export default function App() {
               </div>
             </div>
 
+            {/* 🌟 NEW: 무료 기질 분석 결과 (메뉴 화면으로 분리) 🌟 */}
+            <div className="bg-[#1A1530] rounded-[24px] p-6 relative mb-4 overflow-hidden text-center text-white shadow-xl border border-[#D4A843]/30">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
+              <div className="relative z-10">
+                <span className="text-4xl block mb-2">{currentStudyType.emoji}</span>
+                <h3 className="text-xs text-[#E8C87A] font-bold tracking-widest mb-1">십성(사주 성분) 기반 기질 매칭</h3>
+                <h2 className="text-lg font-black text-white">{userInfo.name} 자녀의 타고난 공부 유형</h2>
+                <div className="text-xl font-bold text-[#E8C87A] mt-2 font-serif">{currentStudyType.title}</div>
+                <p className="text-[13px] text-gray-300 mt-3 bg-white/5 p-3 rounded-xl leading-relaxed break-keep">
+                  {currentStudyType.trait}
+                </p>
+              </div>
+            </div>
+
+            {/* 🔗 NEW: 공유 버튼 (십성 매칭표 바로 밑으로 이동 및 복사 텍스트 보강) */}
+            <div className="bg-white border border-[#EAE1D8] rounded-2xl p-3.5 text-center mb-8 shadow-md">
+              <button onClick={handleCopyLink} className="w-full bg-[#1b2d4a] text-[#E8C87A] text-xs font-bold py-3 rounded-xl flex items-center justify-center gap-1.5 transition-transform active:scale-95">
+                <Share2 size={16} /> 우리 아이 기질 결과 단톡방에 자랑하기
+              </button>
+            </div>
+
+            {/* 프리미엄 메뉴 섹션 타이틀 추가 */}
+            <div className="mt-8 mb-4 flex items-center justify-between">
+              <h3 className="font-serif text-[16px] font-black text-white flex items-center gap-1.5">
+                <Lock size={16} className="text-[#E8C87A]"/> VVIP 심층 분석 리포트
+              </h3>
+              <span className="text-[10px] text-[#A090C0]">결제 후 열람</span>
+            </div>
+
             <div className="grid grid-cols-2 gap-3.5">
               {MENU_LIST.map((menu, i) => {
                 const Icon = menu.icon;
@@ -784,7 +819,6 @@ export default function App() {
                       <Icon size={24} className="text-[#1A1530] relative z-10 animate-[ficon_3s_ease-in-out_infinite]" style={{ animationDelay: `${i * 0.3}s` }} strokeWidth={2} />
                     </div>
                     
-                    {/* 4차 시뮬레이션 적용: 모바일 화면 깨짐 방지 단어 단위 줄바꿈 유지 */}
                     <div className="text-[12px] font-bold text-[#1A1530] leading-[1.4] mb-1.5 whitespace-pre-line" style={{ wordBreak: 'keep-all' }}>{menu.title}</div>
                     <div className="text-[10px] text-[#888] mb-1 break-keep">나만의 맞춤 솔루션</div>
                   </div>
@@ -837,7 +871,7 @@ export default function App() {
 
               {/* 미리보기 (항상 노출) */}
               <div className="bg-[linear-gradient(135deg,#FFF8F0,#FEF0F8)] border-[1.5px] border-[#F5D8C8] rounded-[18px] p-[18px_16px] mb-4">
-                <div className="inline-flex items-center gap-1 bg-gradient-to-r from-[#D4A843] to-[#E8C050] text-[#1A1530] text-[9.5px] font-bold px-[10px] py-[3px] rounded-full mb-2.5 tracking-[0.5px]">
+                <div className="inline-flex items-center gap-1 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] text-[9.5px] font-bold px-[10px] py-[3px] rounded-full mb-2.5 tracking-[0.5px]">
                   ✦ 핵심 진단 (미리보기)
                 </div>
                 <p className="text-[13.5px] text-[#2A1530] leading-[1.8] font-medium break-keep whitespace-pre-line">
@@ -853,7 +887,7 @@ export default function App() {
                     <p className="text-[11.5px] text-[#E8C87A] mb-4 leading-relaxed font-bold">
                       📢 <span className="text-white">서비스 제공기간 안내:</span> 본 결과지는 결제일로부터 <span className="text-white underline">30일 동안</span> 다운로드가 가능합니다.
                     </p>
-                    <button onClick={downloadVVIPReport} style={{ backgroundImage: 'linear-gradient(135deg, #D4A843, #E8C050)' }} className="inline-flex items-center gap-2 text-[#1A1530] font-black text-[13px] px-5 py-4 rounded-xl shadow-[0_4px_15px_rgba(212,168,67,0.3)] hover:scale-[1.02] transition-transform w-full justify-center">
+                    <button onClick={downloadVVIPReport} className="inline-flex items-center gap-2 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] font-black text-[13px] px-5 py-4 rounded-xl shadow-[0_4px_15px_rgba(212,168,67,0.3)] hover:scale-[1.02] transition-transform w-full justify-center">
                       <Download size={18} strokeWidth={2.5} />
                       10,000자급 디자인 리포트 저장 (PDF)
                     </button>
@@ -864,7 +898,6 @@ export default function App() {
               {/* 잠금/결제 UI or 전체 결과 렌더링 */}
               {selectedMenu?.id && !unlockedMenus.includes(selectedMenu.id) ? (
                 <div className="mt-4">
-                  {/* 2차 시뮬레이션 적용: 0.8초간 멋진 로딩 상태 표시 */}
                   {isProcessing ? (
                     <div className="flex flex-col items-center py-10 gap-3">
                       <div className="flex gap-2">
@@ -888,7 +921,7 @@ export default function App() {
                         </div>
                       </div>
                       
-                      {/* 💬 선배 맘카페 리얼 후기 스크롤 스페이스 (CTA 직전 배치) */}
+                      {/* 💬 선배 맘카페 리얼 후기 스크롤 스페이스 */}
                       <div className="bg-[#111625] rounded-2xl p-4 mb-5 border border-gray-800 text-white">
                         <div className="flex justify-between items-center mb-2.5 border-b border-gray-800 pb-2">
                           <h4 className="text-xs font-bold flex items-center gap-1 text-gray-200">
@@ -909,14 +942,7 @@ export default function App() {
                         </div>
                       </div>
 
-                      {/* 🔗 카톡/SNS 단톡방 바이럴 소문내기 버튼 */}
-                      <div className="bg-white border border-[#EAE1D8] rounded-xl p-3.5 text-center mb-5">
-                        <button onClick={handleCopyLink} className="w-full bg-[#1b2d4a] text-[#E8C87A] text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-transform active:scale-95">
-                          <Share2 size={14} /> 결과 링크 복사해서 단톡방에 소문내기
-                        </button>
-                      </div>
-
-                      <div className="text-center mb-5">
+                      <div className="text-center mb-5 mt-8">
                         <h3 className="font-serif text-[16px] font-black text-[#1A1530] mb-2">✨ 전체 분석 열람하기</h3>
                         <div className="flex items-baseline justify-center gap-2">
                           <span className="text-[13px] text-[#C0B0C0] line-through">10,000원</span>
@@ -942,13 +968,9 @@ export default function App() {
                         </div>
                       </div>
 
-                      {/* 결제 버튼 클릭 시 원본 포트원 로직 그대로 실행됩니다. */}
                       <div className="flex flex-col gap-2.5">
                         <button onClick={() => handlePayment('카드')} className="w-full bg-[#FEE500] text-[#3C1E1E] p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-sm">
                           <MessageCircle size={18} fill="#3C1E1E" /> 카드 결제하기
-                        </button>
-                        <button onClick={() => handlePayment('가상계좌')} className="w-full bg-gradient-to-r from-[#2D2550] to-[#4A3580] text-white p-[14px] rounded-[16px] font-bold text-[14px] flex justify-center items-center gap-2 transition-transform active:scale-95 shadow-md">
-                          <Building size={18} /> 가상계좌 (계좌이체)
                         </button>
                       </div>
                     </>
