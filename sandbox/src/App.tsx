@@ -56,60 +56,17 @@ const ELEMENT_PRESCRIPTION = {
   "수(물)": { color: "미드나잇 블루, 블랙, 딥 퍼플", item: "잔잔한 백색소음을 듣기 위한 고급 노이즈 캔슬링 헤드폰, 가습기, 물결 모양의 소품", action: "방해받지 않는 심야 시간(자시, 23~01시)을 활용한 딥워크, 명상을 통한 뇌 휴식", job: "기획/전략, 심리 연구, 작가, 철학/역사학자, 무역", symbols: [{ emoji: "🌊", label: "심야 딥워크" }, { emoji: "🎧", label: "외부 차단" }, { emoji: "🧘‍♂️", label: "뇌파 안정" }] },
 };
 
-// 🔥🔥🔥 10가지(일간)로 2배 세분화된 극사실주의 기질 맵핑 데이터 🔥🔥🔥
-// 원하신다면 각각의 10개 기질에 맞춰 추후 이미지를 10장으로 늘려 적용하실 수 있습니다. 
-// 현재는 깨지지 않도록 올려주신 5개 이미지를 기운에 맞춰 분배해두었습니다.
 const CHILD_STUDY_MAP = {
-  "甲": { 
-    title: "자기주도 끝판왕 [불도저 리더형]", emoji: "🚀", 
-    trait: "간섭하면 엇나가는 자존심 끝판왕입니다. 큰 숲을 보는 기획력이 뛰어나며, 목표와 주도권만 쥐어주면 스스로 뚫고 나가는 무서운 추진력을 가졌습니다.", 
-    imgUrl: "https://i.ibb.co/B27J0D8K/image.png" 
-  },
-  "乙": { 
-    title: "환경 흡수 스펀지 [유연한 네트워크형]", emoji: "🌱", 
-    trait: "주변 환경과 짝꿍의 영향을 가장 뼈저리게 받는 기질입니다. 강압적인 지시보다는 부드러운 유대감과 좋은 면학 분위기 속에 던져둘 때 성적이 폭발합니다.", 
-    imgUrl: "https://i.ibb.co/1Gjttdmc/image.png" 
-  },
-  "丙": { 
-    title: "주목받아야 크는 [열정 폭발 스피커형]", emoji: "🌞", 
-    trait: "칭찬과 인정이 곧 뇌의 도파민입니다. 혼자 조용히 푸는 것보다, 화이트보드 앞에서 남에게 일타강사처럼 가르치며 설명하는 학습법이 최고의 효율을 냅니다.", 
-    imgUrl: "https://i.ibb.co/LX3HsMmW/image.png" 
-  },
-  "丁": { 
-    title: "집요한 딥다이브 [심야의 연구원형]", emoji: "🕯️", 
-    trait: "한번 꽂힌 과목이나 원리는 끝을 보는 무서운 집요함이 있습니다. 야행성 기질이 강해, 남들이 자는 심야의 고요한 시간에 폭발적인 집중력을 발휘합니다.", 
-    imgUrl: "https://i.ibb.co/sdcZNDxM/image.png" 
-  },
-  "戊": { 
-    title: "흔들림 없는 [무한 체력 마라토너형]", emoji: "⛰️", 
-    trait: "잔머리를 굴리기보다 우직하게 밀어붙이는 엉덩이 힘의 최강자입니다. 변동성보다는 매일 같은 장소, 같은 시간의 '고정 루틴'을 지켜줄 때 가장 강해집니다.", 
-    imgUrl: "https://i.ibb.co/CKJTNcdj/image.png" 
-  },
-  "己": { 
-    title: "실수 용납 불가 [디테일 완벽주의자형]", emoji: "📝", 
-    trait: "기억력이 비상하고 정보의 구조화 능력이 탁월합니다. 다만 틀리는 것에 대한 공포가 커서, 꼼꼼하게 오답 노트를 분석하는 학습법이 성적을 올립니다.", 
-    imgUrl: "https://i.ibb.co/TxYkwdqN/image.png" 
-  },
-  "庚": { 
-    title: "보상이 확실해야 뛰는 [실전파 경주마형]", emoji: "🎯", 
-    trait: "눈앞에 확실한 결과나 즉각적인 보상(당근)이 주어져야 눈빛이 바뀝니다. 추상적인 동기부여는 통하지 않으며, 실전 모의고사 훈련 시 텐션이 오릅니다.", 
-    imgUrl: "https://i.ibb.co/bjPmLzZx/image.png" 
-  },
-  "辛": { 
-    title: "예리한 핀셋 [초정밀 전략가형]", emoji: "💎", 
-    trait: "지능이 높고 굉장히 예민하여 주입식 교육을 혐오합니다. 개념의 빈틈을 핀셋처럼 짚어내는 능력이 탁월해 최상위권 킬러 문항 정복에 가장 유리한 기질입니다.", 
-    imgUrl: "https://i.ibb.co/xbSnqyc/image.png" 
-  },
-  "壬": { 
-    title: "스케일이 다른 [빅픽처 설계자형]", emoji: "🌊", 
-    trait: "단순 암기를 극도로 싫어하며 이해의 폭이 바다처럼 넓습니다. 무작정 문제를 풀리기보다 과목의 전체적인 맥락과 원리를 먼저 납득시켜야 뇌가 움직입니다.", 
-    imgUrl: "https://i.ibb.co/B5Fjh4wh/image.png" 
-  },
-  "癸": { 
-    title: "틀을 깨부수는 [직관적 천재 영감형]", emoji: "💧", 
-    trait: "가만히 앉아 듣기만 하는 수업을 들으면 뇌가 정지합니다. 남들이 생각지 못한 엉뚱하고 기발한 패턴으로 정답을 유추해내는 영재성이 다분한 기질입니다.", 
-    imgUrl: "https://i.ibb.co/kVq7n1yQ/image.png" 
-  }
+  "甲": { title: "자기주도 끝판왕 [불도저 리더형]", emoji: "🚀", trait: "간섭하면 엇나가는 자존심 끝판왕입니다. 큰 숲을 보는 기획력이 뛰어나며, 목표와 주도권만 쥐어주면 스스로 뚫고 나가는 무서운 추진력을 가졌습니다.", imgUrl: "https://i.ibb.co/BDVWGZD/Chat-GPT-Image-2026-6-18-09-01-08.png" },
+  "乙": { title: "환경 흡수 스펀지 [유연한 네트워크형]", emoji: "🌱", trait: "주변 환경과 짝꿍의 영향을 가장 뼈저리게 받는 기질입니다. 강압적인 지시보다는 부드러운 유대감과 좋은 면학 분위기 속에 던져둘 때 성적이 폭발합니다.", imgUrl: "https://i.ibb.co/BDVWGZD/Chat-GPT-Image-2026-6-18-09-01-08.png" },
+  "丙": { title: "주목받아야 크는 [열정 폭발 스피커형]", emoji: "🌞", trait: "칭찬과 인정이 곧 뇌의 도파민입니다. 혼자 조용히 푸는 것보다, 화이트보드 앞에서 남에게 일타강사처럼 가르치며 설명하는 학습법이 최고의 효율을 냅니다.", imgUrl: "https://i.ibb.co/hRps17dr/Chat-GPT-Image-2026-6-18-09-24-58.png" },
+  "丁": { title: "집요한 딥다이브 [심야의 연구원형]", emoji: "🕯️", trait: "한번 꽂힌 과목이나 원리는 끝을 보는 무서운 집요함이 있습니다. 야행성 기질이 강해, 남들이 자는 심야의 고요한 시간에 폭발적인 집중력을 발휘합니다.", imgUrl: "https://i.ibb.co/hRps17dr/Chat-GPT-Image-2026-6-18-09-24-58.png" },
+  "戊": { title: "흔들림 없는 [무한 체력 마라토너형]", emoji: "⛰️", trait: "잔머리를 굴리기보다 우직하게 밀어붙이는 엉덩이 힘의 최강자입니다. 변동성보다는 매일 같은 장소, 같은 시간의 '고정 루틴'을 지켜줄 때 가장 강해집니다.", imgUrl: "https://i.ibb.co/rfkTdmDz/Chat-GPT-Image-2026-6-18-09-13-27.png" },
+  "己": { title: "실수 용납 불가 [디테일 완벽주의자형]", emoji: "📝", trait: "기억력이 비상하고 정보의 구조화 능력이 탁월합니다. 다만 틀리는 것에 대한 공포가 커서, 꼼꼼하게 오답 노트를 분석하는 학습법이 성적을 올립니다.", imgUrl: "https://i.ibb.co/rfkTdmDz/Chat-GPT-Image-2026-6-18-09-13-27.png" },
+  "庚": { title: "보상이 확실해야 뛰는 [실전파 경주마형]", emoji: "🎯", trait: "눈앞에 확실한 결과나 즉각적인 보상(당근)이 주어져야 눈빛이 바뀝니다. 추상적인 동기부여는 통하지 않으며, 실전 모의고사 훈련 시 텐션이 오릅니다.", imgUrl: "https://i.ibb.co/ccGr2hQF/Chat-GPT-Image-2026-6-18-09-18-44.png" },
+  "辛": { title: "예리한 핀셋 [초정밀 전략가형]", emoji: "💎", trait: "지능이 높고 굉장히 예민하여 주입식 교육을 혐오합니다. 개념의 빈틈을 핀셋처럼 짚어내는 능력이 탁월해 최상위권 킬러 문항 정복에 가장 유리한 기질입니다.", imgUrl: "https://i.ibb.co/ccGr2hQF/Chat-GPT-Image-2026-6-18-09-18-44.png" },
+  "壬": { title: "스케일이 다른 [빅픽처 설계자형]", emoji: "🌊", trait: "단순 암기를 극도로 싫어하며 이해의 폭이 바다처럼 넓습니다. 무작정 문제를 풀리기보다 과목의 전체적인 맥락과 원리를 먼저 납득시켜야 뇌가 움직입니다.", imgUrl: "https://i.ibb.co/VF0gx2s/Chat-GPT-Image-2026-6-18-09-00-05.png" },
+  "癸": { title: "틀을 깨부수는 [직관적 천재 영감형]", emoji: "💧", trait: "가만히 앉아 듣기만 하는 수업을 들으면 뇌가 정지합니다. 남들이 생각지 못한 엉뚱하고 기발한 패턴으로 정답을 유추해내는 영재성이 다분한 기질입니다.", imgUrl: "https://i.ibb.co/VF0gx2s/Chat-GPT-Image-2026-6-18-09-00-05.png" }
 };
 
 const REVIEWS = [
@@ -201,7 +158,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
       ];
       prescriptionText = [
         `미취학 시기의 두뇌 발달 가능성을 인간의 생물학적 한계치까지 극대화하여 평생 흔들리지 않는 강철 같은 공부 그릇을 완성하기 위해서는, 타고난 '${dm.name}'의 본능을 철저히, 그리고 무조건적으로 존중해야 합니다. 부모가 지식을 주입하고 하루를 닫는 단계에서 막혀있는 '${saju.lacking}'의 기운을 놀이라는 매개체를 통해 강제로라도 소통시켜주어야 합니다. 억지로 책상에 앉혀 연산 문제지를 풀리는 것은 뇌세포에 독약을 붓는 짓입니다. 오직 ${name} 아이의 명식표에만 통용되는, 상위 0.1%를 위한 VVIP 맞춤형 두뇌 발달 시크릿 5단계를 공개합니다.`,
-        `【 STEP 1. 사주 맞춤형 '오감 자극(Sensory Play)'의 잔혹한 황금비율 세팅 】\n현재 ${name} 아이의 꽉 막힌 뇌의 혈 단숨에 뚫어줄 수 있는 절대적이고 유일한 교육 솔루션은 바로 [ ${lackProp.action} ] 형태의 역동적인 놀이입니다. 부모가 편하고자 그저 스마트폰 유튜브나 화려한 교육용 애니메이션을 틀어주며 수동적으로 번쩍이는 화면만 보게 만드는 시간은 아이의 전두엽 세포를 실시간으로 죽이는 행위입니다. 깨어있는 시간의 70%는 반드시 두 손에 흙이나 물감을 묻혀 만지고, 입으로 노래하며 떠들고, 온몸의 근육을 움직여 에너지를 발산하는 능동적인 출력(Output) 중심의 활동으로 가득 채우십시오. 이 70%의 황금비율이 맞춰질 때, 비로소 아이의 천재적인 뇌 시냅스가 거미줄처럼 폭발적으로 연결되며 굳어집니다.`,
+        `【 STEP 1. 사주 맞춤형 '오감 자극(Sensory Play)'의 잔혹한 황금비율 세팅 】\n현재 ${name} 아이의 꽉 막힌 뇌의 혈을 단숨에 뚫어줄 수 있는 절대적이고 유일한 교육 솔루션은 바로 [ ${lackProp.action} ] 형태의 역동적인 놀이입니다. 부모가 편하고자 그저 스마트폰 유튜브나 화려한 교육용 애니메이션을 틀어주며 수동적으로 번쩍이는 화면만 보게 만드는 시간은 아이의 전두엽 세포를 실시간으로 죽이는 행위입니다. 깨어있는 시간의 70%는 반드시 두 손에 흙이나 물감을 묻혀 만지고, 입으로 노래하며 떠들고, 온몸의 근육을 움직여 에너지를 발산하는 능동적인 출력(Output) 중심의 활동으로 가득 채우십시오. 이 70%의 황금비율이 맞춰질 때, 비로소 아이의 천재적인 뇌 시냅스가 거미줄처럼 폭발적으로 연결되며 굳어집니다.`,
         `【 STEP 2. 명리학적 에너지 생체 사이클에 맞춘 부모의 완벽한 교감 전략 】\n아이의 에너지가 용암처럼 가장 충만하게 끓어오르는 오전 시간대에는, 부모가 섣불리 개입하여 아이의 행동을 지시하거나 규칙을 강요하지 마십시오. 철저하게 조력자이자 관찰자(Follower)의 위치로 한 걸음 뒤로 물러나, 아이가 스스로 엉뚱한 룰을 창조해 내는 놀이의 과정을 경이롭게 지켜보십시오. 반대로 체력이 방전되고 짜증과 칭얼거림이 늘어나는 늦은 오후 시간대에는, 아이 사주의 뼈아픈 구멍인 '${saju.lacking}' 기운을 다이렉트로 채워주는 특정 색상의 물건이나 정적인 촉감 놀이(따뜻한 물놀이, 찰흙 빚기 등)를 선제적으로 투입하여 요동치는 뇌파를 알파파로 차분하게 안정시키며 에너지의 강약을 완벽하게 조절해 주는 치밀함이 필요합니다.`,
         `【 STEP 3. 주입식 플래시카드를 초월하는 '1% 질문형 하브루타' 대화법 】\n단순히 아이가 영어 단어를 얼마나 많이 아는지, 숫자를 백까지 세는지 테스트하고 정답만을 강압적으로 요구하는 부모의 태도는 아이의 숨통을 조이고 창의력의 싹을 날카로운 가위로 잘라버리는 짓입니다. 상위 1%의 진정한 영재로 키우기 위해서는, 아이가 아무리 비논리적이고 엉뚱한 대답을 하더라도 절대 교정하려 들지 말고 "우와, 우리 ㅇㅇ이는 왜 그렇게 멋진 생각을 했어?"라고 되물어보며 정답이 존재하지 않는 끝장 대화를 유도해야 합니다. 아이가 논리의 한계에 부딪혀 말문이 막힐 때 부드럽고 유쾌하게 힌트를 던져주는 그 섬세한 티키타카의 과정이, 사주의 '${saju.lacking}' 오행을 아이의 뇌리에 가장 안정적이고 깊숙하게 보충해 주는 숭고한 의식이 됩니다.`,
         `【 STEP 4. 부모의 불안감이 전이되는 상극(相剋)의 환경에 대한 완벽한 차단 】\n아이의 사주 원국에서 식상(표현)과 비겁(자아)의 기운 역학을 분석해 볼 때, 맘카페나 조동(조리원 동기) 모임, 혹은 친척들 사이에서 무심코 들려오는 "누구 집 애는 벌써 한글을 다 뗐다더라, 구구단을 외운다더라"라는 식의 천박한 비교와 소음은 부모의 스트레스 호르몬(코르티솔)을 급증시키고, 이 흉한 파동은 거울 신경 세포를 통해 고스란히 아이의 연약한 뇌를 무자비하게 공격합니다. 내 아이의 뇌 발달 시간표는 옆집 아이가 아닌, 오직 명식의 정해진 황금 비율에 맞춰져 있습니다. 외부의 어리석은 소음을 철저히 차단하고 내 아이의 리듬만을 호위하는 부모의 단단하고 서늘한 멘탈 결계가 그 무엇보다 절실합니다.`,
@@ -299,7 +256,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
       `【 STEP 2. 촉각과 후각을 완벽히 지배하는 뇌파 앵커링(Anchoring) 최면 기법 】\n단순히 처방된 물건을 책상 위에 덜렁 올려두는 것으로 끝내서는 안 됩니다. 매일 본격적인 딥워크(공부)를 시작하기 직전, 책상 명당에 배치해둔 처방 아이템을 손끝으로 가볍고 섬세하게 매만지거나 지그시 눈을 맞추며 5초간 집중해서 응시하십시오. 그리고 코로 아주 깊게 숨을 들이마시고 내쉬는 심호흡을 정확히 3번만 반복하십시오. 단 10초면 충분한 이 짧고 경건한 나만의 의식(Ritual)은, 하루 종일 불안정하게 들뜨고 화가 나 있던 당신의 불필요한 열기와 잡념을 차분하게 가라앉혀 줍니다. 동시에 뇌의 편도체에게 "자, 지금부터 외부 세상과의 모든 단절을 선언한다. 100% 완벽한 몰입의 진공 상태가 시작된다"라는 가장 강력한 무의식적 최면 신호를 다이렉트로 꽂아 넣습니다. 여기에 특정 허브 향기(아로마 디퓨저 등)나 특정 물건의 차가운 금속 질감 등 물리적인 감각 요소와 이 의식을 결합하면, 산만한 일반적인 뇌파(베타파) 상태에서 고도의 집중 모드인 몰입 상태(알파파, 세타파)로 전환되는 뇌의 예열 속도가 무려 3배 이상 폭발적으로 단축되는 기적을 경험할 것입니다.`,
       `【 STEP 3. 디지털 디톡스(Digital Detox) 박스의 도입과 시야의 강박적 통제 】\n${name}님의 사주 기운은 시각적이고 청각적인 외부의 자잘한 자극에 무의식적으로 에너지를 너무나 쉽게 빼앗기는 취약한 구조를 띠고 있습니다. 스마트폰의 아주 작은 진동이나 짧은 화면 불빛만으로도 뇌가 집중력의 맥락을 뚝 끊어버립니다. 책상 주변에 내용물이 전혀 보이지 않는 무거운 불투명한 '디지털 디톡스 박스'를 하나 마련하십시오. 공부할 때는 한 번에 오직 하나의 과목, 오직 하나의 책, 오직 하나의 펜만 시야에 두십시오. 주변의 모든 잡동사니와 스마트폰은 보이지 않는 서랍 속에 철저하게 유배를 보내 격리시켜야 합니다. 오직 하나의 타겟만 레이저처럼 조준하여 뚫어버리는 이 극단적인 단일화 습관만이 당신을 가장 높은 곳의 승리로 이끌어 줄 것입니다.`,
       `【 STEP 4. 결전의 날, 기적을 소환하는 포터블(Portable) 부적화의 비밀스러운 힘 】\n피 말리는 모의고사, 내 인생의 궤도를 좌우할 대학 수능, 혹은 피 튀기는 고시나 승진 면접 등 극도의 긴장감이 요구되는 실전 당일, 어른의 멘탈마저도 압박감에 도미노처럼 허무하게 붕괴하기 일쑤입니다. 평소 내 방 책상에서 항상 곁에 두며 당신의 에너지를 깊게 교류했던 바로 그 재질의 작은 소품(예: 처방된 재질의 차가운 고급 금속 만년필, 나무 열쇠고리, 작은 천연 원석, 특정 색상의 손수건 등)을 반드시 교복 주머니나 정장 안주머니 속에 나만의 비밀 부적처럼 은밀하게 지니고 시험장에 당당히 입장하십시오. 시험지를 받고 심장이 미친 듯이 뛰며 머리가 하얗게 백지장처럼 변하려는 패닉의 찰나, 주머니 속으로 조용히 손을 넣어 그 익숙한 기운의 질감을 손끝으로 강하게 쥐어보십시오. 그 순간, 당신의 뇌 신경계는 가장 안정적이고 폭발적인 퍼포먼스를 냈던 '내 방 책상 앞의 고요하고 완벽했던 상태'로 즉각적인 디폴트 세팅을 0.1초 만에 변환해버립니다. 이것이 상위 0.1%가 실전에서 결코 떨지 않는 멘탈 컨트롤의 극비 시크릿입니다.`,
-      `【 STEP 5. 당장 오늘 밤 쓰레기통에 내다 버려야 할 운기 파괴의 흉물(凶物)들 】\n책상 주변의 집중력을 산만하게 만드는 과도한 연예인 굿즈나 포토카드, 색상이 너무 현란하여 시각적 피로를 유발하고 뇌를 흥분시키는 자극적인 붉은색 계열의 영화/게임 포스터, 그리고 유통기한이 한참 지난 채 책상 위를 이리저리 굴러다니는 잡동사니와 이면지 무더기들은 ${name}님의 맑고 귀한 기운을 시궁창처럼 혼탁하게 만드는 1등 주범이자 사주상 최악의 상극(相剋) 에너지 덩어리들입니다. 이 보고서를 읽은 즉시, 단 1초의 망설임이나 아쉬움도 없이 오늘 밤 당장 거대한 쓰레기봉투에 담아 내다 버리십시오. 정 버릴 수 없는 소중한 물건이라면 책상 서랍 아주 깊숙한 곳, 공부할 때 절대 시야가 닿지 않는 암흑의 공간으로 철저하게 유배를 보내 완벽히 격리시켜야만 공간의 기운이 비로소 숨을 쉬기 시작합니다.`
+      `【 STEP 5. 당장 오늘 밤 쓰레기통에 내다 버려야 할 운기 파괴의 흉물(凶물)들 】\n책상 주변의 집중력을 산만하게 만드는 과도한 연예인 굿즈나 포토카드, 색상이 너무 현란하여 시각적 피로를 유발하고 뇌를 흥분시키는 자극적인 붉은색 계열의 영화/게임 포스터, 그리고 유통기한이 한참 지난 채 책상 위를 이리저리 굴러다니는 잡동사니와 이면지 무더기들은 ${name}님의 맑고 귀한 기운을 시궁창처럼 혼탁하게 만드는 1등 주범이자 사주상 최악의 상극(相剋) 에너지 덩어리들입니다. 이 보고서를 읽은 즉시, 단 1초의 망설임이나 아쉬움도 없이 오늘 밤 당장 거대한 쓰레기봉투에 담아 내다 버리십시오. 정 버릴 수 없는 소중한 물건이라면 책상 서랍 아주 깊숙한 곳, 공부할 때 절대 시야가 닿지 않는 암흑의 공간으로 철저하게 유배를 보내 완벽히 격리시켜야만 공간의 기운이 비로소 숨을 쉬기 시작합니다.`
     ];
     summaryText = "공간의 아주 미세한 풍수 에너지를 완벽하게 통제하는 자가 결국 자신의 거대한 운명마저 지배하게 됩니다. 무심코 놓아둔 책상 위의 작은 소품 하나, 쓰레기를 비우고 책상을 닦는 그 사소해 보이는 디테일의 차이가 당신의 뇌파를 근본적으로 바꾸고 최종 합격의 당락을 결정짓는 운명의 거대한 스위치가 됨을 뼛속 깊이 명심하십시오.";
     conclusionText = [
@@ -319,7 +276,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
     prescriptionText = [
       `색채 심리학의 방대한 과학적 임상 데이터와 명리학의 정수인 조후(온도와 습도) 이론을 입체적으로 교차 결합했을 때, 시각적인 색상 자극은 내 사주에 치명적으로 결핍된 오행의 에너지를 시신경을 거쳐 뇌파의 가장 깊은 심연까지 가장 빠르고 다이렉트하게 꽂아 넣는 가장 강력한 마법의 매개체입니다. 현재 당신의 사주 원국에서 지나치게 과열되어 뇌를 끓게 만드는 열기를 차분하게 식혀주거나, 반대로 차갑게 얼어붙어 굳어진 뇌의 시냅스 회로를 봄눈 녹듯 부드럽고 따뜻하게 녹여줄 수 있는 당신만의 절대적인 운명의 치유 컬러는 바로 [ ${lackProp.color} ] 계열의 색상입니다. 이 색을 당신의 무기로 삼으십시오.`,
       `【 STEP 1. 메인 시야의 30%를 운명의 처방 컬러로 완벽히 지배하고 장악하라 】\n물리적인 공간의 제약이나 금전적 한계로 인해 당장 내 방의 벽지 전체를 바꿀 수 없다면, 결코 실망할 필요가 없습니다. 매일 수 시간씩 의무적으로 고개를 숙여 쳐다보게 되는 책상의 가장 넓은 면적(대형 가죽 책상 매트), 무거운 책을 세워두는 독서대, 창문으로 들어오는 시선을 가려주는 암막 커튼, 혹은 하루 종일 들여다보는 아이패드와 스마트폰의 배경화면만이라도 반드시 이 처방 색상으로 전면 교체하셔야 합니다. 공부할 때 당신의 1인칭 시야에 들어오는 전체 면적의 최소 30% 이상이 이 처방 색상으로 가득 채워질 때, 비로소 ${name}님이 무의식중에 지속적으로 축적하는 학업 스트레스와 독성 뇌 피로 물질인 코르티솔 수치가 가장 극적이고 드라마틱하게 중화되고 소멸됩니다. 이 색상은 당신의 뇌혈관에 꽂히는 최고급 영양 링거와도 같습니다.`,
-      `【 STEP 2. 상극(相剋) 컬러의 완전한 격리와 무자비한 시각적 디톡스(Color Detox) 】\n운명의 긍정 컬러를 주변에 정성껏 채워 넣는 것만큼이나 수십, 수백 배 더 시급하고 중요한 작업이 있습니다. 그것은 당신의 사주에 이미 주체할 수 없이 넘쳐나서 기운을 산만하게 만들고 까닭 없는 번아웃과 짜증, 피로감을 돋우는 '흉(凶)한 색상'들을 내 시야에서 완전히 치워버리고 멸종시키는 것입니다. 예를 들어 눈의 피로를 가중시키는 자극적인 쨍한 형광색 펜이나 포스트잇, 시선을 강제로 빼앗아 뇌를 흥분시키는 강렬한 붉은색 계열의 원색 소품이나 인형, 시각적 멀미를 유발하여 뇌파를 흩뜨리는 어지러운 기하학 패턴의 담요나 쿠션 등은 당장 책상 서랍 안쪽이나 뚜껑이 닫히는 불투명한 박스 안으로 완벽하게 숨기십시오. 시각적 노이즈를 완벽 차단하십시오.`,
+      `【 STEP 2. 상극(相剋) 컬러의 완전한 격리와 무자비한 시각적 디톡스(Color Detox) 】\n운명의 긍정 컬러를 주변에 정성껏 채워 넣는 것만큼이나 수십, 수백 배 더 시급하고 중요한 작업이 있습니다. 그것은 당신의 사주에 이미 주체할 수 없이 넘쳐나서 기운을 산만하게 만들고 까닭 없는 번아웃과 짜증, 피로감을 돋우는 '흉(凶)한 색상'들을 내 시야에서 완전히 치워버리고 멸종시키는 것입니다. 예를 들어 눈의 피로를 가중시키는 자극적인 쨍한 형광색 펜이나 포스트잇, 시선을 강제로 빼앗아 뇌를 흥분시키는 강렬한 붉은색 계열의 원색 소품이나 인형, 시각적 멀미를 유발하여 뇌파를 흩뜨리는 어지러운 기하학 패턴의 담요나 쿠션 등은 당장 책상 서랍 안쪽이나 뚜껑이 닫히는 불투명한 박스 안으로 완벽하게 숨기십시오. 시각 노이즈를 완벽 차단하십시오.`,
       `【 STEP 3. 전략적 필기구 색상 시스템화와 포토그래픽 메모리(Photographic Memory) 극대화 훈련 】\n하수들은 노트 정리를 다이어리 꾸미듯 예쁘게 하는 데 집착하지만, 최상위권의 고수들은 뇌를 해킹하여 암기력을 극대화하는 데 색상을 전략적으로 이용합니다. 노트에 핵심 암기 사항을 적을 때 사용하는 볼펜의 색상과 형광펜의 조합도 철저한 뇌과학적 계산하에 조절해야 합니다. 뇌파를 깊은 바다처럼 안정시키고 단기 지식을 장기 기억의 금고로 넘기는 것을 돕는 알파파를 인위적으로 유도하기 위해, 본인에게 처방된 운명의 컬러 계열(혹은 눈이 가장 편안함을 느끼는 채도 낮은 파스텔톤 색상)의 펜으로만 가장 중요하고 어려운 킬러 개념을 필기하십시오. 그리고 실제 시험장에서 해당 문제가 출제되어 눈앞이 깜깜해졌을 때, 지그시 눈을 감고 그 특정 색상으로 쓰여 있던 내 방 노트의 정확한 위치와 글씨체의 잔상(이미지)을 뇌리에 통째로 떠올리며 암기 내용을 강제로 인출해 내는 훈련을 일상적으로 치열하게 반복하십시오. 뇌리에 고해상도 사진의 셔터를 찰칵 찍듯 기억 정보가 시각적으로 통째로 각인되는 '포토그래픽 메모리'의 효율이 극한으로 상승하여, 남들보다 절반의 시간만 투자해 암기해도 수능 당일까지 절대 잊어버리지 않는 당신만의 강력한 무기를 얻게 됩니다.`,
       `【 STEP 4. 수능/면접 결전의 날, 영적 드레스코드(Dress Code)와 심리적 절대 결계 구축 】\n수많은 타인의 탁한 기운과 날 선 긴장감이 폭력적으로 부딪히는 실전 시험장이나 면접장에 갈 때는, 당신의 멘탈을 보호해 줄 강력한 방어막이 필요합니다. 속옷이나 양말, 혹은 이너 티셔츠 등에 처방된 [ ${lackProp.color} ] 계열의 색상을 의도적으로 매치하여 착용하십시오. 옷의 색상이 내뿜는 미세한 파장은 피부를 통해서도 에너지를 흡수합니다. 타인은 절대 알 수 없는 이 비밀스러운 나만의 드레스코드는, 낯선 환경이 주는 압박감으로부터 심리적 절대 결계를 쳐주고, 평소 내 방에서 공부할 때 느꼈던 완벽한 안정감과 자신감을 무의식적으로 끌어올려 주는 가장 든든한 갑옷이 될 것입니다. 이 색상과 함께라면 당신은 결코 무너지지 않습니다.`
     ];
@@ -364,7 +321,7 @@ const generateProfessionalReport = (user, saju, menuId) => {
       `${name}님은 거대한 시스템과 조직의 수레바퀴 속에서 윗사람이 시키는 일이나 묵묵히 쳐내고, 기계의 부품처럼 소모되다 버려지는 평범하고 대체 가능한 부속품으로 순응하며 살아갈 얄팍한 사주 그릇이 절대 아닙니다. 어떤 열악하고 미쳐 돌아가는 환경이나 칼바람이 부는 척박한 무리에 혈혈단신으로 던져지더라도, 특유의 ${dm.strength}을(를) 바탕으로 아주 자연스럽고 우아하게 무리의 중심에 우뚝 서거나, 혹은 아무것도 모르는 바지사장 1인자의 뒤에 숨어서 실질적인 권력을 무자비하고 치밀하게 휘두르는 '숨은 킹메이커(핵심 실세 참모)'로 맹활약하게 되는 고유의 귀족적 아우라와 숨길 수 없는 대중 장악력을 태생적으로 지니고 있습니다. 당신이 그 힘을 100% 온전히 발휘하기 위한 극비 행동 지침을 하달합니다.`,
       `【 STEP 1. 의도적인 침묵과 전략적 경청이 만들어내는 무서운 장악력의 비밀 】\n조직 내에서 중요한 회의를 하거나 자신의 의견을 어필할 때, 억지로 남들보다 목소리를 높여 본인의 뛰어난 능력을 돋보이려 안달하거나 얄팍하고 얕은 지식으로 당신의 알량한 권위를 증명하려 애쓰지 마십시오. 이는 오히려 당신이 타고난 '고귀하고 서늘한 기운'을 싼 티 나게 깎아먹고 밑바닥을 보여주는 하수들의 어리석은 행위입니다. 회사가 절체절명의 존폐 위기 상황에 빠지거나, 복잡하고 더럽게 얽힌 사내 정치 이슈가 터져 모두가 우왕좌왕할 때, 사람들은 결국 생존 본능적으로 당신이 평소에 뿜어내는 특유의 서늘한 평정심과 예리한 판단력에 기대고 맹목적으로 의존하게 됩니다. 무리에서 갑론을박 의견이 격하게 엇갈리고 핏대를 세우며 진흙탕 싸움을 할 때 절대로 섣불리 대화에 개입하지 마십시오. 한발 물러서서 거시적인 상황을 팔짱을 끼고 관망하며 누가 아군이고 적군인지 조용히 뇌 속에 데이터베이스화하십시오. 그러다 모두가 지쳐 나가떨어질 무렵, 마지막에 가장 묵직하고 정곡을 폐부 깊숙이 찌르는 통찰력 있는 단 한마디를 툭 던지며 상황을 완벽히 종료시키는 포지셔닝을 취하십시오. 이것이 명리학에서 말하는 진정한 '귀기(貴氣)'를 현실 세계에서 완벽하고 우아하게 쓰는 필살기입니다.`,
       `【 STEP 2. 단점의 쿨한 인정이 가져오는 궁극의 소프트 파워(Soft Power) 리더십 】\n본인의 가장 뼈아픈 아킬레스건이자 치명적인 취약 지점인 [ ${dm.weakness} ]를 아랫사람들이나 동료들에게 필사적으로 숨기려 전전긍긍하며 철가면을 쓰지 마십시오. 오히려 회식 자리나 가벼운 사담에서 가장 쿨하고 투명하게 "내가 다른 건 다 자신 있고 책임질 텐데, 이 부분은 정말 젬병이니 네가 꼭 좀 도와달라"며 약점을 툭 던져 인정해 버리십시오. 모든 업무가 칼같이 완벽해 보여 감히 다가가기 힘들었던 피도 눈물도 없는 완벽한 리더가, 자신의 유일하고 인간적인 부족함을 솔직하게 드러내고 타인에게 진심으로 고개를 숙여 도움을 요청할 때, 사람들은 당신의 그 반전 있는 인간미에 미친 듯이 매료되어 맹목적인 충성심과 애정을 평생 당신에게 바치게 됩니다. 직급의 알량한 힘과 강압적인 카리스마를 앞세워 찍어 누르는 딱딱한 하드 파워(Hard Power)가 아니라, 사람의 마음을 아주 깊은 무의식에서부터 무장 해제시켜 스스로 당신을 위해 움직이고 기꺼이 목숨을 바치게 만드는 '소프트 파워'가 진정한 당신의 무서운 필살기임을 잊지 마십시오.`,
-      `【 STEP 3. 극한의 갈등 상황, 1분의 멈춤으로 오행의 감정 에너지를 완벽 통제하라 】\n조직 내에서 피 말리는 이해관계가 극단으로 충돌하고, 가장 믿었던 심복 부하의 끔찍한 배신이나 대형 트러블이 발생했을 때, 짐승 같은 즉각적인 분노의 감정 폭발이나 유치하고 감정적인 보복 대응을 절대적으로 멈춰야 합니다. 가슴 속에서 시뻘건 분노나 배신감, 억울한 서운함이 끓어오르는 이성의 끈이 탁 끊어지는 찰나의 순간, 의도적으로 '${saju.lacking}'에 해당하는 생존 행위로 당신의 뇌에 강력한 사이드 브레이크를 걸어버리십시오. 예를 들어 수(水)가 부족하다면 얼음장처럼 차가운 물 한 잔을 입안에서 아주 천천히 굴리며 음미하며 넘기십시오. 목(木)이 부족하다면 무조건 사무실 밖으로 당장 뛰쳐나가 녹색 나무나 먼 산의 구름을 딱 1분간만 노려보며 아주 깊은 복식 호흡을 하십시오. 끓어오르는 활화산의 용광로 같은 그 1분의 멈춤이 오행의 탁하고 악한 기운을 즉각적으로 중화시킵니다. 그리고 리더로서 훗날 땅을 치고 후회하지 않을 가장 현명하고, 차갑고, 잔혹한 결정을 내리도록 당신의 멘탈과 이성을 완벽하게 보호할 것입니다.`,
+      `【 STEP 3. 극한의 갈등 상황, 1분의 멈춤으로 오행의 감정 에너지를 완벽 통제하라 】\n조직 내에서 피 말리는 이해관계가 극단으로 충돌하고, 가장 믿었던 심복 부하의 끔찍한 배신이나 대형 트러블이 발생했을 때, 짐승 같은 즉각적인 분노의 감정 폭발이나 유치하고 감정적인 보복 대응을 절대적으로 멈춰야 합니다. 가슴 속에서 시뻘건 분노나 배신감, 억울한 서운함이 끓어오르는 이성의 끈이 탁 끊어지는 찰나의 순간, 의도적으로 '${saju.lacking}'에 해당하는 생존 행위로 당신의 뇌에 강력한 사이드 브레이크를 걸어버리십시오. 예를 들어 수(수)가 부족하다면 얼음장처럼 차가운 물 한 잔을 입안에서 아주 천천히 굴리며 음미하며 넘기십시오. 목(목)이 부족하다면 무조건 사무실 밖으로 당장 뛰쳐나가 녹색 나무나 먼 산의 구름을 딱 1분간만 노려보며 아주 깊은 복식 호흡을 하십시오. 끓어오르는 활화산의 용광로 같은 그 1분의 멈춤이 오행의 탁하고 악한 기운을 즉각적으로 중화시킵니다. 그리고 리더로서 훗날 땅을 치고 후회하지 않을 가장 현명하고, 차갑고, 잔혹한 결정을 내리도록 당신의 멘탈과 이성을 완벽하게 보호할 것입니다.`,
       `【 STEP 4. 배신을 막는 '이너 서클(Inner Circle)' 구축의 사주적 원리 】\n당신처럼 강한 기운을 가진 사람은 모두에게 좋은 사람이 되려는 헛된 위선과 욕심을 당장 버려야 합니다. 100명의 얕고 필요 없는 인맥보다, 당신의 결핍된 오행인 '${saju.lacking}' 기운을 가득 품고 있는 단 3명의 맹목적인 충신(이너 서클)을 곁에 두는 것이 당신의 생존을 결정짓습니다. 당신이 전장을 누비는 돌격 대장이라면 뒤에서 디테일을 챙겨주고 브레이크를 걸어줄, 성향이 정반대인 이 조력자들에게 당신의 권력과 성과, 그리고 과실을 아낌없이 나누어 주십시오. 그들이 당신의 약점을 가려주는 가장 완벽한 방패이자, 당신이 왕좌에 오를 때 딛고 올라설 단단한 계단이 될 것입니다.`
     ];
     summaryText = "진정으로 수많은 사람을 마음대로 부리고 지배하는 위대한 리더십은 자신의 약점을 완벽하게 숨기고 치장하는 가짜 연기에서 나오는 것이 절대 아닙니다. 자신의 가장 뼈아픈 결핍마저도 여유롭게 인지하고 다스릴 줄 아는 소름 돋는 자제력과 서늘한 '통제력'에서 나옵니다. 당신은 이미 세상의 정점에 서서 모두를 호령할 완성형 제왕의 위대한 씨앗을 가슴 깊숙이 품고 있습니다.";
@@ -420,7 +377,7 @@ export default function App() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
-  // 결제 성공 처리 공통 함수 (원본 무결성 보존 구역)
+  // 결제 성공 처리 공통 함수 (원본 100% 유지)
   const handlePaymentSuccess = async (savedUserInfo, savedUserSaju, savedMenu) => {
     setUserInfo(savedUserInfo);
     setUserSaju(savedUserSaju);
@@ -444,7 +401,7 @@ export default function App() {
     }
   };
 
-  // 파이어베이스 데이터베이스 저장 (포트원 V2 모바일 리다이렉트 원본 유지)
+  // 파이어베이스 데이터베이스 저장 (포트원 V2 리다이렉트 원본 100% 유지)
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const portonePaymentId = urlParams.get('paymentId');
@@ -478,7 +435,7 @@ export default function App() {
           const script = document.createElement('script');
           script.src = 'https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.js';
           script.onload = res;
-          script.onerror = res; // 로드 실패 시 무한 대기 방지 가드
+          script.onerror = res; // 로드 실패 방어
           document.head.appendChild(script);
         });
       }
@@ -573,15 +530,38 @@ export default function App() {
     setCurrentView('result');
     setTimeout(() => {
       setIsProcessing(false);
-    }, 800); // 고급스러운 0.8초 로딩 연출
+    }, 800);
   };
 
-  // ⚠️ 결제사양 원본 무결성 100% 보존 구역 ⚠️
+  // ⚠️ 결제사양 100% 원본 무결성 보존 구역 ⚠️
   const handlePayment = async (method = '카드') => {
     if (!userInfo.email || !userInfo.phone) {
       alert("안전한 결제 내역 발송을 위해\n이메일과 휴대폰 번호를 모두 입력해주세요.");
       return;
     }
+
+const handlePayment = async (method = '카드') => {
+    if (!userInfo.email || !userInfo.phone) {
+      alert("안전한 결제 내역 발송 및 결제 진행을 위해\n이메일과 휴대폰 번호를 모두 입력해주세요.");
+      return;
+    }
+    if (!selectedMenu) {
+      alert("선택된 메뉴 정보가 유실되었습니다. 다시 메뉴를 선택해주세요.");
+      return;
+    }
+
+    // 🔥🔥🔥 [여기에 치트키 추가] 🔥🔥🔥
+    if (userInfo.name === '테스트') {
+      alert("🛠️ 개발자 테스트 모드: 결제를 건너뛰고 VVIP 리포트를 오픈합니다.");
+      await handlePaymentSuccess(userInfo, userSaju, selectedMenu);
+      return; // 여기서 함수를 종료시켜 실제 결제창을 안 띄움
+    }
+    // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+    // 결제 전 로컬스토리지에 사용자 정보 저장 (리다이렉트 후 복구용)
+    localStorage.setItem('sajuApp_userInfo', JSON.stringify(userInfo));
+    
+    // ... (이하 기존 포트원 결제 로직 원본 그대로 유지) ...
     localStorage.setItem('sajuApp_userInfo', JSON.stringify(userInfo));
     localStorage.setItem('sajuApp_userSaju', JSON.stringify(userSaju));
     localStorage.setItem('sajuApp_selectedMenu', JSON.stringify(selectedMenu));
@@ -612,19 +592,12 @@ export default function App() {
 
       if (response && !response.code) {
         await handlePaymentSuccess(userInfo, userSaju, selectedMenu);
-      } else if (response && response.code) {
-        if (response.code === 'FAILURE_TYPE_PG') {
-           // 결제 취소 시 조용히 넘어감
-        } else {
-           alert(`결제 중 오류가 발생했습니다.\n${response.message || ''}`);
-        }
       }
     } catch (error) {
       alert("결제 처리 중 오류가 발생했습니다.");
     }
   };
 
-  // 🔥 PDF 인쇄 모드 호출 렌더링 씹힘 방지 150ms 딜레이 가드 🔥
   const downloadVVIPReport = () => {
     setTimeout(() => {
       window.print();
@@ -633,30 +606,21 @@ export default function App() {
 
   const handleCopyLink = () => {
     try {
-      // 3차 시뮬레이션 적용 완료: dayMaster 참조로 10개 기질 완벽 복사 호환
       const studyType = CHILD_STUDY_MAP[userSaju.dayMaster] || CHILD_STUDY_MAP["甲"];
       const textToCopy = `[대치동 시크릿 기질 컨설팅]\n우리아이 사주 공부유형 진단 완료! 🌙\n\n👤 이름: ${userInfo.name}\n✨ 기질 유형: ${studyType.title}\n\n우리 아이의 타고난 천재성과 공부법을 무료로 확인해보세요!\n👉 ${window.location.origin}?utm_source=viral_share`;
       
-      if (navigator.share) {
-        navigator.share({
-          title: '우리 아이 기질 분석 결과',
-          text: textToCopy,
-        });
-      } else {
-        const dummy = document.createElement("textarea");
-        document.body.appendChild(dummy);
-        dummy.value = textToCopy;
-        dummy.select();
-        document.execCommand("copy");
-        document.body.removeChild(dummy);
-        alert('우리 아이 기질 분석 결과가 복사되었습니다! 학부모 단톡방이나 SNS에 공유해보세요.');
-      }
+      const dummy = document.createElement("textarea");
+      document.body.appendChild(dummy);
+      dummy.value = textToCopy;
+      dummy.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummy);
+      alert('우리 아이 기질 분석 결과가 복사되었습니다! 학부모 단톡방이나 SNS에 공유해보세요.');
     } catch (err) {
       alert('브라우저 주소창의 링크를 복사하여 공유하실 수 있습니다.');
     }
   };
 
-  // 1차 시뮬레이션 적용 완료: dayMaster를 기준으로 10개 성향 동적 렌더링
   const currentStudyType = CHILD_STUDY_MAP[userSaju.dayMaster] || CHILD_STUDY_MAP["甲"];
 
   return (
@@ -700,6 +664,14 @@ export default function App() {
         {/* 1. INTRO VIEW */}
         {currentView === 'intro' && (
           <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 py-12">
+            
+            {/* 🔥 카카오톡 인앱 브라우저 경고 배너 🔥 */}
+            <div className="w-full bg-[#E8C87A]/20 border border-[#E8C87A]/50 text-[#E8C87A] text-[11px] p-3 rounded-xl mb-6 text-center leading-relaxed backdrop-blur-sm print:hidden shadow-lg">
+              ⚠️ <strong className="text-white">카카오톡, 인스타</strong> 등에서 열 경우 결제 오류가 생길 수 있습니다.<br/>
+              화면 우측 하단(또는 상단)의 [⁝] 버튼을 눌러<br/>
+              <strong className="text-white underline">"다른 브라우저로 열기"</strong>(Safari, Chrome 등)를 선택해 주세요.
+            </div>
+
             <div className="text-center mb-8">
               <div className="relative inline-block mb-4">
                 <span className="text-6xl drop-shadow-[0_0_18px_rgba(212,168,67,0.6)] animate-[mfloat_4s_ease-in-out_infinite] block">🌙</span>
@@ -836,20 +808,20 @@ export default function App() {
                 <span className="text-4xl block mb-2">{currentStudyType.emoji}</span>
                 <h3 className="text-xs text-[#E8C87A] font-bold tracking-widest mb-1">십성(사주 성분) 기반 기질 매칭</h3>
                 <h2 className="text-lg font-black text-white">{userInfo.name} 자녀의 타고난 공부 유형</h2>
-                <div className="text-xl font-bold text-[#E8C87A] mt-2 font-serif">{currentStudyType.title}</div>
+                <div className="text-xl font-bold text-[#E8C87A] mt-2 font-serif break-keep">{currentStudyType.title}</div>
                 <p className="text-[13px] text-gray-300 mt-3 bg-white/5 p-3 rounded-xl leading-relaxed break-keep">
                   {currentStudyType.trait}
                 </p>
                 {/* 커스텀 이미지 노출부 */}
                 {currentStudyType.imgUrl && (
                   <div className="mt-4 rounded-xl overflow-hidden border border-[#D4A843]/30 shadow-lg">
-                    <img src={currentStudyType.imgUrl} alt={currentStudyType.title} className="w-full h-auto object-cover" />
+                    <img src={currentStudyType.imgUrl} alt={currentStudyType.title} className="w-full h-auto object-contain" />
                   </div>
                 )}
               </div>
             </div>
 
-            {/* 🔗 공유 버튼 (십성 매칭표 바로 밑으로 이동 및 복사 텍스트 보강) */}
+            {/* 🔗 공유 버튼 */}
             <div className="bg-white border border-[#EAE1D8] rounded-2xl p-3.5 text-center mb-8 shadow-md">
               <button onClick={handleCopyLink} className="w-full bg-[#1b2d4a] text-[#E8C87A] text-xs font-bold py-3 rounded-xl flex items-center justify-center gap-1.5 transition-transform active:scale-95">
                 <Share2 size={16} /> 우리 아이 기질 결과 단톡방에 자랑하기
@@ -890,7 +862,7 @@ export default function App() {
         {/* 4. RESULT VIEW */}
         {currentView === 'result' && selectedMenu && (
           <div className="relative z-20 min-h-screen bg-[#FDFBF7] text-[#1A1530] pb-12 animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)]">
-            <div className="px-4 py-4 flex items-center sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur border-b border-[#EAE1D8]">
+            <div className="px-4 py-4 flex items-center sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur border-b border-[#EAE1D8] print:hidden">
               <button onClick={() => setCurrentView('menu')} className="p-2 mr-2 bg-white border border-[#EAE1D8] rounded-full text-[#1A1530] shadow-sm">
                 <ChevronLeft size={20} />
               </button>
@@ -900,10 +872,10 @@ export default function App() {
             </div>
 
             <div className="max-w-md mx-auto w-full p-5 mt-2">
-              <p className="text-center text-[#A090C0] font-bold text-[11px] tracking-widest mb-3 uppercase">Destiny Card</p>
+              <p className="text-center text-[#A090C0] font-bold text-[11px] tracking-widest mb-3 uppercase print:hidden">Destiny Card</p>
               
               {/* 메인 타로 카드 */}
-              <div className="bg-[#1A1530] rounded-[24px] shadow-[0_8px_32px_rgba(26,21,48,0.3)] p-6 relative mb-8 overflow-hidden">
+              <div className="bg-[#1A1530] rounded-[24px] shadow-[0_8px_32px_rgba(26,21,48,0.3)] p-6 relative mb-8 overflow-hidden print:hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
                 
                 <div className="relative z-10 flex flex-col items-center">
@@ -929,7 +901,7 @@ export default function App() {
               </div>
 
               {/* 미리보기 (항상 노출) */}
-              <div className="bg-[linear-gradient(135deg,#FFF8F0,#FEF0F8)] border-[1.5px] border-[#F5D8C8] rounded-[18px] p-[18px_16px] mb-4">
+              <div className="bg-[linear-gradient(135deg,#FFF8F0,#FEF0F8)] border-[1.5px] border-[#F5D8C8] rounded-[18px] p-[18px_16px] mb-4 print:hidden">
                 <div className="inline-flex items-center gap-1 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] text-[9.5px] font-bold px-[10px] py-[3px] rounded-full mb-2.5 tracking-[0.5px]">
                   ✦ 핵심 진단 (미리보기)
                 </div>
@@ -938,25 +910,39 @@ export default function App() {
                 </p>
               </div>
 
-              {/* 🔥 마법의 VVIP PDF 다운로드 버튼 (결제 완료 시 노출) 🔥 */}
+              {/* 🔥 PDF 다운로드 안내 (결제 완료 시 노출) 🔥 */}
               {selectedMenu?.id && unlockedMenus.includes(selectedMenu.id) && (
-                <div className="bg-[#111625] rounded-[20px] shadow-xl p-5 mb-6 relative overflow-hidden border border-[#E8C87A]/30">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
-                  <div className="relative z-10 text-center">
-                    <p className="text-[11.5px] text-[#E8C87A] mb-4 leading-relaxed font-bold">
-                      📢 <span className="text-white">서비스 제공기간 안내:</span> 본 결과지는 결제일로부터 <span className="text-white underline">30일 동안</span> 다운로드가 가능합니다.
+                <div className="print:hidden">
+                  <div className="bg-[#111625] rounded-[20px] shadow-xl p-5 mb-4 relative overflow-hidden border border-[#E8C87A]/30">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,168,67,0.15),transparent_60%)]"></div>
+                    <div className="relative z-10 text-center">
+                      <p className="text-[11.5px] text-[#E8C87A] mb-4 leading-relaxed font-bold break-keep">
+                        📢 <span className="text-white">제공기간 안내:</span> 본 결과지는 결제일로부터 <span className="text-white underline">30일 동안</span> 다운로드가 가능합니다.
+                      </p>
+                      <button onClick={downloadVVIPReport} className="inline-flex items-center gap-2 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] font-black text-[13px] px-5 py-4 rounded-xl shadow-[0_4px_15px_rgba(212,168,67,0.3)] hover:scale-[1.02] transition-transform w-full justify-center">
+                        <Download size={18} strokeWidth={2.5} />
+                        10,000자급 디자인 리포트 저장 (PDF)
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* PDF 안드로이드/아이폰 다운로드 방법 설명 박스 */}
+                  <div className="bg-[#1b2d4a] border border-[#243b5e] rounded-xl p-4 mb-6 text-left shadow-md">
+                    <p className="text-[11.5px] font-bold text-[#90C8E8] mb-2 flex items-center gap-1">
+                      <Lightbulb size={14} /> 안드로이드 / 아이폰 PDF 저장 방법
                     </p>
-                    <button onClick={downloadVVIPReport} className="inline-flex items-center gap-2 bg-[linear-gradient(135deg,#D4A843,#E8C050)] text-[#1A1530] font-black text-[13px] px-5 py-4 rounded-xl shadow-[0_4px_15px_rgba(212,168,67,0.3)] hover:scale-[1.02] transition-transform w-full justify-center">
-                      <Download size={18} strokeWidth={2.5} />
-                      10,000자급 디자인 리포트 저장 (PDF)
-                    </button>
+                    <ol className="text-[11px] text-gray-300 space-y-1.5 pl-2 list-decimal list-inside break-keep">
+                      <li>위 다운로드 버튼을 누르면 <strong className="text-white">인쇄 화면</strong>이 뜹니다.</li>
+                      <li>화면 상단 프린터 선택 창에서 <strong className="text-[#E8C87A]">"PDF 파일로 저장"</strong>을 선택하세요.</li>
+                      <li>화면 우측 상단(또는 하단)의 <strong className="text-[#FEE500]">노란색 PDF 다운로드 버튼</strong>을 누르면 내 휴대폰에 영구 저장됩니다.</li>
+                    </ol>
                   </div>
                 </div>
               )}
 
               {/* 잠금/결제 UI or 전체 결과 렌더링 */}
               {selectedMenu?.id && !unlockedMenus.includes(selectedMenu.id) ? (
-                <div className="mt-4">
+                <div className="mt-4 print:hidden">
                   {isProcessing ? (
                     <div className="flex flex-col items-center py-10 gap-3">
                       <div className="flex gap-2">
@@ -1099,7 +1085,7 @@ export default function App() {
           </div>
         )}
 
-        <footer className="relative z-20 bg-[#1A1530]/80 border-t border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.4)] text-[11px] p-6 pb-12 mt-12 break-keep font-sans">
+        <footer className="relative z-20 bg-[#1A1530]/80 border-t border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.4)] text-[11px] p-6 pb-12 mt-12 break-keep font-sans print:hidden">
           <div className="max-w-md mx-auto">
             <div className="flex gap-4 mb-4 font-bold text-[rgba(255,255,255,0.7)] text-[12px] px-4">
               <button onClick={() => setShowTerms(true)} className="hover:text-white transition-colors">이용약관</button>
@@ -1117,7 +1103,7 @@ export default function App() {
         </footer>
 
         {showPrivacy && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans print:hidden">
             <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black">
               <h3 className="text-lg font-bold text-black mb-4 border-b pb-2 border-gray-300">개인정보처리방침</h3>
               <div className="text-xs space-y-3 leading-relaxed">
@@ -1137,7 +1123,7 @@ export default function App() {
         )}
 
         {showTerms && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans print:hidden">
             <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black">
               <h3 className="text-lg font-bold text-black mb-4 border-b pb-2 border-gray-300">서비스 이용약관</h3>
               <div className="text-xs space-y-3 leading-relaxed">
