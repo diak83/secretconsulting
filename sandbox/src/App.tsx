@@ -19,7 +19,6 @@ const firebaseConfig = {
   measurementId: "G-F3HGRZRX9W"
 };
 
-// 🔥 극한 검증 1번 수술: React StrictMode 재마운트 시 Firebase App 중복 생성 에러 원천 차단 🔥
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 // 👆 파이어베이스 연결 마스터 키 👆
@@ -57,7 +56,6 @@ const ELEMENT_PRESCRIPTION: Record<string, any> = {
   "수(물)": { color: "미드나잇 블루, 딥 퍼플", item: "노이즈 캔슬링 헤드폰, 가습기", action: "방해받지 않는 심야 시간의 딥워크", job: "기획/전략, 심리 연구, 무역", symbols: [{ emoji: "🌊", label: "심야 딥워크" }, { emoji: "🎧", label: "외부 차단" }] },
 };
 
-// 🔥 ImgBB 실제 링크 10개 일간 완벽 맵핑 🔥
 const CHILD_STUDY_MAP: Record<string, any> = {
   "甲": { title: "자기주도 끝판왕 [불도저 리더형]", emoji: "🚀", trait: "간섭하면 엇나가는 자존심 끝판왕입니다. 큰 숲을 보는 기획력이 뛰어나며, 목표와 주도권만 쥐어주면 스스로 뚫고 나가는 무서운 추진력을 가졌습니다.", imgUrl: "https://i.ibb.co/B27J0D8K/image.png" },
   "乙": { title: "환경 흡수 스펀지 [유연한 네트워크형]", emoji: "🌱", trait: "주변 환경과 짝꿍의 영향을 가장 뼈저리게 받는 기질입니다. 강압적인 지시보다는 부드러운 유대감과 좋은 면학 분위기 속에 던져둘 때 성적이 폭발합니다.", imgUrl: "https://i.ibb.co/1Gjttdmc/image.png" },
@@ -78,7 +76,18 @@ const REVIEWS = [
   { id: 4, author: "잠실 민준맘", type: "연구원형 / 중2", content: "야행성 기질 정확하네요. 억지로 아침형 인간 만들려다 애 잡을 뻔했습니다. 밤 10시 이후 딥워크 시키니 성적 오릅니다." }
 ];
 
-// 🔥 극한 검증 2번 수술: URI 파괴 기호(%, &, #) 완벽 면역 디코더 🔥
+// 🔥 백지화의 원인 (실종되었던 밤하늘 별밭 컴포넌트 완벽 복원) 🔥
+const Starfield = () => (
+  <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0 no-print">
+    <div className="absolute top-[12%] left-[15%] w-1 h-1 bg-white rounded-full opacity-80 animate-[twinkle_3s_infinite]"></div>
+    <div className="absolute top-[28%] left-[82%] w-1.5 h-1.5 bg-[#E8C87A] rounded-full opacity-90 animate-[twinkle_4s_infinite_1s]"></div>
+    <div className="absolute top-[52%] left-[8%] w-1 h-1 bg-white rounded-full opacity-60 animate-[twinkle_2.5s_infinite_0.5s]"></div>
+    <div className="absolute top-[75%] left-[88%] w-1 h-1 bg-[#90C8E8] rounded-full opacity-70 animate-[twinkle_5s_infinite_1.5s]"></div>
+    <div className="absolute top-[88%] left-[22%] w-1.5 h-1.5 bg-[#F5B8C8] rounded-full opacity-50 animate-[twinkle_3.5s_infinite]"></div>
+    <div className="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-br from-[#112138] to-transparent rounded-full blur-3xl opacity-50"></div>
+  </div>
+);
+
 const safeDecode = (str: string | null) => {
   if (!str) return '';
   try { return decodeURIComponent(str); } catch { return str; }
@@ -100,7 +109,6 @@ const calculateAge = (birthDateStr: string) => {
   return currentYear - birthYear + 1; 
 };
 
-// 10회 검증 마스터 리포트 생성기
 const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
   const name = user.name || "고객";
   const dm = DAY_MASTERS[saju.dayMaster] || DAY_MASTERS['甲'];
@@ -123,7 +131,6 @@ const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
   let elementCountsStr = "";
   Object.entries(saju.counts).forEach(([el, cnt]) => { elementCountsStr += `${el.charAt(0)}(${cnt}개) `; });
 
-  // 🔥 극한 검증 3번 수술: 황금 밸런스(주류무체) 사주 감지 시 1, 2번 도입부 및 솔루션 완벽 뒤집기 🔥
   let introP1Text = `${timePhrase} 심층 해부한 결과, ${name}님의 일간은 만물을 생동하게 하는 [ ${dm.name} ]의 기운으로 세팅되어 있습니다. 남들이 정해놓은 규격화된 정답만을 주입식으로 강요받을 때 당신의 뇌는 극심한 지루함과 저항을 느낍니다.\n\n현재 뇌 구조를 지배하는 오행의 분포는 [ ${elementCountsStr}] 입니다. 특정 기운이 비어버리면 인풋과 아웃풋 과정에서 병목 현상을 겪게 됩니다.`;
   let balanceP2Text = `학습 패턴에서 뿜어져 나오는 극강의 천재성은 '${excessEl}' 기운에서 발현됩니다. 본인이 납득하는 논리적 뼈대를 발견했을 때 며칠 밤을 새워도 몰입도를 보여줍니다.\n\n하지만 가장 뼈아픈 취약점은 '${saju.lacking}' 기운의 결핍입니다. 이 에너지가 순환되지 못하면 지식이 각인되지 못하고 휘발되어 실전에서 굳어버립니다.`;
   let solutionP3Text = `【 STEP 1. 운기를 깨우는 15분 예열 루틴 】\n\n작업 시작 전 15분 동안, 사주에 메말라 있는 에너지를 보충하는 [ ${lackAction?.split(",")[0] || '명상'} ] 시간을 강박적으로 확보하십시오. 이 시간이 도파민을 분비시켜 딥워크를 지배하게 됩니다.\n\n【 STEP 2. 잔혹한 백지 복습법 】\n\n단순히 활자를 바르는 '가짜 지식'을 도려내고, 매일 밤 텅 빈 백지에 마인드맵을 그리는 고통스러운 인출 훈련에 투자하십시오.\n\n【 STEP 3. 물리적 구급 처방 】\n\n슬럼프가 올 때는 미련하게 버티는 대신, 부족한 기운을 물리적인 행위로 환기해야 뇌파를 부활시킬 수 있습니다.`;
@@ -342,7 +349,6 @@ export default function App() {
     }
   }, []);
 
-  // 🔥 극한 검증 4번 수술: 월별 말일 하드 클램프 및 음력 말일 보정이 완벽히 마감된 만세력 엔진 🔥
   const fetchSajuFromAPI = async (dateStr: string, timeStr: string, isUnknown: boolean, calType: string) => {
     return new Promise(async (resolve) => {
       if (!(window as any).Lunar) {
@@ -362,12 +368,12 @@ export default function App() {
           const [hour, minute] = !isUnknown && timeStr ? timeStr.split(':').map(Number) : [12, 0];
 
           let month = rawMonth; let day = rawDay;
-          
-          if (calType === 'solar') {
-            const maxSolar = new Date(year, month, 0).getDate();
-            if (day > maxSolar) day = maxSolar;
-          } else {
-            if (day > 30) day = 30;
+          if (month === 2 && day > 28) {
+            const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+            day = isLeapYear ? 29 : 28;
+          }
+          if ((calType === 'lunar' || calType === 'leap') && day === 31) {
+            day = 30;
           }
 
           const isNightRollover = !isUnknown && (hour >= 23 || (hour === 0 && minute <= 30));
@@ -602,7 +608,7 @@ export default function App() {
     <div className="min-h-screen text-[rgba(255,255,255,0.88)] font-sans relative bg-[#021027] print:bg-white print:text-black print:block print:min-h-0 print:h-auto">
       <Starfield />
 
-      {/* 🔥 극한 검증 5번 수술: 모바일 더블탭 줌 차단(touch-action) 및 배경색 인쇄 강제 박제 CSS 🔥 */}
+      {/* 🔥 모바일 더블탭 줌 차단(touch-action) 및 배경색 인쇄 강제 박제 CSS 🔥 */}
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap');
         .font-serif { font-family: 'Noto Serif KR', serif; }
@@ -798,7 +804,7 @@ export default function App() {
           </div>
         )}
 
-        {/* 4. RESULT VIEW (CLS 방지 프레임 탑재) */}
+        {/* 4. RESULT VIEW */}
         {currentView === 'result' && selectedMenu && (
           <div className="relative z-20 min-h-screen min-h-[750px] bg-[#FDFBF7] text-[#1A1530] pb-12 animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)]">
             <div className="px-4 py-4 flex items-center sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur border-b border-[#EAE1D8] print:hidden">
@@ -862,7 +868,7 @@ export default function App() {
                     <input type="tel" required placeholder="휴대폰 번호 (자유롭게 입력)" value={userInfo.phone} onChange={e=>setUserInfo({...userInfo, phone: e.target.value})} className="w-full border rounded-xl p-3 text-[16px] md:text-xs mb-4 outline-none" />
                     
                     <button onClick={() => handlePayment('카드')} disabled={isProcessing} className="w-full bg-[#FEE500] text-black font-bold py-3.5 rounded-xl shadow-sm active:scale-95 transition-transform disabled:opacity-50">
-                      💳 원본 포트원 안전 결제하기
+                      💳 안전 결제하기
                     </button>
                   </div>
                 </div>
