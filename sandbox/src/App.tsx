@@ -135,8 +135,7 @@ const calculateAge = (birthDateStr: any) => {
   return isNaN(birthYear) ? 20 : (currentYear - birthYear + 1); 
 };
 
-// 🔥 모든 텍스트에 optional chaining(?.)과 fallback(|| '') 강제 삽입 완료 🔥
-// 🔥 DAY_MASTERS 오타 -> DM_MATRIX 로 완벽 교정 완료 🔥
+// 오픈 루프 심리 해킹 티저 딕셔너리
 const PREVIEW_DATA: Record<number, any> = {
   1: (u: any, s: any) => `명리학적 선천 황경 좌표 스캔 결과, ${u?.name || '고객'}님은 만물을 뚫고 오르는 [${s?.dayMaster || '甲'}·${(DM_MATRIX[s?.dayMaster || '甲']||{}).name || '갑목'}]의 지적 자아를 세팅받았습니다.\n정해진 룰을 강요받을 때 전두엽이 굳어버리며, 원국 내 '${s?.lacking || '수(물)'}' 기운의 심각한 결핍으로 인해 인풋 대비 아웃풋 병목을 겪고 있습니다. 이 병목을 단 15분 만에 뚫어낼 선천 맞춤형 '예열 스위치'의 정체는 바로...`,
   2: (u: any) => `현재 ${u?.name || '고객'}님에게 남들과 똑같은 암기식 인강을 강요하는 것은 호랑이를 종이컵에 가두는 자해 행위입니다.\n원국 구조상 지식을 완벽히 내 것으로 박제하기 위해서는 반드시 [입력 30% : 출력 70%]의 외과수술적 인출 훈련 회로가 가동되어야 합니다. 당신의 뇌 회로에 최적화된 '골든타임 과목 배치술'은 바로...`,
@@ -210,7 +209,7 @@ const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
     title2 = "⚖️ [운기의 밸런스 분석] 몰입의 알파파 진공 스위치와 상극 노이즈";
     p2 = `최상의 컨디션에서 뿜어져 나오는 경이로운 집중력과 슈퍼컴퓨터 같은 연산 속도는 당신의 사주 원국과 공간의 풍수 에너지가 완벽한 공명(Resonance) 궤도에 진입했을 때 발현됩니다. 이 스파크가 튀는 순간, 전두엽 주변의 노이즈가 완벽하게 진공 청소되며 수 시간 동안 미동조차 하지 않는 극강의 알파파 딥워크 상태를 경험하게 됩니다.\n\n그러나 성적과 업무 효율을 늪으로 끌어내리는 방해꾼은 바로 사주 원국에 텅 비어있는 '${lack}' 기운을 더욱 메마르게 억누르고 뇌파를 지글지글 과열시키는 '상극(相剋)의 흉물 노이즈'들입니다. 원국과 충돌하는 이질적인 소품이나 산만한 시각적 독소들이 데스크 주변을 장악하는 순간, 시신경을 통해 스트레스 호르몬인 코르티솔이 과다 분비되며 극심한 무기력증과 깊은 블랙아웃 슬럼프에 직면하게 됩니다.`;
     title3 = "🗝️ [VVIP 프라이빗 시크릿 솔루션] 환경을 지배하는 3대 데스크 결계 구축술";
-    p3 = `【 STEP 1. 영적 물상 대체와 '결핍 오행 소품 명당 고정술' 】\n사주 원국에 흩어지는 기운을 꽉 부여잡아 집중력을 수직 상승시켜 줄 VVIP 시크릿 대체 아이템은 바로 [ ${ELEMENT_PRESCRIPTION[lack]?.item || '풍수 처방 소품'} ]입니다. 책상에 앉았을 때 메인 시야가 가장 먼저 닿는 눈높이의 명당자리에 이 처방 소품을 신전의 엠블럼처럼 견고하게 고정 배치하여 기운의 뼈대부터 바로 세우십시오.\n\n【 STEP 2. 전두엽 알파파를 깨우는 '10초 몰입 앵커링 의식' 】\n매일 공부이나 프로젝트 연산을 시작하기 직전, 책상 위에 놓인 처방 소품을 양손으로 가만히 감싸 쥐고 코로 깊은 숨을 3회 들이마시는 경건한 앵커링(Anchoring) 의식을 치르십시오. 이 10초간의 물리적 루틴이 당신의 무의식 신경계에 "방해 전파가 차단된 완벽한 몰입의 초공간 진입"이라는 최면 신호를 다이렉트로 각인시킵니다.\n\n【 STEP 3. 시각적 독소 완전 격리와 '흉물 유배술' 】\n상극이 되는 화려한 패턴의 잡동사니나 정돈되지 않은 전선 가닥들은 맑은 생체 에너지를 갉아먹는 시각적 독가스입니다. 단 1초의 망설임도 없이 서랍 안쪽 깊은 곳이나 시야가 절대 닿지 않는 방 밖의 베란다로 완벽하게 격리 유배를 보내셔야 합니다.`;
+    p3 = `【 STEP 1. 영적 물상 대체와 '결핍 오행 소품 명당 고정술' 】\n사주 원국에 흩어지는 기운을 꽉 부여잡아 집중력을 수직 상승시켜 줄 VVIP 시크릿 대체 아이템은 바로 [ ${ELEMENT_PRESCRIPTION[lack]?.item || '풍수 처방 소품'} ]입니다. 책상에 앉았을 때 메인 시야가 가장 먼저 닿는 눈높이의 명당자리에 이 처방 소품을 신전의 엠블럼처럼 견고하게 고정 배치하여 기운의 뼈대부터 바로 세우십시오.\n\n【 STEP 2. 전두엽 알파파를 깨우는 '10초 몰입 앵커링 의식' 】\n매일 공부이나 프로젝트 연산을 시작하기 직전, 책상 위에 놓인 처방 소품을 양손으로 가만히 감싸 쥐고 코로 깊은 숨을 3회 들이마시는 경건한 앵커링(Anchoring) 의식을 치르십시오. 이 10초간의 물리적 루틴이 당신의 무의식 신경계에 "방해 전파가 차단된 완벽한 몰입의 초공간 진입"이라는 최면 신호를 다이렉트로 각인시킵니다.\n\n【 STEP 3. 시각적 독소 완전 격리와 '흉물 유배술' 】\n상극이 되는 화려한 패턴의 잡동사니나 정돈되지 않은 전선 가닥들은 맑은 생체 에너지를 갉아먹는 시각적 독가스입니다. 단 한 순간의 타협도 없이 서랍 안쪽 깊은 곳이나 시야가 절대 닿지 않는 방 밖의 베란다로 완벽하게 격리 유배를 보내셔야 합니다.`;
     p4 = `공간이 내뿜는 미세한 풍수 파동을 치밀하게 제어하는 자가 본인의 거대한 운명마저 지배하게 됩니다. 책상 위의 작은 디테일 하나를 강박적으로 통제하는 외과 수술적 조치가 ${ultimateGoal}의 당락을 결정짓는 운명의 스위치가 됨을 뼛속 깊이 새기십시오.`;
     p5 = `결론적으로 ${name}님의 공간 에너지가 완벽하게 동기화되는 순간, 사주는 장전된 무기로 돌변합니다. 환경의 디테일을 집요하게 통제하는 자만이 고차원적인 성취를 이뤄낼 수 있습니다.\n\n집중이 안 될 때 자책하는 감정 낭비를 멈추십시오. 능률 하락은 의지력 부재가 아니라 풍수 파동이 꼬였기 때문입니다. 처방된 결계를 방 안에 이식하여 압도적인 몰입을 쟁취하십시오.`;
   } else if (menuId === 4) { 
@@ -219,7 +218,7 @@ const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
     title2 = "⚖️ [운기의 밸런스 분석] 시각 색채 노이즈 독소와 몰입 공명점";
     p2 = `당신의 뇌 회로가 극강의 쾌감을 느끼며 번뜩이는 아이디어를 쏟아낼 때는 사주에 내재된 주 기운과 공간의 색채 주파수가 완벽한 화음을 이루며 공명(Resonance)할 때입니다. 이 주파수 스파크가 튀는 순간, 뇌는 모든 시각적 노이즈를 스스로 차단하고 고도의 몰입 모드인 진공 알파파 상태로 부드럽게 미끄러져 들어갑니다.\n\n그러나 지적 성취를 방해하고 전두엽을 방전시키는 핵심 원인은 바로 원국의 열기를 지글지글 끓게 하거나 꽁꽁 얼어붙게 만드는 '상극 계열의 자극적인 원색 노이즈'들입니다. 시야를 혼탁하게 만드는 흉한 주파수의 형광펜이나 공격적인 채도의 소품들이 메인 시야에 방치되어 있으면, 시신경이 지속적으로 뇌파를 공격받으며 극심한 번아웃과 하얀 블랙아웃 늪에 빠지게 됩니다.`;
     title3 = "🗝️ [VVIP 프라이빗 시크릿 솔루션] 시각 주파수 동기화를 위한 3대 컬러 해킹 프로토콜";
-    p3 = `【 STEP 1. 메인 시야 30%를 '운명의 치유 컬러'로 장악하라 】\n사주 원국의 병목을 뚫어주고 뇌파를 쿨링시켜 줄 절대적인 운명의 치유 컬러는 바로 [ ${ELEMENT_PRESCRIPTION[lack]?.color || '파스텔 톤'} ] 계열의 색상입니다. 책상 앞에 앉았을 때 시야의 30% 이상을 차지하는 대형 데스크 매트, 암막 커튼, 아이패드 및 PC 배경화면을 반드시 이 치유 컬러 주파수로 강제 통일하십시오. 시야가 처방 주파수로 채워질 때 전두엽의 코르티솔 독소가 0.1초 만에 소멸됩니다.\n\n【 STEP 2. 뇌파를 찢는 '상극 컬러 독소의 완벽한 유배술' 】\n사주 원국의 기운을 산만하게 흩어놓고 시신경을 피로하게 만드는 강렬한 채도의 원색 소품이나 자극적인 형광펜 가닥들은 전두엽을 공격하는 시각적 흉기입니다. 단 한 순간의 타협도 없이 책상 서랍 안쪽 깊은 곳이나 불투명한 수납 박스 안으로 완벽하게 격리하여 시각적 노이즈를 100% 진공 차단하셔야 합니다.\n\n【 STEP 3. 시각 주파수 각인 기반의 '포토그래픽 메모리 필기술' 】\n시험장이나 실전 발표 현장에서 하얗게 블랙아웃되는 기억을 복원하기 위해, 핵심 공식과 킬러 개념은 반드시 운명의 치유 컬러 계열 펜으로만 정제하여 필기하십시오. 눈을 감았을 때 그 특정 색상의 파장으로 쓰여 있던 노트의 잔상을 뇌리에 통째로 스캔하듯 인출해 내는 시각 주파수 연상 훈련을 반복하십시오.`;
+    p3 = `【 STEP 1. 메인 시야 30%를 '운명의 치유 컬러'로 장악하라 】\n사주 원국의 병목을 뚫어주고 뇌파를 쿨링시켜 줄 절대적인 운명의 치유 컬러는 바로 [ ${ELEMENT_PRESCRIPTION[lack]?.color || '파스텔 톤'} ] 계열의 색상입니다. 책상 앞에 앉았을 시야의 30% 이상을 차지하는 대형 데스크 매트, 암막 커튼, 아이패드 및 PC 배경화면을 반드시 이 치유 컬러 주파수로 강제 통일하십시오. 시야가 처방 주파수로 채워질 때 전두엽의 코르티솔 독소가 0.1초 만에 소멸됩니다.\n\n【 STEP 2. 뇌파를 찢는 '상극 컬러 독소의 완벽한 유배술' 】\n사주 원국의 기운을 산만하게 흩어놓고 시신경을 피로하게 만드는 강렬한 채도의 원색 소품이나 자극적인 형광펜 가닥들은 전두엽을 공격하는 시각적 흉기입니다. 단 한 순간의 타협도 없이 책상 서랍 안쪽 깊은 곳이나 불투명한 수납 박스 안으로 완벽하게 격리하여 시각적 노이즈를 100% 진공 차단하셔야 합니다.\n\n【 STEP 3. 시각 주파수 각인 기반의 '포토그래픽 메모리 필기술' 】\n시험장이나 실전 발표 현장에서 하얗게 블랙아웃되는 기억을 복원하기 위해, 핵심 공식과 킬러 개념은 반드시 운명의 치유 컬러 계열 펜으로만 정제하여 필기하십시오. 눈을 감았을 때 그 특정 색상의 파장으로 쓰여 있던 노트의 잔상을 뇌리에 통째로 스캔하듯 인출해 내는 시각 주파수 연상 훈련을 반복하십시오.`;
     p4 = `시각적 색채 밸런스가 사주의 뼈아픈 부족함과 완벽하게 맞물려 떨어지는 순간, 뇌는 모든 방해 전파가 사라진 완벽한 몰입의 초공간으로 부드럽게 진입합니다.`;
     p5 = `결론적으로 ${name}님의 시신경 주파수와 데스크의 색채 파장이 명리학적 조후에 맞게 세팅되었을 때, 당신의 사주 원석은 가장 날카롭고 우아한 명검으로 변모합니다. 매일 눈을 통해 조용히 흡수한 이 고귀한 색채 에너지는 냉혹한 평가의 전장에서 압도적인 점수와 성과라는 훈장으로 당당히 증명될 것입니다.\n\n무질서하고 자극적인 시각적 공해로부터 본인의 전두엽을 강박적으로 보호하는 통제의 제왕이 되십시오. 빛과 파장으로 완벽하게 쉴드가 쳐진 나만의 지적 요새 안에서 세상이 깜짝 놀랄 경이로운 도약을 이루어내십시오.`;
   } else if (menuId === 5) { 
@@ -277,9 +276,22 @@ export default function App() {
   const [isPgLoaded, setIsPgLoaded] = useState(false);
   const paymentTimerRef = useRef<any>(null);
 
-  // SSR 환경 및 로컬스토리지 쓰레기 데이터 파싱 크래시 완벽 방어
-  const [userInfo, setUserInfo] = useState({ 
-    name: '', birthDate: '', birthTime: '12:00', calendarType: 'solar', isTimeUnknown: false, email: '', phone: '' 
+  const [userInfo, setUserInfo] = useState(() => {
+    try { 
+      const backed = JSON.parse(localStorage.getItem('sajuApp_tempForm') || 'null');
+      if (backed && typeof backed === 'object' && !Array.isArray(backed)) {
+        return {
+          name: String(backed.name || ''),
+          birthDate: String(backed.birthDate || ''),
+          birthTime: String(backed.birthTime || ''),
+          calendarType: String(backed.calendarType || 'solar'),
+          isTimeUnknown: Boolean(backed.isTimeUnknown),
+          email: String(backed.email || ''),
+          phone: String(backed.phone || '')
+        };
+      }
+    } catch {}
+    return { name: '', birthDate: '', birthTime: '12:00', calendarType: 'solar', isTimeUnknown: false, email: '', phone: '' };
   });
 
   const [userSaju, setUserSaju] = useState<any>({ 
@@ -306,7 +318,6 @@ export default function App() {
   const [showTerms, setShowTerms] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
 
-  // 로컬 스토리지는 브라우저 마운트 이후에 1회만 안전 복원
   useEffect(() => {
     try { 
       const backed = JSON.parse(localStorage.getItem('sajuApp_tempForm') || 'null');
@@ -697,7 +708,8 @@ export default function App() {
   };
 
   const handleCopyLink = async () => {
-    const studyType = CHILD_STUDY_MAP[userSaju?.dayMaster || '甲'] || CHILD_STUDY_MAP["甲"];
+    const safeSaju = userSaju || {};
+    const studyType = CHILD_STUDY_MAP[safeSaju?.dayMaster || '甲'] || CHILD_STUDY_MAP["甲"];
     const textToCopy = `[대치동 시크릿 기질 컨설팅]\n우리아이 사주 공부유형 진단 완료! 🌙\n\n👤 이름: ${userInfo?.name || '고객'}\n✨ 기질 유형: ${studyType?.title || ''}\n\n우리 아이의 타고난 천재성과 공부법을 무료로 확인해보세요!\n👉 https://${window.location.host}?utm_source=viral_share`;
 
     const executeFallbackCopy = () => {
@@ -723,6 +735,11 @@ export default function App() {
       } else { executeFallbackCopy(); }
     }
   };
+
+  // 🔥 백지화의 최종 원흉이었던 변수 누락 완벽 선언 🔥
+  const safeSaju = userSaju || {};
+  const safeUnlocked = Array.isArray(unlockedMenus) ? unlockedMenus : [];
+  const currentStudyType = CHILD_STUDY_MAP[safeSaju?.dayMaster || '甲'] || CHILD_STUDY_MAP["甲"] || { title: "진단 결과", emoji: "✨", trait: "기질을 분석하고 있습니다.", imgUrl: "" };
 
   return (
     <div className="min-h-[100dvh] text-[rgba(255,255,255,0.88)] font-sans relative bg-[#021027] print:bg-white print:text-black print:block print:min-h-0 print:h-auto">
@@ -849,7 +866,7 @@ export default function App() {
               🌟 <span className="max-w-[130px] truncate align-middle inline-block">{userInfo?.name || '고객'}</span> 님의 사주 진단 결과
             </h2>
             
-            {Boolean(userSaju?.isNightRollover) && (
+            {Boolean(safeSaju?.isNightRollover) && (
               <div className="bg-[#D4A843]/10 border border-[#D4A843]/40 text-[#D4A843] text-[10.5px] py-1 px-3 rounded-full mb-3 text-center font-bold">
                 🌙 명리학 [야자시/조자시] 보정 좌표 적용 완료
               </div>
@@ -857,7 +874,7 @@ export default function App() {
 
             <div className="glass-card rounded-2xl p-4 mb-4 overflow-x-auto">
               <div className="flex justify-around text-center min-w-[280px]">
-                {(Array.isArray(userSaju?.pillars) ? userSaju.pillars : []).map((pillar: any, idx: number) => (
+                {(Array.isArray(safeSaju?.pillars) ? safeSaju.pillars : []).map((pillar: any, idx: number) => (
                   <div key={idx} className="flex flex-col justify-center px-2">
                     <div className="text-xl font-serif font-bold text-white leading-none">{pillar?.tH || '？'}</div>
                     <div className="text-[10px] text-[#E8C87A] mb-1 font-sans">{pillar?.tK || '？'}</div>
@@ -907,11 +924,9 @@ export default function App() {
 
             <div className="space-y-4">
               {MENU_LIST.map((menu) => {
-                // 🔥 3번 수술: menu.icon 컴포넌트 실종 시 Star 아이콘 폴백 강제 주입 (DOM 폭발 방어) 🔥
                 const Icon = menu?.icon || Star;
-                const safeUnlocked = Array.isArray(unlockedMenus) ? unlockedMenus : [];
                 const isUnlocked = safeUnlocked.includes(menu.id);
-                const previewText = PREVIEW_DATA[menu.id] ? PREVIEW_DATA[menu.id](userInfo || {}, userSaju || {}) : "";
+                const previewText = PREVIEW_DATA[menu.id] ? PREVIEW_DATA[menu.id](userInfo || {}, safeSaju || {}) : "";
 
                 return (
                   <div 
@@ -926,7 +941,8 @@ export default function App() {
                     <div className="flex items-center justify-between mb-2 pl-2">
                       <div className="flex items-center gap-2.5">
                         <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#D4A843]/10 border border-[#D4A843]/20 flex-shrink-0">
-                          {typeof menu?.icon === 'function' ? React.createElement(menu.icon, { size: 18, className: "text-[#D4A843]", style: { flexShrink: 0 } }) : <span className="text-[#D4A843] font-bold text-sm">✦</span>}
+                          {/* 🔥 아이콘 렌더링 붕괴 방어선 🔥 */}
+                          {typeof menu?.icon === 'function' || typeof menu?.icon === 'object' ? React.createElement(menu.icon as any, { size: 18, className: "text-[#D4A843]", style: { flexShrink: 0 } }) : <span className="text-[#D4A843] font-bold text-sm">✦</span>}
                         </div>
                         <h4 className="font-serif text-sm font-bold text-white whitespace-pre-line leading-tight">{(menu?.title || '').replace('\n', ' ')}</h4>
                       </div>
@@ -966,13 +982,13 @@ export default function App() {
 
             <div className="max-w-md mx-auto w-full p-5">
               
-              {Boolean(userSaju?.isNightRollover) && (
+              {Boolean(safeSaju?.isNightRollover) && (
                 <div className="bg-[#D4A843]/10 border border-[#D4A843]/40 text-[#D4A843] text-[10.5px] py-2 px-3 rounded-xl mb-5 text-center font-bold print:hidden">
                   🌙 명리학 [야자시/조자시] 보정 좌표 적용 완료
                 </div>
               )}
 
-              {!(Array.isArray(unlockedMenus) ? unlockedMenus : []).includes(selectedMenu.id) && (
+              {!safeUnlocked.includes(selectedMenu.id) && (
                 <div className="bg-gradient-to-br from-[#FFFDF9] to-[#FFF5EB] border-2 border-[#E8C87A] rounded-2xl p-5 shadow-sm mb-6 relative overflow-hidden print:hidden">
                   <div className="absolute top-0 right-0 bg-[#D4A843] text-[#021027] text-[9.5px] font-black px-3 py-1 rounded-bl-lg tracking-wider">
                     REPORT TEASER
@@ -982,12 +998,12 @@ export default function App() {
                     <h3 className="text-xs font-black text-[#D4A843] tracking-tight">리포트 핵심 요약 미리보기</h3>
                   </div>
                   <p className="text-[13.5px] text-[#2A1530] leading-[1.8] font-bold break-keep text-justify whitespace-pre-line bg-white/60 p-3.5 rounded-xl border border-[#E8C87A]/30">
-                    {PREVIEW_DATA[selectedMenu.id] ? PREVIEW_DATA[selectedMenu.id](userInfo || {}, userSaju || {}) : "분석 요약을 불러옵니다."}
+                    {PREVIEW_DATA[selectedMenu.id] ? PREVIEW_DATA[selectedMenu.id](userInfo || {}, safeSaju || {}) : "분석 요약을 불러옵니다."}
                   </p>
                 </div>
               )}
 
-              {(Array.isArray(unlockedMenus) ? unlockedMenus : []).includes(selectedMenu.id) && (
+              {safeUnlocked.includes(selectedMenu.id) && (
                 <div className="mb-6 bg-[#1b2d4a] text-white p-4 rounded-2xl shadow-lg border border-[#243b5e] break-keep print:hidden">
                   <p className="text-xs font-bold text-[#FEE500] mb-2 flex items-center gap-1"><Download size={14}/> 안드로이드 / 아이폰 PDF 영구 저장법</p>
                   <ol className="text-[11px] space-y-1 text-gray-200 pl-3 list-decimal">
@@ -1001,7 +1017,7 @@ export default function App() {
                 </div>
               )}
 
-              {!(Array.isArray(unlockedMenus) ? unlockedMenus : []).includes(selectedMenu.id) ? (
+              {!safeUnlocked.includes(selectedMenu.id) ? (
                 <div className="space-y-5 print:hidden">
                   <div className="bg-gradient-to-r from-[#111625] to-[#1A1530] border border-[#D4A843]/40 rounded-2xl p-6 text-center text-white shadow-xl relative overflow-hidden">
                     <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-[#D4A843]/10 rounded-full blur-xl"></div>
@@ -1042,7 +1058,7 @@ export default function App() {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {(Array.isArray(generateProfessionalReport(userInfo || {}, userSaju || {}, selectedMenu.id)) ? generateProfessionalReport(userInfo || {}, userSaju || {}, selectedMenu.id) : []).map((section: any, idx: number) => {
+                  {(Array.isArray(generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id)) ? generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id) : []).map((section: any, idx: number) => {
                     if (section?.isSummary) {
                       return (
                         <div key={idx} className="bg-white border-[2.5px] border-[#E8C87A] rounded-[20px] p-[24px_20px] shadow-md my-6 relative overflow-hidden print:break-inside-avoid">
@@ -1142,7 +1158,7 @@ export default function App() {
       {/* ================================================================= */}
       {/* 🖨️ 인쇄/PDF 저장용 숨겨진 화면 (A4 출력 표준 포맷 완전 가동) */}
       {/* ================================================================= */}
-      {currentView === 'result' && selectedMenu?.id && (Array.isArray(unlockedMenus) ? unlockedMenus : []).includes(selectedMenu.id) && (
+      {currentView === 'result' && selectedMenu?.id && safeUnlocked.includes(selectedMenu.id) && (
         <div className="hidden print:block font-serif w-full text-[#111625] bg-[#FDFBF7]">
           
           <div className="print-cover bg-white">
@@ -1155,17 +1171,17 @@ export default function App() {
             <div className="text-left w-full max-w-sm mb-12 space-y-2 mx-auto text-xs">
               <div className="flex justify-between border-b border-gray-200 pb-1.5">
                 <span className="text-[#C89830] font-bold whitespace-nowrap">대상자</span>
-                <span className="max-w-[180px] truncate whitespace-nowrap text-right">{(userInfo?.name || '').replace(/\s+/g, '')} 님</span>
+                <span className="max-w-[180px] truncate whitespace-nowrap text-right">{String(userInfo?.name || '').replace(/\s+/g, '')} 님</span>
               </div>
               <div className="flex justify-between border-b border-gray-200 pb-1.5"><span className="text-[#C89830] font-bold">생년월일</span><span>{userInfo?.birthDate || ''} ({userInfo?.calendarType === 'solar' ? '양력' : userInfo?.calendarType === 'lunar' ? '음력' : '윤달'})</span></div>
-              <div className="flex justify-between border-b border-gray-200 pb-1.5"><span className="text-[#C89830] font-bold">일간 기운</span><span>{userSaju?.dayMaster || '甲'} ({(DM_MATRIX[userSaju?.dayMaster || '甲']||{}).name || ''})</span></div>
-              <div className="flex justify-between border-b border-gray-200 pb-1.5"><span className="text-[#C89830] font-bold">선택 리포트</span><span>{(selectedMenu?.title || '').replace('\n', ' ')}</span></div>
+              <div className="flex justify-between border-b border-gray-200 pb-1.5"><span className="text-[#C89830] font-bold">일간 기운</span><span>{safeSaju?.dayMaster || '甲'} ({(DM_MATRIX[safeSaju?.dayMaster || '甲']||{}).name || ''})</span></div>
+              <div className="flex justify-between border-b border-gray-200 pb-1.5"><span className="text-[#C89830] font-bold">선택 리포트</span><span>{String(selectedMenu?.title || '').replace('\n', ' ')}</span></div>
             </div>
             <div className="text-gray-400 text-[10px] tracking-widest text-center">HAPPY MERRY BELL</div>
           </div>
 
           <div className="p-10 bg-[#FDFBF7]">
-            {(Array.isArray(generateProfessionalReport(userInfo || {}, userSaju || {}, selectedMenu.id)) ? generateProfessionalReport(userInfo || {}, userSaju || {}, selectedMenu.id) : []).map((section: any, idx: number) => (
+            {(Array.isArray(generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id)) ? generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id) : []).map((section: any, idx: number) => (
               <div key={idx} className="print-section mb-10">
                 <h2 className="text-[14pt] font-black text-[#111625] border-l-[5px] border-[#C89830] pl-3 mb-4">{section?.title || ''}</h2>
                 {(Array.isArray(section?.paragraphs) ? section.paragraphs : []).map((p: any, pIdx: number) => {
