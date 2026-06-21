@@ -19,7 +19,6 @@ const firebaseConfig = {
   measurementId: "G-F3HGRZRX9W"
 };
 
-// React StrictMode 재마운트 시 Firebase 중복 생성 에러 방어 싱글톤 래퍼
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 // 👆 파이어베이스 연결 마스터 키 👆
@@ -113,7 +112,6 @@ const Starfield = () => (
   </div>
 );
 
-// 🔥 수술 1: URI 디코딩 중 에러(URIError: malformed URI sequence) 완벽 차단 방어막 🔥
 const safeDecode = (str: string | null) => {
   if (!str) return '';
   try { return decodeURIComponent(str); } catch { return str; }
@@ -145,7 +143,7 @@ const PREVIEW_DATA: Record<number, any> = {
   7: (user: any, saju: any) => `명리학적으로 일간 '${saju.dayMaster}'을 지닌 ${user.name}님의 뇌는 상대방이 뱉는 '특정 단어 파장'에 따라 전두엽이 열리거나 완벽하게 닫히는 양극단의 수용성을 보입니다.\n상대방의 반항심을 0.1초 만에 무장 해제시키고 스스로 책상에 앉게 만들 부모의 '결정적 첫 마디'의 정체는 바로...`,
 };
 
-// 🔥 혁신 4: 1,750종 고유 결과지 동적 렌더링 매트릭스 엔진 🔥
+// 🔥 1,750종 고유 결과지 동적 렌더링 퀀텀 매트릭스 조립 엔진 🔥
 const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
   const name = user.name || "고객";
   const dmObj = DM_MATRIX[saju.dayMaster] || DM_MATRIX['甲'];
@@ -230,7 +228,8 @@ const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
     p3 = `【 STEP 1. 의도적인 침묵과 '결정적 1초의 정곡 발언술' 】\n조직 내에서 억지로 본인의 존재감을 드러내려 말을 많이 하며 패를 보여주지 마십시오. 사내 정치 이슈나 갈등이 터져 모두가 감정적으로 흥분해 있을 때, 한발 물러서서 상황을 고요한 데이터베이스로 분석하십시오. 그리고 회의가 끝나갈 무렵, 가장 묵직하고 정곡을 찌르는 서늘한 단 한마디를 던지며 상황을 완벽히 종료시키는 제왕적 포지션을 취하셔야 합니다.\n\n【 STEP 2. 인간적 빈틈의 전략적 노출과 '소프트파워 포용술' 】\n흠집 하나 잡히지 않으려 발버둥 치는 강박적인 완벽주의의 가면을 가끔씩 의도적으로 벗어 던지십시오. 본인의 사소하고 인간적인 취약점을 타인에게 쿨하게 오픈하고 진심으로 고개를 숙여 도움을 청할 때, 사람들은 당신의 그 '반전 인간미'에 완벽하게 무장 해제되어 평생 변치 않는 충성심을 바치게 됩니다.\n\n【 STEP 3. 시기심을 충성으로 치환하는 '명예 양도 프로토콜' 】\n당신의 빛나는 아우라는 필연적으로 주변 소인배들의 시뻘건 질투와 시기심을 자극합니다. 프로젝트가 성공했을 때 표면적인 영광과 박수갈채를 과감하게 아랫사람이나 협업자들에게 100% 양도하십시오. 명예를 양보받은 이들은 감복하여 당신을 조직의 영원한 대체불가 리더로 스스로 받들어 모시게 됩니다.`;
     p4 = `진정으로 무리를 지배하고 부리는 위대한 통치력은 완벽하게 포장된 강압적 연기에서 나오지 않습니다. 본인의 가장 뼈아픈 결핍마저도 서늘하게 인지하고 타인의 감정을 품어내는 '부드러운 통제력'에서 나옵니다. 당신은 이미 완성형 제왕입니다.`;
     p5 = `결론적으로 ${name}님의 명식 도화지는 대중의 열광적인 존경과 서늘한 시기심을 동시에 한 몸에 받으며 한 시대의 흐름을 본인의 의도대로 비틀어 버릴 수 있는 거대한 제왕의 원석입니다. 조용히 다듬어온 그 부드럽지만 치명적인 카리스마는 당신을 피할 수 없는 조직의 절대적인 통치자로 등극시킬 것입니다.\n\n타인에게 얕보이지 않으려 억지로 가시를 세우는 얄팍한 방어 기제를 오늘부로 완벽히 소각하십시오. 타인의 감정적 주파수를 여유롭게 품어내는 작은 빈틈이야말로 사람들을 당신 곁에 영구 박제하는 가장 거대하고 흉포한 중력이 됩니다. 제왕의 왕관을 쓰고 당당하게 군림하십시오.`;
-  } else if (menuId === 7) { // 🔥 7번 필승 대화법: 10,000자급 정밀 컨설팅 에세이 완전 독립 매트릭스 🔥
+  } else if (menuId === 7) { 
+    // 🔥 7번 필승 대화법: 100% 독립 매트릭스 텍스트 적용 (유사성 0%) 🔥
     title1 = "✨ [VVIP 명식 해단식] 선천 청각 필터와 언어 주파수 수용 기전";
     p1 = `${timePhrase} 정밀 파싱한 결과, ${name}님의 명식 본원은 [ ${dmObj.name} ]의 파동으로 세팅되어 있습니다. 이 기질의 상대방에게 언어란 단순한 '소리 정보의 전달'이 결코 아닙니다. 귓가에 꽂히는 음색, 어조의 미세한 높낮이, 그리고 활자 이면에 숨겨진 '나를 통제하려는 얄팍한 의도'를 0.1초 만에 동물적으로 감지해 내는 초정밀 레이더망이 가동되고 있습니다.\n\n${dmObj.talk}\n\n특히 원국 내 오행 분포가 [ ${elementCountsStr}] 로 구성된 바, 특정 에너지의 쏠림 현상으로 인해 일방적인 지시나 억압성 훈계를 '나의 존재 자체에 대한 물리적 공격'으로 왜곡해서 받아들이는 청각 필터 병목을 겪고 있습니다. 대화 도중 갑자기 입을 다무는 것은 고집이 아니라 본인의 과열된 뇌파를 지키기 위한 본능적인 생존 방어 기제임을 이해하셔야 대화의 실마리가 풀립니다.`;
     title2 = "⚖️ [운기의 밸런스 분석] 잔소리 독소의 축적과 시냅스 단절 현상";
@@ -241,6 +240,7 @@ const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
     p5 = `결론적으로 ${name}님의 명식은 상대방이 어떤 언어 주파수를 먹여 키우느냐에 따라 사사건건 부딪치는 트러블 메이커가 될 수도, 판을 주도하는 압도적 우군이 될 수도 있는 극단적인 증폭 그릇입니다.\n\n본인이 느끼는 초조함을 언어적 가시로 뱉어내는 악순환을 오늘부로 영구 소각하십시오. 상대의 고유한 언어 필터를 넉넉하게 품어주는 단단한 언어적 요새 안에서 상대는 스스로 무장을 해제할 것입니다. 당신의 결정적 첫 마디가 관계의 판도를 바꿉니다.`;
   }
 
+  // 🔥 혁신 2: 7번 리포트는 일반 소품 뱃지 대신 전용 대화 심볼 3종 세트 강제 매핑 🔥
   if (menuId === 7) {
     symbolsToUse = [
       { emoji: "🤐", label: "3초 완충 버퍼" },
@@ -289,7 +289,7 @@ export default function App() {
   const [showTerms, setShowTerms] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
 
-  // 🔥 10번 수술: 모달 스크롤 뒷배경 덜덜거림 완벽 차단 훅 🔥
+  // 🔥 10번 수술: 모달 스크롤 락
   useEffect(() => {
     if (showTerms || showPrivacy) {
       document.body.style.overflow = 'hidden';
@@ -299,13 +299,13 @@ export default function App() {
     return () => { document.body.style.overflow = 'auto'; };
   }, [showTerms, showPrivacy]);
 
-  // 포트원 SDK 동적 렌더링 
+  // 🔥 극한 2번 수술: 외부 스크립트 중복 꽂힘 방지 단일 로더 🔥
   useEffect(() => {
     if ((window as any).PortOne) {
       setIsPgLoaded(true);
       return;
     }
-    if (document.getElementById('portone-sdk')) return; // 중복 로드 차단
+    if (document.getElementById('portone-sdk')) return; 
     const script = document.createElement('script');
     script.id = 'portone-sdk';
     script.src = 'https://cdn.portone.io/v2/browser-sdk.js';
@@ -315,7 +315,6 @@ export default function App() {
     document.head.appendChild(script);
   }, []);
 
-  // 인쇄 드로어 닫힐 때 뷰포트 굳음 해제
   useEffect(() => {
     const handleAfterPrint = () => { document.body.style.overflow = 'auto'; };
     window.addEventListener('afterprint', handleAfterPrint);
@@ -338,7 +337,7 @@ export default function App() {
     setTimeout(() => { window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); }, 50);
   }, [currentView, selectedMenu]);
 
-  // 🔥 5번 수술: 스와이프 백으로 히스토리 꼬이는 현상 완벽 방어 🔥
+  // 🔥 극한 1번 수술: BFCache 스와이프 백 화면 마비 해제 훅 🔥
   useEffect(() => {
     window.history.pushState(null, "", window.location.href);
     const handlePopState = (e: any) => {
@@ -379,7 +378,6 @@ export default function App() {
       return nextUnlocked;
     });
     
-    // 🔥 2번 수술: 결제 성공 즉시 유저 화면 먼저 뚫어주고 DB 적재는 백그라운드로 전송 🔥
     setCurrentView('result');
 
     try {
@@ -438,7 +436,7 @@ export default function App() {
             script.id = 'lunar-script';
             script.src = 'https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.js';
             script.onload = () => res(true); 
-            // 🔥 통신 단절 시 무한 대기 렉 방어 🔥
+            // 🔥 극한 3번 수술: 통신 단절 시 무한 대기 렉 방어 🔥
             script.onerror = () => { alert("통신이 원활하지 않습니다. 새로고침 후 다시 시도해주세요."); res(false); };
             document.head.appendChild(script);
           });
@@ -453,7 +451,6 @@ export default function App() {
           const [hour, minute] = !isUnknown && timeStr ? timeStr.split(':').map(Number) : [12, 0];
 
           let month = rawMonth; let day = rawDay;
-          // 🔥 4번 수술: 평년 2월 29일 강제 입력 및 음력 31일 오류 오토 클램프 회로 🔥
           if (calType === 'solar') {
             const maxSolar = new Date(year, month, 0).getDate();
             if (day > maxSolar) day = maxSolar;
@@ -461,7 +458,6 @@ export default function App() {
             if (day > 30) day = 30;
           }
 
-          // 🔥 7번 수술: 정각(00:00) 야자시 밀림 방지 엄격 분리 룰 🔥
           const isNightRollover = !isUnknown && hour === 23;
           const parseMonth = calType === 'leap' ? -Math.abs(month) : month;
 
@@ -531,17 +527,15 @@ export default function App() {
 
   const handleStart = async (e: React.FormEvent) => {
     e.preventDefault();
-    // 🔥 1번 수술: 클립보드로 50글자 붙여넣기 꼼수 원천 차단 하드 클램프 🔥
     const safeName = userInfo.name.trim().slice(0, 10);
     if (!safeName) return alert("정확한 이름을 입력해주세요.");
     if (!userInfo.birthDate) return alert("생년월일을 입력해주세요.");
     
-    // 1900년 이하 / 2050년 이상 입력 시 크래시 방어
     const bYear = parseInt(userInfo.birthDate.split('-')[0], 10);
     if (bYear < 1901 || bYear > 2049) return alert("1901년 ~ 2049년 사이의 생년월일만 정밀 연산이 가능합니다.");
 
-    // 🔥 3번 수술: '모름' 체크 후 시간 찌꺼기 텍스트(25:99 등) 연산 파괴 방어 🔥
     if (!userInfo.isTimeUnknown && !userInfo.birthTime) return alert("태어난 시간을 입력하거나 '모름'에 체크해주세요.");
+    
     const safeTime = userInfo.isTimeUnknown ? "12:00" : userInfo.birthTime;
     
     setIsProcessing(true); setImgFailed(false); 
@@ -578,7 +572,6 @@ export default function App() {
     const cleanPhone = userInfo.phone.replace(/[^0-9]/g, '');
 
     if (!cleanEmail || !cleanPhone) return alert("안전한 결제 내역 발송을 위해\n이메일과 휴대폰 번호를 올바르게 입력해주세요.");
-    // 🔥 2번 수술: 삼성 키보드 자동완성 이메일 한글 주입 시 PG사 400에러 즉사 방어 🔥
     if (/[^\x00-\x7F]/.test(cleanEmail)) return alert("이메일 주소에 한글이나 특수문자가 포함될 수 없습니다. 영문 이메일로 다시 확인해주세요.");
 
     if (isProcessing) return; 
@@ -638,7 +631,6 @@ export default function App() {
       alert("📢 카카오톡 내부 브라우저에서는 PDF 저장 기능이 기술적으로 차단되어 있습니다.\n\n화면 우측 하단의 [ ⋮ ] 버튼을 눌러 '다른 브라우저로 열기(사파리/크롬)'를 하신 뒤 저장해주세요!\n(결제하신 내역은 그대로 안전하게 유지됩니다)");
       return;
     }
-    // 🔥 7번 수술: PDF 저장 취소 후 재클릭 인쇄 마비 사태 방어 쿨타임(5초) 🔥
     if (isPrintingLock) return;
     setIsPrintingLock(true);
     setTimeout(() => { window.print(); setIsProcessing(false); }, 150);
@@ -686,7 +678,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    const params = newSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
     const pName = params.get('n'); const pDate = params.get('d');
     if (pName && pDate) {
       setUserInfo(prev => ({
@@ -701,13 +693,12 @@ export default function App() {
   const currentStudyType = CHILD_STUDY_MAP[userSaju.dayMaster] || CHILD_STUDY_MAP["甲"];
 
   return (
-    <div className="min-h-screen text-[rgba(255,255,255,0.88)] font-sans relative bg-[#021027] print:bg-white print:text-black print:block print:min-h-0 print:h-auto">
+    <div className="min-h-[100dvh] text-[rgba(255,255,255,0.88)] font-sans relative bg-[#021027] print:bg-white print:text-black print:block print:min-h-0 print:h-auto">
       <Starfield />
 
-      {/* 🔥 극한 검증 4번 수술: 모바일 모든 클릭 요소 더블탭 줌 확대 차단(touch-action) 방어선 🔥 */}
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap');
-        .font-serif { font-family: 'Noto Serif KR', serif; }
+        .font-serif { font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif; }
         .font-sans { font-family: 'Noto Sans KR', sans-serif; }
         button, input, select, [onClick], .cursor-pointer { touch-action: manipulation !important; }
         @keyframes twinkle { 0%, 100% { transform: scale(1); } 50% { opacity: 0.9 !important; transform: scale(1.3); } }
@@ -725,7 +716,7 @@ export default function App() {
         
         @media print {
           @page { margin: 15mm; size: A4; }
-          * { letter-spacing: -0.02em !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+          * { letter-spacing: -0.02em !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif !important; }
           html, body, #root, .min-h-screen { display: block !important; position: static !important; height: auto !important; min-height: 0 !important; overflow: visible !important; background-color: #FDFBF7 !important; color: #111625 !important; }
           .no-print { display: none !important; }
           .print-only { display: block !important; background-color: #FDFBF7 !important; color: #111625 !important; }
@@ -740,7 +731,7 @@ export default function App() {
       {/* ================================================================= */}
       <div className="no-print relative z-10">
         {currentView === 'intro' && (
-          <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 py-12 max-w-md mx-auto">
+          <div className="relative z-10 flex flex-col items-center justify-center min-h-[100dvh] px-6 py-12 max-w-md mx-auto">
             
             <div className="w-full bg-[#E8C87A]/20 border border-[#E8C87A]/50 text-[#E8C87A] text-[11.5px] p-3.5 rounded-xl mb-6 text-center leading-relaxed backdrop-blur-sm shadow-lg break-keep">
               ⚠️ <strong className="text-white">카카오톡, 인스타그램</strong> 등 내부 창에서는 결제 오류가 발생할 수 있습니다.<br/>
@@ -766,7 +757,6 @@ export default function App() {
               </p>
             </div>
 
-            {/* 🔥 극한 검증 6번 수술: 폼 전체 진공 레이어(pointer-events-none) 장착 🔥 */}
             <div className={`w-full glass-card rounded-[24px] p-6 relative overflow-hidden ${isProcessing ? 'pointer-events-none opacity-80 select-none' : ''}`}>
               <form onSubmit={handleStart} className="space-y-4">
                 <div>
@@ -818,14 +808,14 @@ export default function App() {
         )}
 
         {currentView === 'calculating' && (
-          <div className="flex flex-col items-center justify-center min-h-screen text-center">
+          <div className="flex flex-col items-center justify-center min-h-[100dvh] text-center">
             <div className="w-8 h-8 border-4 border-[#E8C87A] border-t-transparent rounded-full animate-spin mb-4"></div>
             <h2 className="font-serif text-lg font-bold text-[#E8C87A]">운명의 궤적을 분석 중입니다...</h2>
           </div>
         )}
 
         {currentView === 'menu' && (
-          <div className="min-h-screen pt-8 px-5 pb-16 max-w-md mx-auto">
+          <div className="min-h-[100dvh] pt-8 px-5 pb-16 max-w-md mx-auto">
             <h2 className="font-serif text-lg font-bold text-[#E8C87A] mb-4 text-center">
               🌟 <span className="max-w-[130px] truncate align-middle inline-block">{userInfo.name}</span> 님의 사주 진단 결과
             </h2>
@@ -905,7 +895,6 @@ export default function App() {
                     <div className="flex items-center justify-between mb-2 pl-2">
                       <div className="flex items-center gap-2.5">
                         <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#D4A843]/10 border border-[#D4A843]/20 flex-shrink-0">
-                          {/* 🔥 극한 검증 8번 수술: 어르신 글자크기 최대 설정 시 50x50 렉 방지 flexShrink 🔥 */}
                           <Icon size={18} className="text-[#D4A843]" style={{ flexShrink: 0 }} />
                         </div>
                         <h4 className="font-serif text-sm font-bold text-white whitespace-pre-line leading-tight">{menu.title.replace('\n', ' ')}</h4>
@@ -934,9 +923,9 @@ export default function App() {
           </div>
         )}
 
-        {/* 4. RESULT VIEW (티저 박스 및 정밀 텍스트 출력부) */}
+        {/* 4. RESULT VIEW */}
         {currentView === 'result' && selectedMenu && (
-          <div className="relative z-20 min-h-screen min-h-[750px] bg-[#FDFBF7] text-[#1A1530] pb-12 animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)]">
+          <div className="relative z-20 min-h-[100dvh] min-h-[750px] bg-[#FDFBF7] text-[#1A1530] pb-12 animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)]">
             <div className="px-4 py-4 flex items-center sticky top-0 z-30 bg-[#FDFBF7]/95 backdrop-blur border-b border-[#EAE1D8] print:hidden">
               <button onClick={handleBackFromResult} className="p-1.5 border rounded-full mr-3 bg-white shadow-sm"><ChevronLeft size={18}/></button>
               <h2 className="font-black text-[15px] flex-1 text-center pr-6 text-[#021027]">
@@ -969,7 +958,6 @@ export default function App() {
                     <li>상단 프린터 선택창에서 <strong className="text-[#E8C87A]">"PDF 파일로 저장"</strong>을 고르세요.</li>
                     <li>화면 우측의 <strong className="text-[#FEE500]">노란색 PDF 아이콘</strong>을 누르면 다운로드됩니다.</li>
                   </ol>
-                  {/* 🔥 극한 검증 7번 수술: 5초 인쇄 어뷰징 쿨타임 릴리즈 락 버튼 🔥 */}
                   <button onClick={downloadVVIPReport} disabled={isPrintingLock} className="w-full mt-3 bg-gradient-to-r from-[#D4A843] to-[#E8C050] text-[#1A1530] font-black py-3 rounded-xl shadow active:scale-95 transition-transform disabled:opacity-50">
                     📥 {isPrintingLock ? "🖨️ 인쇄 엔진 냉각 중... (5초 후 활성화)" : "10,000자급 VVIP 리포트 PDF 저장"}
                   </button>
@@ -1010,7 +998,6 @@ export default function App() {
                     <input type="email" required placeholder="결제 내역 받을 이메일" value={userInfo.email} onChange={e=>setUserInfo({...userInfo, email: e.target.value})} className="w-full border rounded-xl p-3 text-[16px] md:text-xs mb-2 outline-none" />
                     <input type="tel" required placeholder="휴대폰 번호 (자유롭게 입력)" value={userInfo.phone} onChange={e=>setUserInfo({...userInfo, phone: e.target.value})} className="w-full border rounded-xl p-3 text-[16px] md:text-xs mb-4 outline-none" />
                     
-                    {/* 🔥 극한 검증 3번 수술: PG 로딩 전광석화 스피너 락 🔥 */}
                     <button onClick={() => handlePayment('카드')} disabled={isProcessing || !isPgLoaded} className="w-full bg-[#FEE500] text-black font-bold py-3.5 rounded-xl shadow-sm active:scale-95 transition-transform disabled:opacity-50">
                       💳 {isPgLoaded ? "원본 포트원 안전 결제하기" : "PG 모듈 안전 로딩 중..."}
                     </button>
@@ -1074,7 +1061,6 @@ export default function App() {
           </div>
         </footer>
 
-        {/* 🔥 극한 검증 10번 수술: 약관 모달 오픈 시 뒷배경 광클 관통 방어 z-[9999] 및 스탑 프로파게이션 🔥 */}
         {showPrivacy && (
           <div onClick={(e) => e.stopPropagation()} className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans print:hidden touch-none">
             <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black pointer-events-auto">
