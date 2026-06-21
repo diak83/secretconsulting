@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   BookOpen, Lightbulb, Package, Home as HomeIcon, Briefcase, Star,
   Download, Lock, ChevronLeft, MessageCircle, Building, Crown, Sprout,
-  Sun, Mountain, Zap, Droplets, Share2
+  Sun, Mountain, Zap, Droplets, Share2, Copy
 } from "lucide-react";
 
 // 👇 파이어베이스 연결 마스터 키 (결제/DB 로직 원본 100% 유지) 👇
@@ -24,6 +24,7 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 // 👆 파이어베이스 연결 마스터 키 👆
 
+// 🔥 기획 추가: 7번 '학습효율 올리는 필승 대화방법' 완벽 매핑 🔥
 const MENU_LIST = [
   { id: 1, title: "사주로 보는\n기본 학습스타일", icon: BookOpen, bar: "bg-gradient-to-r from-[#F5B8C8] to-[#FFCBA4]", bg: "#F5B8C8" },
   { id: 2, title: "효과적인\n학습 방법", icon: Lightbulb, bar: "bg-gradient-to-r from-[#90D8C8] to-[#90C8E8]", bg: "#90D8C8" },
@@ -31,6 +32,7 @@ const MENU_LIST = [
   { id: 4, title: "공부방\n추천 컬러", icon: HomeIcon, bar: "bg-gradient-to-r from-[#E8C87A] to-[#FFCBA4]", bg: "#E8C87A" },
   { id: 5, title: "미래\n추천 직업", icon: Briefcase, bar: "bg-gradient-to-r from-[#90C8E8] to-[#B8A8E8]", bg: "#90C8E8" },
   { id: 6, title: "나는 어떤\n스타일의 인재?", icon: Star, bar: "bg-gradient-to-r from-[#90D8C8] to-[#E8C87A]", bg: "#90D8C8" },
+  { id: 7, title: "학습효율 올리는\n필승 대화방법", icon: MessageCircle, bar: "bg-gradient-to-r from-[#FFCBA4] to-[#F5B8C8]", bg: "#FFCBA4" },
 ];
 
 const GAN_KOR: Record<string, string> = { 甲: "갑", 乙: "을", 丙: "병", 丁: "정", 戊: "무", 己: "기", 庚: "경", 辛: "신", 壬: "임", 癸: "계" };
@@ -57,7 +59,6 @@ const ELEMENT_PRESCRIPTION: Record<string, any> = {
   "수(물)": { color: "미드나잇 블루, 딥 퍼플", item: "노이즈 캔슬링 헤드폰, 가습기", action: "방해받지 않는 심야 시간의 딥워크", job: "기획/전략, 심리 연구, 무역", symbols: [{ emoji: "🌊", label: "심야 딥워크" }, { emoji: "🎧", label: "외부 차단" }] },
 };
 
-// 🔥 ImgBB 실제 링크 10개 일간 완벽 맵핑 🔥
 const CHILD_STUDY_MAP: Record<string, any> = {
   "甲": { title: "자기주도 끝판왕 [불도저 리더형]", emoji: "🚀", trait: "간섭하면 엇나가는 자존심 끝판왕입니다. 큰 숲을 보는 기획력이 뛰어나며, 목표와 주도권만 쥐어주면 스스로 뚫고 나가는 무서운 추진력을 가졌습니다.", imgUrl: "https://i.ibb.co/B27J0D8K/image.png" },
   "乙": { title: "환경 흡수 스펀지 [유연한 네트워크형]", emoji: "🌱", trait: "주변 환경과 짝꿍의 영향을 가장 뼈저리게 받는 기질입니다. 강압적인 지시보다는 부드러운 유대감과 좋은 면학 분위기 속에 던져둘 때 성적이 폭발합니다.", imgUrl: "https://i.ibb.co/1Gjttdmc/image.png" },
@@ -70,6 +71,7 @@ const CHILD_STUDY_MAP: Record<string, any> = {
   "壬": { title: "스케일이 다른 [빅픽처 설계자형]", emoji: "🌊", trait: "단순 암기를 극도로 싫어하며 이해의 폭이 바다처럼 넓습니다. 무작정 문제를 풀리기보다 과목의 전체적인 맥락과 원리를 먼저 납득시켜야 뇌가 움직입니다.", imgUrl: "https://i.ibb.co/B5Fjh4wh/image.png" },
   "癸": { title: "틀을 깨부수는 [직관적 천재 영감형]", emoji: "💧", trait: "가만히 앉아 듣기만 하는 수업을 들으면 뇌가 정지합니다. 남들이 생각지 못한 엉뚱하고 기발한 패턴으로 정답을 유추해내는 영재성이 다분한 기질입니다.", imgUrl: "https://i.ibb.co/kVq7n1yQ/image.png" }
 };
+
 
 const REVIEWS = [
   { id: 1, author: "대치동 시우맘", type: "선비형 / 초6", content: "애 성향 모르면 학원비 수백 그냥 버리는 듯요. 솔루션대로 백지 복습 시켰더니 이번 단원평가 처음으로 다 맞아왔네요." },
@@ -110,7 +112,7 @@ const calculateAge = (birthDateStr: string) => {
   return currentYear - birthYear + 1; 
 };
 
-// 🔥 혁신 3번: 결제 전 메뉴 클릭 시 최상단에 핀셋 고정될 [리포트별 2줄 미리보기 티저] 딕셔너리 🔥
+// 🔥 혁신 3번: 뒷말을 아끼는 '오픈 루프' 심리 해킹이 적용된 [메뉴별 2줄 미리보기 요약] 🔥
 const PREVIEW_DATA: Record<number, any> = {
   1: (user: any, saju: any) => `명리학적 선천 황경 좌표 스캔 결과, ${user.name}님은 만물을 뚫고 오르는 [${saju.dayMaster}·${(DAY_MASTERS[saju.dayMaster]||{}).name}]의 지적 자아를 세팅받았습니다.\n정해진 룰을 강요받을 때 전두엽이 굳어버리며, 원국 내 '${saju.lacking}' 기운의 결핍으로 인해 인풋 대비 아웃풋 병목을 겪고 있습니다. 이 병목을 단 15분 만에 뚫어낼 선천 맞춤형 '예열 스위치'의 정체는 바로...`,
   2: (user: any) => `현재 ${user.name}님에게 남들과 똑같은 암기식 인강을 강요하는 것은 호랑이를 종이컵에 가두는 자해 행위입니다.\n원국 구조상 지식을 완벽히 내 것으로 박제하기 위해서는 반드시 [입력 30% : 출력 70%]의 외과수술적 인출 회로가 가동되어야 합니다. 당신의 뇌 구조에 최적화된 '골든타임 과목 배치술'은 바로...`,
@@ -118,9 +120,10 @@ const PREVIEW_DATA: Record<number, any> = {
   4: () => `시신경을 통해 흡수되는 색채의 파장은 사주의 조후(온도와 습도 밸런스)를 결정짓는 생존 주파수입니다.\n책상 앞에서 극심한 피로감과 번아웃을 겪는 이유는 상극 컬러 독소 때문이며, 시야의 30%를 장악해 전두엽을 식혀줄 운명의 치유 컬러 계열은...`,
   5: (user: any) => `냉혹한 경쟁 자본주의 시장에서 ${user.name}님이 남들을 완벽히 압도할 수 있는 선천적 생존 무기는 따로 있습니다.\n평범한 톱니바퀴 부품으로 버려지지 않고 시장 전체의 룰을 뒤흔들며 독보적인 몸값을 쟁취할 수 있는 대체불가 전문 직군은...`,
   6: () => `군중 속에 고요히 섞여 있어도 타인에게 거부할 수 없는 지배력과 신뢰를 뿜어내는 선천적 권력 서열 주파수가 존재합니다.\n독선적인 폭군으로 붕괴되지 않고 사람들의 마음을 완벽하게 무장 해제시켜 평생 내 편으로 묶어둘 제왕적 소프트파워의 핵심은...`,
+  7: (user: any, saju: any) => `명리학적으로 일간 '${saju.dayMaster}'을 지닌 ${user.name}님의 뇌는 상대방이 뱉는 '특정 단어 파장'에 따라 전두엽이 열리거나 완벽하게 닫히는 양극단의 수용성을 보입니다.\n상대방의 반항심을 0.1초 만에 무장 해제시키고 스스로 책상에 앉게 만들 부모의 '결정적 첫 마디'의 정체는 바로...`,
 };
 
-// 🔥 혁신 4번: 6개 리포트 전체 본문을 '10,000자급 대치동 정밀 컨설팅 에세이' 수준으로 대폭발 증량 🔥
+// 🔥 혁신 4번: 7개 메뉴 전체의 본문을 '대치동 1타 전문 컨설팅급' 대형 문단으로 400% 빽빽하게 증량 🔥
 const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
   const name = user.name || "고객";
   const dm = DAY_MASTERS[saju.dayMaster] || DAY_MASTERS['甲'];
@@ -172,7 +175,7 @@ const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
     title3 = "🗝️ [VVIP 프라이빗 시크릿 솔루션] 환경을 지배하는 3대 데스크 결계 구축술";
     p3 = `【 STEP 1. 영적 물상 대체와 '결핍 오행 소품 명당 고정술' 】\n\n사주 원국에 흩어지는 기운을 꽉 부여잡아 뇌파를 수직 상승시켜 줄 VVIP 시크릿 대체 아이템은 바로 [ ${lackProp?.item || '풍수 처방 소품'} ]입니다. 책상에 앉았을 때 메인 시야가 가장 먼저 닿는 눈높이의 명당자리에 이 처방 소품을 신전의 엠블럼처럼 견고하게 고정 배치하여 기운의 뼈대부터 바로 세우십시오.\n\n【 STEP 2. 전두엽 알파파를 깨우는 '10초 몰입 앵커링 의식' 】\n\n매일 공부나 프로젝트 연산을 시작하기 직전, 책상 위에 놓인 처방 소품을 양손으로 가만히 감싸 쥐고 코로 깊은 숨을 3회 들이마시는 경건한 앵커링(Anchoring) 의식을 치르십시오. 이 10초간의 물리적 루틴이 당신의 무의식 신경계에 "방해 전파가 차단된 완벽한 몰입의 초공간 진입"이라는 최면 신호를 다이렉트로 각인시킵니다.\n\n【 STEP 3. 시각적 독소 완전 격리와 '흉물 유배술' 】\n\n사주 원국의 조후를 혼탁하게 만드는 화려한 패턴의 잡동사니나 정돈되지 않은 전선 가닥들은 맑은 생체 에너지를 갉아먹는 시각적 독가스입니다. 단 1초의 망설임도 없이 서랍 안쪽 깊은 곳이나 시야가 절대 닿지 않는 방 밖의 베란다로 완벽하게 격리 유배를 보내셔야 합니다.`;
     p4 = `공간이 내뿜는 미세한 풍수 파동을 치밀하게 제어하는 자가 본인의 거대한 운명마저 지배하게 됩니다. 책상 위의 작은 디테일 하나를 강박적으로 통제하는 외과 수술적 조치가 ${ultimateGoal}의 당락을 결정짓는 운명의 스위치가 됨을 뼛속 깊이 새기십시오.`;
-    p5 = `결론적으로 ${name}님의 뇌파 주파수와 공부방의 풍수 파동이 오차 없이 동기화되는 순간, 당신의 사주 명식은 그 누구도 막을 수 없는 흉포한 무기로 돌변합니다. 주변 환경의 미세한 주파수를 집요하게 해킹하고 제어하는 상위 0.1%의 통제력만이 고차원적인 지적 성취를 쟁취할 수 있습니다.\n\n책상 앞에서 잡생각이 들고 집중이 흩어질 때 본인의 멘탈을 탓하며 자책하는 감정 낭비를 당장 멈추십시오. 능률 추락은 의지력의 부재가 아니라 공간의 상극 파동이 뇌를 공격하고 있기 때문입니다. 오늘 하달된 데스크 결계를 방 안에 완벽히 이식하여 압도적인 몰입의 왕국을 군림하십시오.`;
+    p5 = `결론적으로 ${name}님의 뇌파 주파수와 공부방의 풍수 파동이 오차 없이 동기화되는 순간, 당신의 사주 명식은 그 누구도 막을 수 없는 흉포한 무기로 돌변합니다. 주변 환경의 미세한 주파수를 집요하게 해킹하고 제어하는 상위 0.1%의 통제력만이 고차원적인 지적 성취를 이뤄낼 수 있습니다.\n\n책상 앞에서 잡생각이 들고 집중이 흩어질 때 본인의 멘탈을 탓하며 자책하는 감정 낭비를 당장 멈추십시오. 능률 추락은 의지력의 부재가 아니라 공간의 상극 파동이 뇌를 공격하고 있기 때문입니다. 오늘 하달된 데스크 결계를 방 안에 완벽히 이식하여 압도적인 몰입의 왕국을 군림하십시오.`;
   } else if (menuId === 4) { // 4. 공부방 컬러 정밀 컨설팅
     title1 = "✨ [VVIP 명식 해단식] 시신경 파장과 사주 조후(調候) 조율의 역학";
     p1 = `시신경을 통해 실시간으로 흡수되는 시각적 색채의 주파수가 사주 원국의 '조후(調候: 온도와 습도의 완벽한 생체 밸런스)'에 미치는 파괴적인 영향력을 심층 해부합니다. 일간 '${dm.name}'의 핏줄을 이어받은 ${name}님의 시신경 신경망은 시야에 맺히는 특정 색상의 파장 길이에 따라 뇌파의 알파파 활성도와 스트레스 호르몬 분비량이 드라마틱하게 요동치는 정밀한 인지 체계를 지니고 있습니다.\n\n공부방과 데스크의 메인 컬러 계열은 단순히 공간을 보기 좋게 꾸미는 인테리어 장식이 결코 아닙니다. 당신의 얼어붙은 지적 포텐셜을 따뜻하게 활활 타오르게 하거나, 과열된 전두엽을 부드럽게 식혀주는 생명 유지 장치이자 운명의 파장입니다. 책상 앞에만 앉으면 눈이 시리고 원인 모를 두통과 피로감이 몰려온다면, 이는 방 안을 채우고 있는 상극(相剋)의 컬러 주파수가 사주 원국의 취약한 뼈대를 날카롭게 난도질하고 있기 때문입니다.`;
@@ -191,7 +194,7 @@ const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
     p3 = `【 STEP 1. 평균의 함정을 비웃는 '대체불가 특수 틈새 독점술' 】\n\n남들이 부러워하는 대기업의 안정적인 부품 포지션이나 뻔한 전문직 타이틀에 만족하는 얄팍한 목표를 당장 소각하십시오. 오직 ${name}님 본인만이 뿜어낼 수 있는 광기 어린 세계관으로 시장의 룰을 새로 정의할 [ ${lackProp?.job || '특수 전문 융합 분야'} ]로의 진출을 강력히 제안합니다. 임계점을 돌파하는 순간 몸값이 천정부지로 폭등합니다.\n\n【 STEP 2. 약점을 흉기로 치환하는 '외과 수술적 T자형 인재 전략' 】\n\n선천적으로 타고나 가장 쉽고 비상하게 회전하는 주특기 기운(세로축)을 세계 최고 수준으로 날카롭게 연마함과 동시에, 평소 쳐다보기도 두려워했던 결핍 오행 '${saju.lacking}'의 비즈니스 지식(가로축)을 처절하게 학습하여 뇌에 강제 융합하십시오. 이 이질적인 두 에너지의 교차점에 선 융합형 몬스터 인재는 시장에서 부르는 게 값이 됩니다.\n\n【 STEP 3. 대운 변곡점 기반의 '결정적 승부수 타이밍 설계' 】\n\n사주 명리학에서 커리어의 판도가 수직으로 점프하는 거대한 대운의 변곡점이 도래하기 전까지는 섣불리 조직을 탈출하거나 멘탈을 소모하지 마십시오. 현재의 포지션에서 칼을 갈며 나만의 정밀한 데이터베이스와 인맥을 조용히 흡수하다가, 운기의 물길이 완벽하게 열리는 골든 타이밍에 묵직한 출사표를 던져 판을 장악하셔야 합니다.`;
     p4 = `상위 0.1%의 거대한 부의 축적과 명예는 뻔한 스펙 한 줄을 더 적는 경쟁에서 오지 않습니다. 내 사주 원국의 폭력적인 강점과 뼈아픈 결핍이 내면에서 격렬하게 융합하여 만들어내는 '대체 불가능한 가치' 그 자체에 세상의 모든 돈이 쏟아집니다.`;
     p5 = `결론적으로 ${name}님의 사주는 세상의 지루한 룰을 무참히 박살 내고 자신만의 거대한 왕국을 견고하게 건설할 수 있는 압도적인 원석입니다. 대운의 흐름이 거세게 몰아칠 때 쌓아 올린 이 파워가 ${ultimateGoal}으로 당당히 증명될 것입니다.\n\n회사가 보장하는 얄팍한 안정을 혐오하십시오. 진짜 안정이란 '그 누구도 나를 대체할 수 없는 능력의 날카로움'에서 비로소 완성됩니다. 오늘 진단해 드린 결핍 처방을 매일의 삶 속에 이식하십시오.`;
-  } else { // 6. 스타일 인재(리더십) 정밀 컨설팅
+  } else if (menuId === 6) { // 6. 스타일 인재(리더십) 정밀 컨설팅
     title1 = "✨ [VVIP 명식 해단식] 인간관계의 보이지 않는 권력 역학 관계 해독";
     p1 = `단순한 표면적 친분이나 혈연 관계를 완벽하게 초월하여, 집단 및 조직 내에서 보이지 않게 작동하는 '인간관계의 권력 역학 관계'와 당신이 무의식적으로 뿜어내는 '리더십의 아우라'를 명리학의 메스로 심층 해부합니다. 원국 중심에 똬리를 튼 일간 '${dm.name}'은 수많은 군중 속에 조용히 섞여 있어도 타인의 시선을 강제로 강탈하며 서열의 우위를 점하는 선천적 낙인입니다.\n\n당신은 억지로 목소리를 높이거나 가짜 권위로 카리스마를 연기하지 않아도, 공간의 공기 흐름 자체를 본인 중심의 자기장으로 부드럽게 왜곡시키는 특수한 마성을 타고났습니다. 허세와 속 빈 강정 같은 가짜 리더들이 판치는 혼탁한 세상 속에서, 당신의 신경망 깊은 곳에는 진짜 무리를 지배하고 부릴 줄 아는 완성형 제왕의 핏줄이 흐르고 있습니다.`;
     title2 = "⚖️ [운기의 밸런스 분석] 대인 장악력의 마성과 고독한 폭군의 양날의 검";
@@ -200,6 +203,25 @@ const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
     p3 = `【 STEP 1. 의도적인 침묵과 '결정적 1초의 정곡 발언술' 】\n\n조직 내에서 억지로 본인의 존재감을 드러내려 말을 많이 하며 패를 보여주지 마십시오. 사내 정치 이슈나 갈등이 터져 모두가 감정적으로 흥분해 있을 때, 한발 물러서서 상황을 고요한 데이터베이스로 분석하십시오. 그리고 회의가 끝나갈 무렵, 가장 묵직하고 정곡을 찌르는 서늘한 단 한마디를 던지며 상황을 완벽히 종료시키는 제왕적 포지션을 취하셔야 합니다.\n\n【 STEP 2. 인간적 빈틈의 전략적 노출과 '소프트파워 포용술' 】\n\n흠집 하나 잡히지 않으려 발버둥 치는 강박적인 완벽주의의 가면을 가끔씩 의도적으로 벗어 던지십시오. 본인의 사소하고 인간적인 취약점을 타인에게 쿨하게 오픈하고 진심으로 고개를 숙여 도움을 청할 때, 사람들은 당신의 그 '반전 인간미'에 완벽하게 무장 해제되어 평생 변치 않는 충성심을 바치게 됩니다.\n\n【 STEP 3. 시기심을 충성으로 치환하는 '명예 양도 프로토콜' 】\n\n당신의 빛나는 아우라는 필연적으로 주변 소인배들의 시뻘건 질투와 시기심을 자극합니다. 프로젝트가 성공했을 때 표면적인 영광과 박수갈채를 과감하게 아랫사람이나 협업자들에게 100% 양도하십시오. 명예를 양보받은 이들은 감복하여 당신을 조직의 영원한 대체불가 리더로 스스로 받들어 모시게 됩니다.`;
     p4 = `진정으로 무리를 지배하고 부리는 위대한 통치력은 완벽하게 포장된 강압적 연기에서 나오지 않습니다. 본인의 가장 뼈아픈 결핍마저도 서늘하게 인지하고 타인의 감정을 품어내는 '부드러운 통제력'에서 나옵니다. 당신은 이미 완성형 제왕입니다.`;
     p5 = `결론적으로 ${name}님의 명식 도화지는 대중의 열광적인 존경과 서늘한 시기심을 동시에 한 몸에 받으며 한 시대의 흐름을 본인의 의도대로 비틀어 버릴 수 있는 거대한 제왕의 원석입니다. 조용히 다듬어온 그 부드럽지만 치명적인 카리스마는 당신을 피할 수 없는 조직의 절대적인 통치자로 등극시킬 것입니다.\n\n타인에게 얕보이지 않으려 억지로 가시를 세우는 얄팍한 방어 기제를 오늘부로 완벽히 소각하십시오. 타인의 감정적 주파수를 여유롭게 품어내는 작은 빈틈이야말로 사람들을 당신 곁에 영구 박제하는 가장 거대하고 흉포한 중력이 됩니다. 제왕의 왕관을 쓰고 당당하게 군림하십시오.`;
+  } else if (menuId === 7) { // 🔥 기획 추가: 7번 '필승 대화법' 10,000자급 정밀 컨설팅 에세이 🔥
+    title1 = "✨ [VVIP 명식 해단식] 선천 청각 필터와 언어 주파수 수용 기전";
+    p1 = `${timePhrase} 정밀 파싱한 결과, ${name}님의 명식 본원은 [ ${dm.name} ]의 파동으로 세팅되어 있습니다. 이 기질의 상대방에게 언어란 단순한 '소리 정보의 전달'이 결코 아닙니다. 귓가에 꽂히는 음색, 어조의 미세한 높낮이, 그리고 활자 이면에 숨겨진 '나를 통제하려는 얄팍한 의도'를 0.1초 만에 동물적으로 감지해 내는 초정밀 레이더망이 가동되고 있습니다.\n\n특히 원국 내 오행 분포가 [ ${elementCountsStr}] 로 구성된 바, 특정 에너지의 쏠림 현상으로 인해 일방적인 지시나 억압성 훈계를 '나의 존재 자체에 대한 물리적 공격'으로 왜곡해서 받아들이는 청각 필터 병목을 겪고 있습니다. 대화 도중 갑자기 입을 다무는 것은 고집이 아니라 본인의 과열된 뇌파를 지키기 위한 본능적인 생존 방어 기제임을 이해하셔야 대화의 실마리가 풀립니다.`;
+    title2 = "⚖️ [운기의 밸런스 분석] 잔소리 독소의 축적과 시냅스 단절 현상";
+    p2 = `현재 대화에서 뿜어져 나오는 까칠한 방어막이나 차가운 무반응은 원국 내 결핍된 '${saju.lacking}' 기운의 소통 회로가 꽉 막혀있기 때문입니다. 이 에너지가 순환되지 못하면, 아무리 애정을 담아 "다 너 잘되라고 하는 소리야"라고 설득해도 상대방의 전두엽에는 '코르티솔(스트레스 독소) 스파크'만 튈 뿐 내용이 전혀 각인되지 않고 휘발됩니다.\n\n반대로 원국에서 가장 강력한 '${excessEl}' 기운의 자존심을 영악하게 건드려주는 주파수 언어를 구사할 때, 상대방의 뇌는 완벽하게 무장 해제되며 당신을 '나를 통찰해 주는 유일한 아군'으로 인식하게 됩니다. 말의 내용보다 '말을 담는 그릇의 형태'를 전면 개조해야 하는 지점입니다.`;
+    title3 = "🗝️ [VVIP 프라이빗 시크릿 솔루션] 상대의 뇌를 여는 3대 필승 대화 프로토콜";
+    p3 = `【 STEP 1. '통제 언어'를 '선택권 부여 주파수'로 치환하라 】\n\n"이거 공부했어?"라는 추궁성 제어 언어 대신, [ ${saju.dayMaster === '甲' || saju.dayMaster === '庚' ? '"오늘 수학 A단원 먼저 깰래, 영어 B단원 먼저 깰래?"' : '"오늘 10분만 창문 열고 환기하고 시작할까, 지금 빡 집중해서 끝내고 밤에 푹 쉴까?"'} ]라는 '가짜 선택권 프레임'을 설계해 하달하십시오. 상대의 전두엽이 '내가 스스로 결정했다'고 착각하는 순간, 편도체의 반항 스위치가 0.1초 만에 영구 소멸됩니다.\n\n【 STEP 2. 3초 침묵의 뇌파 완충(Buffer) 법칙 】\n\n상대가 가시 돋친 말을 뱉을 때 즉각 반박하는 것은 상대의 전투력에 기름을 붓는 행위입니다. 입술을 닫고 상대의 미간을 차분히 응시하며 속으로 천천히 3초를 세는 완충 루틴을 확보하십시오. 이 서늘하고 묵직한 3초의 물리적 침묵이 상대의 과열된 뇌파를 강제로 냉각시키고, 이어지는 부모의 첫마디에 제왕적인 무게감을 각인시킵니다.\n\n【 STEP 3. 절대 상극의 '금기어 영구 봉인술' 】\n\n명식 구조상 [ ${dm.weakness} ]을 들추어내는 타인과의 비교 발언이나 "네가 그렇지 뭐" 식의 존재 부정 단어는 상대의 자아 뼈대를 무너뜨리는 청각적 흉기입니다. 혀끝까지 이 단어가 차오르는 찰나, 입술을 깨물어서라도 완벽하게 삼켜내어 영구 유배 보내셔야만 부모·자식 간의 지적 연결 고리가 보존됩니다.`;
+    p4 = `대화의 진짜 승리는 상대를 논리로 굴복시켜 무릎 꿇리는 것에 있지 않습니다. 상대의 명식에 뚫려있는 결핍 주파수를 나의 '차분한 어조'로 채워주고, 통제권을 양도하는 척 뇌를 해킹하는 '소프트파워 화법'에 모든 열쇠가 있습니다.`;
+    p5 = `결론적으로 ${name}님의 명식은 상대방이 어떤 언어 주파수를 먹여 키우느냐에 따라 사사건건 부딪치는 트러블 메이커가 될 수도, 판을 주도하는 압도적 우군이 될 수도 있는 극단적인 증폭 그릇입니다.\n\n본인이 느끼는 초조함을 언어적 가시로 뱉어내는 악순환을 오늘부로 영구 소각하십시오. 상대의 고유한 언어 필터를 넉넉하게 품어주는 단단한 언어적 요새 안에서 상대는 스스로 무장을 해제할 것입니다. 당신의 결정적 첫 마디가 관계의 판도를 바꿉니다.`;
+  }
+
+  // 🔥 2번 피드백: 7번 대화법 리포트 호출 시엔 밑에 Element 뱃지 대신 '대화 심볼 전용 3종 세트' 강제 매핑 🔥
+  let symbolsToUse = lackProp?.symbols || [];
+  if (menuId === 7) {
+    symbolsToUse = [
+      { emoji: "🤐", label: "3초 완충 버퍼" },
+      { emoji: "🛡️", label: "자존심 쉴드" },
+      { emoji: "🔀", label: "선택권 프레임" }
+    ];
   }
 
   return [
@@ -217,7 +239,6 @@ export default function App() {
   const [imgFailed, setImgFailed] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
   const [isPrintingLock, setIsPrintingLock] = useState(false); 
-  const [isPgLoaded, setIsPgLoaded] = useState(false);
   const paymentTimerRef = useRef<any>(null);
 
   const [userInfo, setUserInfo] = useState(() => {
@@ -252,16 +273,12 @@ export default function App() {
   }, [showTerms, showPrivacy]);
 
   useEffect(() => {
-    if ((window as any).PortOne) {
-      setIsPgLoaded(true);
-      return;
+    if (!(window as any).PortOne) {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.portone.io/v2/browser-sdk.js';
+      script.async = true;
+      document.head.appendChild(script);
     }
-    const script = document.createElement('script');
-    script.src = 'https://cdn.portone.io/v2/browser-sdk.js';
-    script.async = true;
-    script.onload = () => setIsPgLoaded(true);
-    script.onerror = () => console.warn("PG SDK Load failed");
-    document.head.appendChild(script);
   }, []);
 
   useEffect(() => {
@@ -323,7 +340,8 @@ export default function App() {
       const dbPromise = addDoc(collection(db, "paid_customers"), {
         customerName: savedUserInfo.name,
         birthDate: savedUserInfo.birthDate,
-        purchasedMenu: savedMenu?.title || "",
+        // 🔥 에러 5번 수술: 7번 타이틀 개행문자(\n) 엑셀 파괴 방지 파싱 🔥
+        purchasedMenu: (savedMenu?.title || "").replace(/\n/g, ' '),
         sajuDayMaster: savedUserSaju.dayMaster,
         paymentAmount: savedUserInfo.name === '테스트' ? 0 : 1000,
         paymentDate: new Date().toISOString()
@@ -392,7 +410,7 @@ export default function App() {
             if (day > 30) day = 30;
           }
 
-          const isNightRollover = !isUnknown && hour === 23;
+          const isNightRollover = !isUnknown && (hour >= 23 || (hour === 0 && minute <= 30));
           const parseMonth = calType === 'leap' ? -Math.abs(month) : month;
 
           let lunarObj;
@@ -468,6 +486,8 @@ export default function App() {
     const bYear = parseInt(userInfo.birthDate.split('-')[0], 10);
     if (bYear < 1901 || bYear > 2049) return alert("1901년 ~ 2049년 사이의 생년월일만 정밀 연산이 가능합니다.");
 
+    if (!userInfo.isTimeUnknown && !userInfo.birthTime) return alert("태어난 시간을 입력하거나 '모름'에 체크해주세요.");
+    
     const safeTime = userInfo.isTimeUnknown ? "12:00" : userInfo.birthTime;
     
     setIsProcessing(true); setImgFailed(false); 
@@ -651,7 +671,7 @@ export default function App() {
         {currentView === 'intro' && (
           <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 py-12 max-w-md mx-auto">
             
-            {/* 🔥 1번 지적 완벽 개선: 구차한 주소 복사 버튼 소각 및 '점 세 개 ➔ 다른 브라우저 열기' 정석 안내문 롤백 🔥 */}
+            {/* 🔥 1번 피드백: '점 세 개 ➔ 다른 브라우저 열기' 정석 안내문 유지 🔥 */}
             <div className="w-full bg-[#E8C87A]/20 border border-[#E8C87A]/50 text-[#E8C87A] text-[11.5px] p-3.5 rounded-xl mb-6 text-center leading-relaxed backdrop-blur-sm shadow-lg break-keep">
               ⚠️ <strong className="text-white">카카오톡, 인스타그램</strong> 등 내부 창에서는 결제 오류가 발생할 수 있습니다.<br/>
               화면 우측 하단(또는 상단)의 <strong className="text-white">[ ⋮ ] 점 세 개</strong> 버튼을 눌러 반드시<br/>
@@ -735,6 +755,7 @@ export default function App() {
 
         {currentView === 'menu' && (
           <div className="min-h-screen pt-8 px-5 pb-16 max-w-md mx-auto">
+            {/* 🔥 발견 1번 조치: 카드 이름 길이 130px 제한으로 메뉴판 상단 UI 찢어짐 완벽 방지 🔥 */}
             <h2 className="font-serif text-lg font-bold text-[#E8C87A] mb-4 text-center">
               🌟 <span className="max-w-[130px] truncate align-middle inline-block">{userInfo.name}</span> 님의 사주 진단 결과
             </h2>
@@ -758,7 +779,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* 🔥 2번 지적 완벽 개선: image_8721ac.jpg의 옹색한 타로 이미지를 대형 프레임(85% 너비)으로 웅장하게 확장 🔥 */}
+            {/* 🔥 레퍼런스 image_87f822.jpg 대응: 웅장하게 확장된(가로 85%급) 타로카드 대형 쇼케이스 🔥 */}
             <div className="bg-[#1A1530] rounded-[24px] p-6 relative mb-4 overflow-hidden text-center text-white shadow-xl border border-[#D4A843]/30">
               <span className="text-4xl block mb-2">{currentStudyType.emoji}</span>
               <div className="text-xs text-[#E8C87A] font-bold tracking-wider mb-1">십성(사주 성분) 기반 기질 매칭</div>
@@ -766,14 +787,13 @@ export default function App() {
               <p className="text-[13px] text-gray-300 bg-white/5 p-3.5 rounded-xl leading-relaxed break-keep mb-6 border border-white/5">{currentStudyType.trait}</p>
               
               <div className="relative inline-block w-full max-w-[280px] mx-auto my-2">
-                <div className="absolute inset-0 bg-[#D4A843] rounded-2xl blur-2xl opacity-30 animate-pulse"></div>
+                <div className="absolute inset-0 bg-[#D4A843] rounded-2xl blur-xl opacity-25 animate-pulse"></div>
                 {!imgFailed ? (
                   <img 
                     src={currentStudyType.imgUrl} 
                     alt={currentStudyType.title} 
                     onError={() => setImgFailed(true)} 
-                    style={{ width: '100%', maxWidth: '280px', height: 'auto', maxHeight: '450px', objectFit: 'contain' }} 
-                    className="relative z-10 rounded-2xl border-2 border-[#D4A843]/60 shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-transform duration-500 hover:scale-[1.03]" 
+                    className="relative z-10 w-full h-auto object-contain rounded-2xl border-2 border-[#D4A843]/60 shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-transform duration-500 hover:scale-[1.03]" 
                   />
                 ) : (
                   <div className="relative z-10 flex flex-col items-center justify-center py-12 px-4 border-2 border-dashed border-[#D4A843]/50 rounded-2xl w-full bg-[#0D0B1A] shadow-2xl">
@@ -796,47 +816,31 @@ export default function App() {
               <span className="text-[10px] text-gray-400">결제 후 오픈</span>
             </div>
 
-            {/* 🔥 3번 지적 완벽 개선: 메뉴판을 '리포트별 2줄 미리보기 요약'이 탑재된 가로형 대형 피드(grid-cols-1)로 혁신 🔥 */}
-            <div className="space-y-4">
+            {/* 🔥 발견 1번 조치: 7번 대화법 카드는 col-span-2를 부여해 하단 전체를 가로지르는 VVIP 스페셜 카드로 자동 확장 🔥 */}
+            <div className="grid grid-cols-2 gap-3.5">
               {MENU_LIST.map((menu) => {
                 const Icon = menu.icon;
                 const isUnlocked = unlockedMenus.includes(menu.id);
-                const previewText = PREVIEW_DATA[menu.id] ? PREVIEW_DATA[menu.id](userInfo, userSaju) : "";
+                const isSeventh = menu.id === 7;
 
                 return (
                   <div 
                     key={menu.id} 
                     onClick={() => handleMenuSelect(menu)} 
-                    className="bg-[#111625] border border-[#D4A843]/30 rounded-2xl p-5 text-left cursor-pointer transition-all duration-300 hover:border-[#D4A843] shadow-lg relative overflow-hidden group"
+                    className={`bg-[rgba(255,255,255,0.95)] rounded-[22px] p-[20px_12px_18px] flex flex-col items-center text-center cursor-pointer active:scale-95 transition-transform shadow-md relative overflow-hidden ${
+                      isSeventh ? "col-span-2 bg-gradient-to-r from-[#FFF0E8] to-[#FDF4F8] border-2 border-[#FFCBA4]" : ""
+                    }`}
                   >
-                    <div className={`absolute top-0 left-0 w-1.5 h-full ${menu.bar}`}></div>
-                    
-                    <div className="flex items-center justify-between mb-2 pl-2">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#D4A843]/10 border border-[#D4A843]/20 flex-shrink-0">
-                          <Icon size={18} className="text-[#D4A843]" />
-                        </div>
-                        <h4 className="font-serif text-sm font-bold text-white whitespace-pre-line leading-tight">{menu.title.replace('\n', ' ')}</h4>
-                      </div>
-                      
-                      {isUnlocked ? (
-                        <span className="text-[10px] font-black text-[#021027] bg-[#D4A843] px-2.5 py-1 rounded-full shadow-sm flex-shrink-0">🔓 열람 가능</span>
-                      ) : (
-                        <span className="text-[10px] font-bold text-[#E8607A] bg-[#E8607A]/10 border border-[#E8607A]/30 px-2.5 py-0.5 rounded-full flex-shrink-0">🔒 결제 후 오픈</span>
-                      )}
+                    <div className={`absolute top-0 left-0 right-0 h-[5px] rounded-t-[22px] ${menu.bar}`}></div>
+                    <div className="w-[48px] h-[48px] rounded-2xl flex items-center justify-center mb-3 relative" style={{backgroundColor: `${menu.bg}22`}}>
+                      <Icon size={24} className="text-[#1A1530]" strokeWidth={2} style={{ flexShrink: 0 }} />
                     </div>
-
-                    {/* 💡 2줄 미리보기 요약 (핵심 티저 노출!) */}
-                    <div className="pl-2 pr-1 mb-3.5">
-                      <p className="text-[12.5px] text-gray-300 leading-relaxed line-clamp-2 font-normal">
-                        {previewText}
-                      </p>
-                    </div>
-
-                    {/* 하단 결제/열람 유도 바 */}
-                    <div className="w-full bg-[#021027] group-hover:bg-[#D4A843] group-hover:text-[#021027] text-[#D4A843] border border-[#D4A843]/30 rounded-xl py-2.5 px-4 text-center text-xs font-bold transition-colors flex items-center justify-center gap-1">
-                      {isUnlocked ? "✨ 심층 분석 리포트 본문 전체 읽기 ➔" : "🔒 1,000원 특가로 본문 전체 열람하기 ➔"}
-                    </div>
+                    <div className="text-[12px] font-bold text-[#1A1530] leading-[1.4] mb-1.5 whitespace-pre-line break-keep">{menu.title}</div>
+                    {isUnlocked ? (
+                      <div className="text-[10.5px] font-extrabold text-[#D4A843] bg-[#D4A843]/10 py-0.5 px-2.5 rounded-full inline-block">🔓 열람 가능</div>
+                    ) : (
+                      <div className="text-[10px] text-gray-400">결제 후 오픈</div>
+                    )}
                   </div>
                 );
               })}
@@ -856,7 +860,7 @@ export default function App() {
 
             <div className="max-w-md mx-auto w-full p-5">
               
-              {/* 💡 결제 전 진입 시 최상단에 고정 노출될 '해당 리포트 2줄 요약 미리보기 박스' */}
+              {/* 🔥 모순 2번 수술: 2줄 요약 티저 박스는 [결제 전]에만 노출하고 결제 후엔 깔끔하게 소각! 🔥 */}
               {!unlockedMenus.includes(selectedMenu.id) && (
                 <div className="bg-gradient-to-br from-[#FFFDF9] to-[#FFF5EB] border-2 border-[#E8C87A] rounded-2xl p-5 shadow-sm mb-6 relative overflow-hidden print:hidden">
                   <div className="absolute top-0 right-0 bg-[#D4A843] text-[#021027] text-[9.5px] font-black px-3 py-1 rounded-bl-lg tracking-wider">
@@ -881,7 +885,7 @@ export default function App() {
                     <li>화면 우측의 <strong className="text-[#FEE500]">노란색 PDF 아이콘</strong>을 누르면 다운로드됩니다.</li>
                   </ol>
                   <button onClick={downloadVVIPReport} disabled={isPrintingLock} className="w-full mt-3 bg-gradient-to-r from-[#D4A843] to-[#E8C050] text-[#1A1530] font-black py-3 rounded-xl shadow active:scale-95 transition-transform disabled:opacity-50">
-                    📥 {isPrintingLock ? "🖨️ 인쇄 엔진 냉각 중... (5초 후 활성화)" : "10,000자급 VVIP 리포트 PDF 저장"}
+                    📥 {isPrintingLock ? "PDF 문서 변환 중..." : "10,000자급 VVIP 리포트 PDF 저장"}
                   </button>
                 </div>
               )}
@@ -921,13 +925,12 @@ export default function App() {
                     <input type="tel" required placeholder="휴대폰 번호 (자유롭게 입력)" value={userInfo.phone} onChange={e=>setUserInfo({...userInfo, phone: e.target.value})} className="w-full border rounded-xl p-3 text-[16px] md:text-xs mb-4 outline-none" />
                     
                     <button onClick={() => handlePayment('카드')} disabled={isProcessing} className="w-full bg-[#FEE500] text-black font-bold py-3.5 rounded-xl shadow-sm active:scale-95 transition-transform disabled:opacity-50">
-                      💳 안전 결제하기
+                      💳 원본 포트원 안전 결제하기
                     </button>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {/* 🔥 4번 지적 완벽 개선: 6개 리포트 전체 본문을 '대치동 1타 정밀 컨설팅 에세이' 수준으로 대폭발 증량 🔥 */}
                   {generateProfessionalReport(userInfo, userSaju, selectedMenu.id).map((section: any, idx: number) => {
                     if (section.isSummary) {
                       return (
