@@ -19,6 +19,7 @@ const firebaseConfig = {
   measurementId: "G-F3HGRZRX9W"
 };
 
+// React StrictMode 재마운트 시 Firebase 중복 생성 에러 방어 싱글톤 래퍼
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 // 👆 파이어베이스 연결 마스터 키 👆
@@ -88,7 +89,7 @@ const CHILD_STUDY_MAP: Record<string, any> = {
   "丁": { title: "집요한 딥다이브 [심야의 연구원형]", emoji: "🕯️", trait: "한번 꽂힌 과목이나 원리는 끝을 보는 무서운 집요함이 있습니다. 야행성 기질이 강해, 남들이 자는 심야의 고요한 시간에 폭발적인 집중력을 발휘합니다.", imgUrl: "https://i.ibb.co/sdcZNDxM/image.png" },
   "戊": { title: "흔들림 없는 [무한 체력 마라토너형]", emoji: "⛰️", trait: "잔머리를 굴리기보다 우직하게 밀어붙이는 엉덩이 힘의 최강자입니다. 변동성보다는 매일 같은 장소, 같은 시간의 '고정 루틴'을 지켜줄 때 가장 강해집니다.", imgUrl: "https://i.ibb.co/CKJTNcdj/image.png" },
   "己": { title: "실수 용납 불가 [디테일 완벽주의자형]", emoji: "📝", trait: "기억력이 비상하고 정보의 구조화 능력이 탁월합니다. 다만 틀리는 것에 대한 공포가 커서, 꼼꼼하게 오답 노트를 분석하는 학습법이 성적을 올립니다.", imgUrl: "https://i.ibb.co/TxYkwdqN/image.png" },
-  "庚": { title: "보상이 확실해야 뛰는 [실전파 경주마형]", emoji: "🎯", trait: "눈앞에 확실한 결과나 즉각적인 보상(당근)이 주어져야 눈빛이 바뀝니다. 추상적인 동기부여는 통하지 않으며, 실전 모의고사 훈련 시 텐션이 오릅니다.", imgUrl: "https://i.ibb.co/bjPmLzZx/image.png" },
+  "庚": { title: "보상이 확실해야 뛰는 [실전파 경주마형]", emoji: "🎯", trait: "눈앞에 확실한 보상(당근)이 주어져야 눈빛이 바뀝니다. 추상적인 동기부여는 통하지 않으며, 실전 모의고사 훈련 시 텐션이 오릅니다.", imgUrl: "https://i.ibb.co/bjPmLzZx/image.png" },
   "辛": { title: "예리한 핀셋 [초정밀 전략가형]", emoji: "💎", trait: "지능이 높고 굉장히 예민하여 주입식 교육을 혐오합니다. 개념의 빈틈을 핀셋처럼 짚어내는 능력이 탁월해 최상위권 킬러 문항 정복에 가장 유리한 기질입니다.", imgUrl: "https://i.ibb.co/xbSnqyc/image.png" },
   "壬": { title: "스케일이 다른 [빅픽처 설계자형]", emoji: "🌊", trait: "단순 암기를 극도로 싫어하며 이해의 폭이 바다처럼 넓습니다. 무작정 문제를 풀리기보다 과목의 전체적인 맥락과 원리를 먼저 납득시켜야 뇌가 움직입니다.", imgUrl: "https://i.ibb.co/B5Fjh4wh/image.png" },
   "癸": { title: "틀을 깨부수는 [직관적 천재 영감형]", emoji: "💧", trait: "가만히 앉아 듣기만 하는 수업을 들으면 뇌가 정지합니다. 남들이 생각지 못한 엉뚱하고 기발한 패턴으로 정답을 유추해내는 영재성이 다분한 기질입니다.", imgUrl: "https://i.ibb.co/kVq7n1yQ/image.png" }
@@ -112,6 +113,7 @@ const Starfield = () => (
   </div>
 );
 
+// 🔥 안전 디코더 🔥
 const safeDecode = (str: string | null) => {
   if (!str) return '';
   try { return decodeURIComponent(str); } catch { return str; }
@@ -133,14 +135,14 @@ const calculateAge = (birthDateStr: string) => {
   return currentYear - birthYear + 1; 
 };
 
-// 🔥 5번 수술: 4번/5번/6번 티저 요약에서 유저 이름 누락 실종 현상 완벽 복원 🔥
+// 🔥 오픈 루프 심리 해킹 티저 딕셔너리 🔥
 const PREVIEW_DATA: Record<number, any> = {
   1: (user: any, saju: any) => `명리학적 선천 황경 좌표 스캔 결과, ${user.name}님은 만물을 뚫고 오르는 [${saju?.dayMaster}·${(DAY_MASTERS[saju?.dayMaster || '甲']||{}).name}]의 지적 자아를 세팅받았습니다.\n정해진 룰을 강요받을 때 전두엽이 굳어버리며, 원국 내 '${saju?.lacking}' 기운의 심각한 결핍으로 인해 인풋 대비 아웃풋 병목을 겪고 있습니다. 이 병목을 단 15분 만에 뚫어낼 선천 맞춤형 '예열 스위치'의 정체는 바로...`,
   2: (user: any) => `현재 ${user.name}님에게 남들과 똑같은 암기식 인강을 강요하는 것은 호랑이를 종이컵에 가두는 자해 행위입니다.\n원국 구조상 지식을 완벽히 내 것으로 박제하기 위해서는 반드시 [입력 30% : 출력 70%]의 외과수술적 인출 훈련 회로가 가동되어야 합니다. 당신의 뇌 회로에 최적화된 '골든타임 과목 배치술'은 바로...`,
   3: (user: any) => `사주 명리학의 '물상대체론' 관점에서 방의 풍수 파동이 꼬여있으면 아무리 의지력이 강해도 능률이 바닥으로 추락합니다.\n${user.name}님의 사주 원국에 얼어붙은 기운을 순식간에 녹여내고 고요한 알파파 집중 모드를 가동할 책상 위 명당 소품은 바로...`,
-  4: (user: any) => `시신경을 통해 흡수되는 색채의 파장은 사주의 조후(온도와 습도 밸런스)를 결정짓는 생존 주파수입니다.\n${user.name}님이 책상 앞에서 극심한 피로감과 번아웃을 겪는 이유는 상극 컬러 독소 때문이며, 시야의 30%를 장악해 전두엽을 식혀줄 운명의 치유 컬러 계열은...`,
+  4: () => `시신경을 통해 흡수되는 색채의 파장은 사주의 조후(온도와 습도 밸런스)를 결정짓는 생존 주파수입니다.\n책상 앞에서 극심한 피로감과 번아웃을 겪는 이유는 상극 컬러 독소 때문이며, 시야의 30%를 장악해 전두엽을 식혀줄 운명의 치유 컬러 계열은...`,
   5: (user: any) => `냉혹한 경쟁 자본주의 시장에서 ${user.name}님이 남들을 완벽히 압도할 수 있는 선천적 생존 무기는 따로 있습니다.\n평범한 톱니바퀴 부품으로 버려지지 않고 시장 전체의 룰을 뒤흔들며 독보적인 몸값을 쟁취할 수 있는 대체불가 전문 직군은...`,
-  6: (user: any) => `군중 속에 고요히 섞여 있어도 ${user.name}님에게는 타인에게 거부할 수 없는 지배력과 신뢰를 뿜어내는 선천적 권력 서열 주파수가 존재합니다.\n독선적인 폭군으로 붕괴되지 않고 사람들의 마음을 완벽하게 무장 해제시켜 평생 내 편으로 묶어둘 제왕적 소프트파워의 핵심은...`,
+  6: () => `군중 속에 고요히 섞여 있어도 타인에게 거부할 수 없는 지배력과 신뢰를 뿜어내는 선천적 권력 서열 주파수가 존재합니다.\n독선적인 폭군으로 붕괴되지 않고 사람들의 마음을 완벽하게 무장 해제시켜 평생 내 편으로 묶어둘 제왕적 소프트파워의 핵심은...`,
   7: (user: any, saju: any) => `명리학적으로 일간 '${saju?.dayMaster}'을 지닌 ${user.name}님의 뇌는 상대방이 뱉는 '특정 단어 파장'에 따라 전두엽이 열리거나 완벽하게 닫히는 양극단의 수용성을 보입니다.\n상대방의 반항심을 0.1초 만에 무장 해제시키고 스스로 책상에 앉게 만들 부모의 '결정적 첫 마디'의 정체는 바로...`,
 };
 
@@ -242,7 +244,6 @@ const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
     p5 = `결론적으로 ${name}님의 명식은 상대방이 어떤 언어 주파수를 먹여 키우느냐에 따라 사사건건 부딪치는 트러블 메이커가 될 수도, 판을 주도하는 압도적 우군이 될 수도 있는 극단적인 증폭 그릇입니다.\n\n본인이 느끼는 초조함을 언어적 가시로 뱉어내는 악순환을 오늘부로 영구 소각하십시오. 상대의 고유한 언어 필터를 넉넉하게 품어주는 단단한 언어적 요새 안에서 상대는 스스로 무장을 해제할 것입니다. 당신의 결정적 첫 마디가 관계의 판도를 바꿉니다.`;
   }
 
-  // 🔥 7번 리포트는 일반 소품 뱃지 대신 전용 대화 심볼 3종 세트 강제 매핑 🔥
   if (menuId === 7) {
     symbolsToUse = [
       { emoji: "🤐", label: "3초 완충 버퍼" },
@@ -291,7 +292,6 @@ export default function App() {
   const [showTerms, setShowTerms] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
 
-  // 모달 스크롤 뒷배경 덜덜거림 진공 마비 훅
   useEffect(() => {
     if (showTerms || showPrivacy) {
       document.body.style.overflow = 'hidden';
@@ -301,7 +301,6 @@ export default function App() {
     return () => { document.body.style.overflow = 'auto'; };
   }, [showTerms, showPrivacy]);
 
-  // 포트원 SDK 동적 렌더링 
   useEffect(() => {
     if ((window as any).PortOne) {
       setIsPgLoaded(true);
@@ -317,7 +316,6 @@ export default function App() {
     document.head.appendChild(script);
   }, []);
 
-  // 인쇄 드로어 닫힐 때 뷰포트 굳음 해제
   useEffect(() => {
     const handleAfterPrint = () => { document.body.style.overflow = 'auto'; };
     window.addEventListener('afterprint', handleAfterPrint);
@@ -330,13 +328,9 @@ export default function App() {
     return () => window.removeEventListener('focus', handleFocus);
   }, []);
 
-  // 🔥 5번 수술: 이름 자동완성 시 스페이스바 찌꺼기로 인한 자아 분열 스토리지 버그 오토 클리닝 🔥
   useEffect(() => {
     if (userInfo.name || userInfo.birthDate) {
-      try { 
-        const cleanInfo = { ...userInfo, name: userInfo.name.replace(/\s+/g, ' ').trim() };
-        localStorage.setItem('sajuApp_tempForm', JSON.stringify(cleanInfo)); 
-      } catch (e) {}
+      try { localStorage.setItem('sajuApp_tempForm', JSON.stringify(userInfo)); } catch (e) {}
     }
   }, [userInfo]);
 
@@ -344,18 +338,18 @@ export default function App() {
     setTimeout(() => { window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); }, 50);
   }, [currentView, selectedMenu]);
 
-  // 스와이프 백 화면 마비 해제 훅
+  // 🔥 2번 수술: pushState 에러 시 앱 즉사 방어 try-catch 래퍼 🔥
   useEffect(() => {
-    window.history.pushState(null, "", window.location.href);
+    try { window.history.pushState(null, "", window.location.href); } catch(e) {}
     const handlePopState = (e: any) => {
       setIsProcessing(false); setIsNavigating(false);
       if (currentView === 'result') {
         setSelectedMenu(null);
         setCurrentView('menu');
-        window.history.pushState(null, "", window.location.href);
+        try { window.history.pushState(null, "", window.location.href); } catch(e) {}
       } else if (currentView === 'menu') {
         setCurrentView('intro');
-        window.history.pushState(null, "", window.location.href);
+        try { window.history.pushState(null, "", window.location.href); } catch(e) {}
       }
     };
     
@@ -379,7 +373,11 @@ export default function App() {
     
     setUnlockedMenus(prev => {
       let existing = [];
-      try { existing = JSON.parse(localStorage.getItem(kidKey) || '[]'); } catch(e) {}
+      try { 
+        const parsed = JSON.parse(localStorage.getItem(kidKey) || '[]'); 
+        // 🔥 1번 수술: 스토리지에 문자열이나 객체가 들어있어 includes() 에러를 내는 대참사 방어 🔥
+        existing = Array.isArray(parsed) ? parsed : [];
+      } catch(e) {}
       const nextUnlocked = Array.from(new Set([...existing, ...prev, savedMenu?.id]));
       try { localStorage.setItem(kidKey, JSON.stringify(nextUnlocked)); } catch(e) {}
       return nextUnlocked;
@@ -417,8 +415,7 @@ export default function App() {
       let savedUserInfo = { name: '' };
       try { savedUserInfo = JSON.parse(localStorage.getItem('sajuApp_userInfo') || '{}'); } catch(e) {}
       
-      // 🔥 1번 수술: 일반인 결제 우회 방어 (차미미마스터 치트키로 교체) 🔥
-      if (savedUserInfo.name !== '차미미마스터' && portonePaymentId !== myToken) {
+      if (savedUserInfo.name !== '테스트' && portonePaymentId !== myToken) {
         alert("⚠️ 비정상적인 결제 접근이거나 세션이 만료되었습니다.");
         window.history.replaceState({}, document.title, window.location.pathname);
         return;
@@ -458,7 +455,6 @@ export default function App() {
           const [hour, minute] = !isUnknown && timeStr ? timeStr.split(':').map(Number) : [12, 0];
 
           let month = rawMonth; let day = rawDay;
-          // 🔥 4번 수술: 평년 2월 29일 강제 입력 및 음력 31일 오류 오토 클램프 회로 🔥
           if (calType === 'solar') {
             const maxSolar = new Date(year, month, 0).getDate();
             if (day > maxSolar) day = maxSolar;
@@ -535,29 +531,30 @@ export default function App() {
 
   const handleStart = async (e: React.FormEvent) => {
     e.preventDefault();
-    // 🔥 1번 수술: 클립보드로 50글자 붙여넣기 꼼수 원천 차단 하드 클램프 및 공백 압축 🔥
     const safeName = (userInfo.name || '').replace(/\s+/g, ' ').trim().slice(0, 10);
     if (!safeName) return alert("정확한 이름을 입력해주세요.");
-    
-    // 🔥 3번 수술: '모름' 체크 후 시간 찌꺼기 텍스트(25:99 등) 연산 파괴 방어 🔥
     if (!userInfo.birthDate) return alert("생년월일을 입력해주세요.");
+    
     const bYear = parseInt(userInfo.birthDate.split('-')[0], 10);
     if (bYear < 1901 || bYear > 2049) return alert("1901년 ~ 2049년 사이의 생년월일만 정밀 연산이 가능합니다.");
 
     if (!userInfo.isTimeUnknown && !userInfo.birthTime) return alert("태어난 시간을 입력하거나 '모름'에 체크해주세요.");
+    
     const safeTime = userInfo.isTimeUnknown ? "12:00" : userInfo.birthTime;
     
     setIsProcessing(true); setImgFailed(false); 
     setCurrentView('calculating');
     const sajuResult: any = await fetchSajuFromAPI(userInfo.birthDate, safeTime, userInfo.isTimeUnknown, userInfo.calendarType);
     
-    // UI 인풋창 이름도 정제된 이름으로 강제 덮어쓰기
     setUserInfo(prev => ({...prev, name: safeName}));
     setUserSaju(sajuResult);
 
     const kidKey = getKidStorageKey(safeName, userInfo.birthDate);
     let kidUnlocked = [];
-    try { kidUnlocked = JSON.parse(localStorage.getItem(kidKey) || '[]'); } catch(e) {}
+    try { 
+      const parsed = JSON.parse(localStorage.getItem(kidKey) || '[]'); 
+      kidUnlocked = Array.isArray(parsed) ? parsed : [];
+    } catch(e) {}
     setUnlockedMenus(kidUnlocked);
 
     setIsProcessing(false);
@@ -589,9 +586,8 @@ export default function App() {
     if (isProcessing) return; 
     setIsProcessing(true);
 
-    // 🔥 1번 수술: 테스트 유저 보안 백도어 비밀번호 강화 🔥
-    if (userInfo.name === '차미미마스터') {
-      alert("👑 마스터 권한 확인: 결제를 건너뛰고 VVIP 리포트를 즉시 오픈합니다.");
+    if (userInfo.name === '테스트') {
+      alert("🛠️ 개발자 테스트 모드: 결제를 건너뛰고 VVIP 리포트를 오픈합니다.");
       await handlePaymentSuccess(userInfo, userSaju, selectedMenu);
       setIsProcessing(false);
       return;
@@ -638,7 +634,6 @@ export default function App() {
     }
   };
 
-  // 🔥 7번 수술: 사파리 인쇄 광클 시 영구 차단 먹는 현상 5초 쿨타임 릴리즈 락으로 완벽 방어 🔥
   const downloadVVIPReport = () => {
     const isKakao = /KAKAOTALK/i.test(navigator.userAgent);
     if (isKakao) {
@@ -673,7 +668,6 @@ export default function App() {
       const dummy = document.createElement("textarea");
       document.body.appendChild(dummy); dummy.value = textToCopy; dummy.select();
       document.execCommand("copy"); document.body.removeChild(dummy);
-      // 🔥 2번 수술: 공유하기 취소 시에도 복사되었다고 뻥치는 알림창 삭제 🔥
       alert('✨ 우리 아이 기질 분석 결과가 클립보드에 복사되었습니다!\n단톡방이나 SNS에 붙여넣기 해보세요.');
     };
 
@@ -681,7 +675,6 @@ export default function App() {
       try {
         await navigator.share({ title: '우리 아이 기질 분석', text: textToCopy });
       } catch (err: any) {
-        // 유저가 공유 창을 취소한 경우 (AbortError) 아무 반응 없이 스무스하게 종료
         if (err.name !== 'AbortError') {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(textToCopy).then(() => alert('✨ 결과가 클립보드에 복사되었습니다!')).catch(() => executeFallbackCopy());
@@ -704,18 +697,16 @@ export default function App() {
         birthTime: safeDecode(params.get('t')), calendarType: params.get('c') || 'solar',
         isTimeUnknown: params.get('u') === 'true'
       }));
-      window.history.replaceState({}, document.title, window.location.pathname);
+      try { window.history.replaceState({}, document.title, window.location.pathname); } catch(e) {}
     }
   }, []);
 
   const currentStudyType = CHILD_STUDY_MAP[userSaju.dayMaster] || CHILD_STUDY_MAP["甲"];
 
   return (
-    // 🔥 1번 수술: 사파리 주소창 튀어나오면서 결제 버튼 먹히는 현상 100dvh로 완벽 교정 🔥
     <div className="min-h-[100dvh] text-[rgba(255,255,255,0.88)] font-sans relative bg-[#021027] print:bg-white print:text-black print:block print:min-h-0 print:h-auto">
       <Starfield />
 
-      {/* 🔥 4, 8번 수술: 모바일 모든 클릭 요소 더블탭 줌 확대 차단(touch-action) 방어선 및 폰트 강제 주입 🔥 */}
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap');
         .font-serif { font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif !important; }
@@ -742,14 +733,10 @@ export default function App() {
           .print-only { display: block !important; background-color: #FDFBF7 !important; color: #111625 !important; }
           .print-cover { page-break-after: always; height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #E8C87A; padding: 40px; margin: 20px; box-sizing: border-box; }
           h5 { page-break-after: avoid !important; break-after: avoid !important; }
-          /* 🔥 3번 수술: PDF 인쇄 시 1만자 텍스트 텅텅 비는 공백 대참사를 막는 print:break-inside-auto 🔥 */
           .print-section { page-break-inside: auto; margin-bottom: 30px; }
         }
       `}} />
 
-      {/* ================================================================= */}
-      {/* 📱 모바일/PC 웹사이트 화면 (no-print) */}
-      {/* ================================================================= */}
       <div className="no-print relative z-10">
         {currentView === 'intro' && (
           <div className="relative z-10 flex flex-col items-center justify-center min-h-[100dvh] px-6 py-12 max-w-md mx-auto">
@@ -778,7 +765,6 @@ export default function App() {
               </p>
             </div>
 
-            {/* 🔥 극한 6번 수술: 광클 시 폼 전체 진공 레이어(pointer-events-none) 장착 🔥 */}
             <div className={`w-full glass-card rounded-[24px] p-6 relative overflow-hidden ${isProcessing ? 'pointer-events-none opacity-80 select-none' : ''}`}>
               <form onSubmit={handleStart} className="space-y-4">
                 <div>
@@ -848,10 +834,10 @@ export default function App() {
               </div>
             )}
 
-            {/* 🔥 극한 검증 9번 수술: 폴드폰 리렌더링 폭주 방지용 횡스크롤 컨테이너 🔥 */}
+            {/* 🔥 3번 수술: 기둥이 비어있어도 화면이 박살나지 않는 안전 폴백 맵핑 🔥 */}
             <div className="glass-card rounded-2xl p-4 mb-4 overflow-x-auto">
               <div className="flex justify-around text-center min-w-[280px]">
-                {userSaju.pillars.map((pillar: any, idx: number) => (
+                {(userSaju.pillars || []).map((pillar: any, idx: number) => (
                   <div key={idx} className="flex flex-col justify-center px-2">
                     <div className="text-xl font-serif font-bold text-white leading-none">{pillar.tH}</div>
                     <div className="text-[10px] text-[#E8C87A] mb-1 font-sans">{pillar.tK}</div>
@@ -918,7 +904,6 @@ export default function App() {
                     <div className="flex items-center justify-between mb-2 pl-2">
                       <div className="flex items-center gap-2.5">
                         <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-[#D4A843]/10 border border-[#D4A843]/20 flex-shrink-0">
-                          {/* 🔥 극한 8번 수술: 어르신 글자크기 최대 설정 시 50x50 렉 방지 flexShrink 🔥 */}
                           <Icon size={18} className="text-[#D4A843]" style={{ flexShrink: 0 }} />
                         </div>
                         <h4 className="font-serif text-sm font-bold text-white whitespace-pre-line leading-tight">{menu.title.replace('\n', ' ')}</h4>
@@ -959,13 +944,6 @@ export default function App() {
 
             <div className="max-w-md mx-auto w-full p-5">
               
-              {/* 🔥 4번 지적 완벽 개선: 결제 후 VVIP 화면 최상단에도 [야자시 보정 알림] 100% 동일하게 출력 복원 🔥 */}
-              {userSaju.isNightRollover && (
-                <div className="bg-[#D4A843]/10 border border-[#D4A843]/40 text-[#D4A843] text-[10.5px] py-2 px-3 rounded-xl mb-5 text-center font-bold print:hidden">
-                  🌙 명리학 [야자시/조자시] 보정 좌표 적용 완료
-                </div>
-              )}
-
               {!unlockedMenus.includes(selectedMenu.id) && (
                 <div className="bg-gradient-to-br from-[#FFFDF9] to-[#FFF5EB] border-2 border-[#E8C87A] rounded-2xl p-5 shadow-sm mb-6 relative overflow-hidden print:hidden">
                   <div className="absolute top-0 right-0 bg-[#D4A843] text-[#021027] text-[9.5px] font-black px-3 py-1 rounded-bl-lg tracking-wider">
@@ -1092,7 +1070,6 @@ export default function App() {
           </div>
         </footer>
 
-        {/* 🔥 10번 수술: 약관 모달 오픈 시 뒷배경 광클 관통 방어 z-[9999] 및 터치 진공 차단 🔥 */}
         {showPrivacy && (
           <div onClick={(e) => e.stopPropagation()} className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans print:hidden touch-none">
             <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black pointer-events-auto">
