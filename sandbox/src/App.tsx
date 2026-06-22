@@ -220,7 +220,7 @@ const PREVIEW_DATA: Record<number, any> = {
   1: (u: any, s: any) => {
     const dm = s?.dayMaster || '甲';
     const dmObj = DM_MATRIX[dm] || DM_MATRIX['甲'];
-    return `명리학적 선천 황경 좌표 스캔 결과, ${u?.name || '고객'}님은 [${dm}·${dmObj.name}]의 지적 자아를 세팅받았습니다.\n${(dmObj.p1_intro || '').slice(0, 80)}...\n원국 내 '${s?.lacking || '수(물)'}' 기운의 결핍으로 인해 인풋 대비 아웃풋 병목을 겪고 있습니다. 이 병목을 뚫어낼 선천 맞춤형 '예열 스위치'의 정체는 바로...`;
+    return `명리학적 선천 황경 좌표 스캔 결과, ${u?.name || '고객'}님은 [${dm}·${dmObj.name}]의 지적 자아를 세팅받았습니다.\n${(dmObj.p1_style || '').slice(0, 80)}...\n원국 내 '${s?.lacking || '수(물)'}' 기운의 결핍으로 인해 인풋 대비 아웃풋 병목을 겪고 있습니다. 이 병목을 뚫어낼 선천 맞춤형 '예열 스위치'의 정체는 바로...`;
   },
   2: (u: any, s: any) => {
     const dm = s?.dayMaster || '甲';
@@ -848,6 +848,7 @@ export default function App() {
       `}} />
 
       <div className="no-print relative z-10">
+        {/* INTRO VIEW */}
         {currentView === 'intro' && (
           <div className="relative z-10 flex flex-col items-center justify-center min-h-[100dvh] px-6 py-12 max-w-md mx-auto">
             
