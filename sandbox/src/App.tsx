@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { DM_REPORT_DATA } from "./DM_REPORT_DATA";
 import {
   BookOpen, Lightbulb, Package, Home as HomeIcon, Briefcase, Star,
   Download, Lock, ChevronLeft, MessageCircle, Building, Crown, Sprout,
@@ -216,39 +217,126 @@ const calculateAge = (birthDateStr: any) => {
 
 // 🔥 모든 변수에 DM_MATRIX 호환 및 안전 폴백 장착 완료 🔥
 const PREVIEW_DATA: Record<number, any> = {
-  1: (u: any, s: any) => `명리학적 선천 황경 좌표 스캔 결과, ${u?.name || '고객'}님은 만물을 뚫고 오르는 [${s?.dayMaster || '甲'}·${(DM_MATRIX[s?.dayMaster || '甲']||{}).name || '갑목'}]의 지적 자아를 세팅받았습니다.\n정해진 룰을 강요받을 때 전두엽이 굳어버리며, 원국 내 '${s?.lacking || '수(물)'}' 기운의 심각한 결핍으로 인해 인풋 대비 아웃풋 병목을 겪고 있습니다. 이 병목을 단 15분 만에 뚫어낼 선천 맞춤형 '예열 스위치'의 정체는 바로...`,
-  2: (u: any) => `현재 ${u?.name || '고객'}님에게 남들과 똑같은 암기식 인강을 강요하는 것은 호랑이를 종이컵에 가두는 자해 행위입니다.\n원국 구조상 지식을 완벽히 내 것으로 박제하기 위해서는 반드시 [입력 30% : 출력 70%]의 외과수술적 인출 훈련 회로가 가동되어야 합니다. 당신의 뇌 회로에 최적화된 '골든타임 과목 배치술'은 바로...`,
-  3: (u: any) => `사주 명리학의 '물상대체론' 관점에서 방의 풍수 파동이 꼬여있으면 아무리 의지력이 강해도 능률이 바닥으로 추락합니다.\n${u?.name || '고객'}님의 사주 원국에 얼어붙은 기운을 순식간에 녹여내고 고요한 알파파 집중 모드를 가동할 책상 위 명당 소품은 바로...`,
-  4: (u: any) => `시신경을 통해 흡수되는 색채의 파장은 사주의 조후(온도와 습도 밸런스)를 결정짓는 생존 주파수입니다.\n${u?.name || '고객'}님이 책상 앞에서 극심한 피로감과 번아웃을 겪는 이유는 상극 컬러 독소 때문이며, 시야의 30%를 장악해 전두엽을 식혀줄 운명의 치유 컬러 계열은...`,
-  5: (u: any) => `냉혹한 경쟁 자본주의 시장에서 ${u?.name || '고객'}님이 남들을 완벽히 압도할 수 있는 선천적 생존 무기는 따로 있습니다.\n평범한 톱니바퀴 부품으로 버려지지 않고 시장 전체의 룰을 뒤흔들며 독보적인 몸값을 쟁취할 수 있는 대체불가 전문 직군은...`,
-  6: (u: any) => `군중 속에 고요히 섞여 있어도 ${u?.name || '고객'}님에게는 타인에게 거부할 수 없는 지배력과 신뢰를 뿜어내는 선천적 권력 서열 주파수가 존재합니다.\n독선적인 폭군으로 붕괴되지 않고 사람들의 마음을 완벽하게 무장 해제시켜 평생 내 편으로 묶어둘 제왕적 소프트파워의 핵심은...`,
-  7: (u: any, s: any) => `명리학적으로 일간 '${s?.dayMaster || '甲'}'을 지닌 ${u?.name || '고객'}님의 뇌는 상대방이 뱉는 '특정 단어 파장'에 따라 전두엽이 열리거나 완벽하게 닫히는 양극단의 수용성을 보입니다.\n상대방의 반항심을 0.1초 만에 무장 해제시키고 스스로 책상에 앉게 만들 부모의 '결정적 첫 마디'의 정체는 바로...`,
+  1: (u: any, s: any) => {
+    const dm = s?.dayMaster || '甲';
+    const dmObj = DM_MATRIX[dm] || DM_MATRIX['甲'];
+    return `명리학적 선천 황경 좌표 스캔 결과, ${u?.name || '고객'}님은 [${dm}·${dmObj.name}]의 지적 자아를 세팅받았습니다.\n${(dmObj.p1_intro || '').slice(0, 80)}...\n원국 내 '${s?.lacking || '수(물)'}' 기운의 결핍으로 인해 인풋 대비 아웃풋 병목을 겪고 있습니다. 이 병목을 뚫어낼 선천 맞춤형 '예열 스위치'의 정체는 바로...`;
+  },
+  2: (u: any, s: any) => {
+    const dm = s?.dayMaster || '甲';
+    const dmObj = DM_MATRIX[dm] || DM_MATRIX['甲'];
+    return `현재 ${u?.name || '고객'}님에게 남들과 똑같은 암기식 인강을 강요하는 것은 ${dmObj.name}의 잠재력을 질식시키는 행위입니다.\n원국 구조상 지식을 완벽히 내 것으로 박제하기 위해서는 반드시 이 일간만의 고유한 인출 훈련 회로가 가동되어야 합니다. 당신의 뇌 회로에 최적화된 '골든타임 학습법'은 바로...`;
+  },
+  3: (u: any, s: any) => {
+    const dm = s?.dayMaster || '甲';
+    const dmObj = DM_MATRIX[dm] || DM_MATRIX['甲'];
+    return `사주 '물상대체론' 관점에서 ${dmObj.name}의 기운을 품은 책상 환경은 일반적인 셋업과 전혀 달라야 합니다.\n${u?.name || '고객'}님의 사주 원국에 가장 강력하게 공명하며 고요한 알파파 집중 모드를 가동할 책상 위 명당 소품은 바로...`;
+  },
+  4: (u: any, s: any) => {
+    const dm = s?.dayMaster || '甲';
+    const dmObj = DM_MATRIX[dm] || DM_MATRIX['甲'];
+    return `시신경을 통해 흡수되는 색채의 파장은 ${dmObj.name}의 조후(온도와 습도 밸런스)를 결정짓는 생존 주파수입니다.\n${u?.name || '고객'}님이 책상 앞에서 피로감을 겪는 이유는 상극 컬러 독소 때문이며, 시야의 30%를 장악해 전두엽을 안정시킬 운명의 치유 컬러 계열은...`;
+  },
+  5: (u: any, s: any) => {
+    const dm = s?.dayMaster || '甲';
+    const dmObj = DM_MATRIX[dm] || DM_MATRIX['甲'];
+    return `냉혹한 경쟁 자본주의 시장에서 ${dmObj.name}의 기운을 타고난 ${u?.name || '고객'}님이 남들을 압도할 수 있는 선천적 생존 무기는 따로 있습니다.\n평범한 톱니바퀴 부품이 아닌, 시장의 룰을 뒤흔들며 독보적인 몸값을 쟁취할 수 있는 대체불가 전문 직군은...`;
+  },
+  6: (u: any, s: any) => {
+    const dm = s?.dayMaster || '甲';
+    const dmObj = DM_MATRIX[dm] || DM_MATRIX['甲'];
+    return `군중 속에서도 ${dmObj.name}을 부여받은 ${u?.name || '고객'}님에게는 타인에게 거부할 수 없는 지배력과 신뢰를 뿜어내는 선천적 리더십 주파수가 존재합니다.\n사람들의 마음을 완벽하게 무장 해제시켜 평생 내 편으로 묶어둘 제왕적 소프트파워의 핵심은...`;
+  },
+  7: (u: any, s: any) => {
+    const dm = s?.dayMaster || '甲';
+    const dmObj = DM_MATRIX[dm] || DM_MATRIX['甲'];
+    // ✅ 버그 수정: 기존 코드의 talkObj(미정의 변수) 제거 → dmObj에서 직접 참조
+    return `명리학적으로 일간 '${dm}'을 지닌 ${u?.name || '고객'}님의 뇌는 상대방이 뱉는 '특정 단어 파장'에 따라 전두엽이 열리거나 완벽하게 닫히는 양극단의 수용성을 보입니다.\n${(dmObj.talk_intro || '').slice(0, 80)}...\n상대방의 반항심을 0.1초 만에 무장 해제시키고 스스로 책상에 앉게 만들 '결정적 첫 마디'의 정체는 바로...`;
+  },
 };
 
 // 🔥 [1차/2차 수술 완료]: 1만자급 대치동 1타 전문 컨설팅 논문 렌더링 엔진 🔥
-const generateProfessionalReport = (user: any, saju: any, menuId: any) => {
+const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
   const safeUser = user || {};
   const safeSaju = saju || {};
-  const numMenuId = Number(menuId) || 1; // 🔥 1차 수술: 문자열 "7"이 들어와도 백지화 안 되도록 Number() 강제 파싱! 🔥
-  
-  const name = safeUser?.name || "고객";
   const dm = safeSaju?.dayMaster || '甲';
   const lack = safeSaju?.lacking || '수(물)';
   const excess = safeSaju?.excessive || safeSaju?.main || '목(나무)';
 
-  const dmObj = DM_MATRIX[dm] || DM_MATRIX['甲'];
-  const lackObj = LACK_MATRIX[lack] || LACK_MATRIX['수(물)'];
-  const excessObj = EXCESS_MATRIX[excess] || EXCESS_MATRIX['목(나무)'];
-  
-  const userAge = calculateAge(safeUser?.birthDate);
-  const battleGround = userAge >= 20 ? "실전 비즈니스와 프로젝트 평가의 전장" : "잔혹한 입시와 수능의 전장";
-  const ultimateGoal = userAge >= 20 ? "압도적 커리어 성과 도출" : "극상위권 1등급 도약";
-  const timePhrase = safeUser?.isTimeUnknown ? "태어난 시간의 제약을 초월한 선천 황경 좌표를" : `태어난 시인 [ ${safeUser?.birthTime || '12:00'} ]의 우주적 에너지를`;
+  // ── 일간×메뉴 고유 데이터 로드 ──────────────────────────
+  const dmData = DM_REPORT_DATA[dm]?.[menuId];
 
+  if (!dmData) {
+    return [{
+      id: "s_fallback",
+      title: "✨ 분석 중",
+      paragraphs: ["데이터를 불러오는 중입니다."],
+    }];
+  }
+
+  // ── 보조 오행 데이터 ──────────────────────────────────────
+  const excessObj = EXCESS_MATRIX[excess] || EXCESS_MATRIX['목(나무)'];
+  const lackObj   = LACK_MATRIX[lack]     || LACK_MATRIX['수(물)'];
+
+  // ── 원국 분포 문자열 ──────────────────────────────────────
   let elementCountsStr = "";
   if (safeSaju?.counts && typeof safeSaju.counts === 'object') {
-    Object.entries(safeSaju.counts).forEach(([el, cnt]) => { elementCountsStr += `${el.charAt(0)}(${cnt}개) `; });
+    Object.entries(safeSaju.counts).forEach(([el, cnt]) => {
+      elementCountsStr += `${el.charAt(0)}(${cnt}개) `;
+    });
   }
+
+  // ── 섹션 본문 조합 ────────────────────────────────────────
+
+  // S1: 일간 고유 본문 + 원국 분포 보조 정보
+  const p1Full = `${dmData.p1}\n\n현재 원국 오행 분포는 [ ${elementCountsStr.trim()} ] 로 스캔됩니다. 이 에너지 분포가 학습 성향 전반에 직접적인 영향을 미치고 있습니다.`;
+
+  // S2: 일간 고유 밸런스 분석 + 과다/결핍 오행 보조 삽입
+  const p2Full = `${dmData.p2}\n\n원국에서 가장 풍부한 '${excess}' 기운의 영향: ${excessObj.power}\n\n동시에 원국 내 결핍된 '${lack}' 기운의 영향: ${lackObj.pain}`;
+
+  // S3: 일간 고유 솔루션 (그대로 사용)
+  const p3Full = dmData.p3;
+
+  // S4: 핵심 요약
+  const summarySymbols = (dmData.symbols && dmData.symbols.length > 0)
+    ? dmData.symbols
+    : [{ emoji: "✦", label: "핵심 포인트" }, { emoji: "✦", label: "실천 전략" }];
+
+  // S5: 에필로그
+  const epilogueText = dmData.epilogue || "";
+
+  return [
+    {
+      id: "s1",
+      title: dmData.title1,
+      paragraphs: p1Full.split("\n\n").filter(Boolean),
+    },
+    {
+      id: "s2",
+      title: dmData.title2,
+      paragraphs: p2Full.split("\n\n").filter(Boolean),
+    },
+    {
+      id: "s3",
+      title: dmData.title3,
+      isHighlight: true,
+      paragraphs: p3Full.split("\n\n").filter(Boolean),
+    },
+    {
+      id: "s4",
+      title: "🎯 VVIP 핵심 요약 및 처방 상징",
+      isSummary: true,
+      paragraphs: [dmData.summaryP || ""],
+      symbols: summarySymbols,
+    },
+    {
+      id: "s5",
+      title: "👑 에필로그: VVIP 멘탈 코어 가이드",
+      paragraphs: [epilogueText].filter(Boolean),
+    },
+  ];
+};
+
 
   let title1 = "", p1 = "", title2 = "", p2 = "", title3 = "", p3 = "", title4 = "🎯 VVIP 핵심 요약 및 처방 상징", p4 = "", title5 = "👑 에필로그: VVIP 멘탈 코어 가이드", p5 = "";
   let symbolsToUse = ELEMENT_PRESCRIPTION[lack]?.symbols || [];
