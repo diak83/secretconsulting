@@ -256,6 +256,7 @@ const PREVIEW_DATA: Record<number, any> = {
 };
 
 // 🔥 [1차/2차 수술 완료]: 1만자급 대치동 1타 전문 컨설팅 논문 렌더링 엔진 🔥
+// 🔥 [보강 개조 완료]: 요약 및 에필로그 3배 자동 팽창 렌더링 엔진 🔥
 const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
   const safeUser = user || {};
   const safeSaju = saju || {};
@@ -263,77 +264,45 @@ const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
   const lack = safeSaju?.lacking || '수(물)';
   const excess = safeSaju?.excessive || safeSaju?.main || '목(나무)';
 
-  // ── 일간×메뉴 고유 데이터 로드 ──────────────────────────
   const dmData = DM_REPORT_DATA[dm]?.[menuId];
+  if (!dmData) return [{ id: "s_fallback", title: "✨ 분석 중", paragraphs: ["데이터를 불러오는 중입니다."] }];
 
-  if (!dmData) {
-    return [{
-      id: "s_fallback",
-      title: "✨ 분석 중",
-      paragraphs: ["데이터를 불러오는 중입니다."],
-    }];
-  }
-
-  // ── 보조 오행 데이터 ──────────────────────────────────────
   const excessObj = EXCESS_MATRIX[excess] || EXCESS_MATRIX['목(나무)'];
   const lackObj   = LACK_MATRIX[lack]     || LACK_MATRIX['수(물)'];
 
-  // ── 원국 분포 문자열 ──────────────────────────────────────
   let elementCountsStr = "";
   if (safeSaju?.counts && typeof safeSaju.counts === 'object') {
-    Object.entries(safeSaju.counts).forEach(([el, cnt]) => {
-      elementCountsStr += `${el.charAt(0)}(${cnt}개) `;
-    });
+    Object.entries(safeSaju.counts).forEach(([el, cnt]) => { elementCountsStr += `${el.charAt(0)}(${cnt}개) `; });
   }
 
-  // ── 섹션 본문 조합 ────────────────────────────────────────
-
-  // S1: 일간 고유 본문 + 원국 분포 보조 정보
-  const p1Full = `${dmData.p1}\n\n현재 원국 오행 분포는 [ ${elementCountsStr.trim()} ] 로 스캔됩니다. 이 에너지 분포가 학습 성향 전반에 직접적인 영향을 미치고 있습니다.`;
-
-  // S2: 일간 고유 밸런스 분석 + 과다/결핍 오행 보조 삽입
+  const p1Full = `${dmData.p1}\n\n현재 원국 오행 분포는 [ ${elementCountsStr.trim()} ] 로 스캔됩니다. 이 선천적 에너지 편향성이 일간의 작업 템포에 결정적인 기준점이 됩니다.`;
   const p2Full = `${dmData.p2}\n\n원국에서 가장 풍부한 '${excess}' 기운의 영향: ${excessObj.power}\n\n동시에 원국 내 결핍된 '${lack}' 기운의 영향: ${lackObj.pain}`;
-
-  // S3: 일간 고유 솔루션 (그대로 사용)
   const p3Full = dmData.p3;
 
-  // S4: 핵심 요약
+  // 🔥 [합성 1] VVIP 핵심 요약 및 처방 상징 (3단 매트릭스 자동 결속) 🔥
+  const summaryParagraphs = [
+    `【 1단계: 명식 코어 관통 】\n${dmData.summaryP || ''}`,
+    `【 2단계: 상위 0.1% 생존 앵커링 】\n현재 타고난 '${dm}'의 연산 스레드가 세상의 기준에 꺾이지 않고 100% 가동되기 위해서는, 일상 속에서 불필요한 마이크로 노이즈를 완전히 차단해야 합니다. 위에서 제시한 솔루션은 단순한 조언이 아닌, 명식의 생존을 좌우하는 '절대적 행동 강령'입니다.`,
+    `【 3단계: 데일리 몰입 주파수 동기화 】\n아래의 처방 상징(Symbol)을 스마트폰 배경화면이나 책상 가장 잘 보이는 곳에 시각적으로 박제해 두십시오. 시신경이 이 상징을 포착할 때마다 전두엽은 자동으로 최적의 몰입 알파파 상태로 재부팅됩니다.`
+  ];
+
+  // 🔥 [합성 2] 에필로그: VVIP 멘탈 코어 가이드 (심층 에세이 자동 결속) 🔥
+  const epilogueParagraphs = [
+    `${dmData.epilogue || ''}`,
+    `👑 [마스터 차미미의 프라이빗 코어 메시지]\n"타인의 잣대와 세상이 정해놓은 얄팍한 평균의 속도에 흔들리지 마십시오. 위대한 건축물은 남들의 눈치를 보며 지어지지 않습니다. 당신이 품고 있는 이 압도적인 명식의 그릇을 온전히 신뢰하는 것, 압도적 도약은 오직 그 절대적 믿음 위에서만 피어납니다."`,
+    `⚠️ [데이터 보안 및 열람 기한 안내]\n본 하이엔드 리포트는 고객님의 소중한 명식 자산을 보호하기 위해, 열람 시작일로부터 정확히 30일 후 DB에서 영구 소각(Auto-destruction) 처리됩니다. 기한이 만료되기 전 반드시 상단의 [PDF 영구 저장] 버튼을 눌러 개인 디바이스에 안전하게 박제해 두시기 바랍니다.`
+  ];
+
   const summarySymbols = (dmData.symbols && dmData.symbols.length > 0)
     ? dmData.symbols
     : [{ emoji: "✦", label: "핵심 포인트" }, { emoji: "✦", label: "실천 전략" }];
 
-  // S5: 에필로그
-  const epilogueText = dmData.epilogue || "";
-
   return [
-    {
-      id: "s1",
-      title: dmData.title1,
-      paragraphs: p1Full.split("\n\n").filter(Boolean),
-    },
-    {
-      id: "s2",
-      title: dmData.title2,
-      paragraphs: p2Full.split("\n\n").filter(Boolean),
-    },
-    {
-      id: "s3",
-      title: dmData.title3,
-      isHighlight: true,
-      paragraphs: p3Full.split("\n\n").filter(Boolean),
-    },
-    {
-      id: "s4",
-      title: "🎯 VVIP 핵심 요약 및 처방 상징",
-      isSummary: true,
-      paragraphs: [dmData.summaryP || ""],
-      symbols: summarySymbols,
-    },
-    {
-      id: "s5",
-      title: "👑 에필로그: VVIP 멘탈 코어 가이드",
-      paragraphs: [epilogueText].filter(Boolean),
-    },
+    { id: "s1", title: dmData.title1, paragraphs: p1Full.split("\n\n").filter(Boolean) },
+    { id: "s2", title: dmData.title2, paragraphs: p2Full.split("\n\n").filter(Boolean) },
+    { id: "s3", title: dmData.title3, isHighlight: true, paragraphs: p3Full.split("\n\n").filter(Boolean) },
+    { id: "s4", title: "🎯 VVIP 핵심 요약 및 처방 상징", isSummary: true, paragraphs: summaryParagraphs, symbols: summarySymbols },
+    { id: "s5", title: "👑 에필로그: VVIP 멘탈 코어 가이드", paragraphs: epilogueParagraphs }
   ];
 };
 
