@@ -1010,16 +1010,16 @@ export default function App() {
           </div>
         )}
 
-{/* 4. RESULT VIEW (세련된 딥네이비 & 샴페인골드 하이엔드 테마 전체 적용본) */}
+{/* 4. RESULT VIEW (눈이 절대 안 아픈 KINFOLK 매거진 스타일의 웜크림 & 정제 화이트 테마) */}
         {currentView === 'result' && selectedMenu && (
-          <div className="relative z-20 min-h-[100dvh] min-h-[750px] bg-[#021027] text-white pb-16 font-sans select-text animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)]">
+          <div className="relative z-20 min-h-[100dvh] min-h-[750px] bg-[#FDFBF7] text-[#111625] pb-16 font-sans select-text animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)] print:bg-white">
             
             {/* 상단 스티키 네비게이션 바 */}
-            <div className="px-5 py-4 flex items-center justify-between sticky top-0 z-30 bg-[#021027]/90 backdrop-blur-md border-b border-[#112138] shadow-lg print:hidden">
-              <button onClick={handleBackFromResult} className="p-2 bg-[#112138] hover:bg-[#1b2d4a] text-[#E8C87A] rounded-full transition-colors">
+            <div className="px-5 py-4 flex items-center justify-between sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-[#EAE1D8] shadow-sm print:hidden">
+              <button onClick={handleBackFromResult} className="p-2 bg-white hover:bg-gray-100 text-[#111625] border border-gray-200 rounded-full transition-colors">
                 <ChevronLeft size={18}/>
               </button>
-              <h2 className="font-serif font-black text-[16px] text-[#E8C87A] tracking-wider text-center flex-1 px-4 truncate">
+              <h2 className="font-serif font-black text-[16px] text-[#111625] tracking-wider text-center flex-1 px-4 truncate">
                 {(selectedMenu?.title || '').replace('\n',' ')}
               </h2>
               <div className="w-8"></div>
@@ -1028,22 +1028,22 @@ export default function App() {
             <div className="max-w-xl mx-auto w-full p-5 sm:p-6 space-y-8">
               
               {Boolean(safeSaju?.isNightRollover) && (
-                <div className="bg-[#E8C87A]/10 border border-[#E8C87A]/30 text-[#E8C87A] text-xs py-2.5 px-4 rounded-xl text-center font-bold tracking-wide print:hidden">
+                <div className="bg-[#C89830]/10 border border-[#C89830]/30 text-[#C89830] text-xs py-2.5 px-4 rounded-xl text-center font-bold tracking-wide print:hidden">
                   🌙 명리학 [야자시/조자시] 정밀 보정 좌표 적용 완료
                 </div>
               )}
 
               {/* 잠김 상태일 때 보여주는 '리포트 핵심 요약 미리보기 (티저)' 박스 */}
               {!safeUnlocked.includes(selectedMenu.id) && (
-                <div className="bg-gradient-to-br from-[#112138] to-[#0B172E] border-2 border-[#E8C87A] rounded-2xl p-5 shadow-2xl mb-6 relative overflow-hidden print:hidden">
-                  <div className="absolute top-0 right-0 bg-gradient-to-r from-[#E8C87A] to-[#D4A843] text-[#021027] text-[10px] font-black px-3 py-1 rounded-bl-lg tracking-wider">
+                <div className="bg-white border-2 border-[#C89830]/40 rounded-2xl p-5 shadow-lg mb-6 relative overflow-hidden print:hidden">
+                  <div className="absolute top-0 right-0 bg-[#C89830] text-white text-[10px] font-black px-3 py-1 rounded-bl-lg tracking-wider">
                     REPORT TEASER
                   </div>
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-lg">💡</span>
-                    <h3 className="text-xs font-black text-[#E8C87A] tracking-tight">리포트 핵심 요약 미리보기</h3>
+                    <h3 className="text-xs font-black text-[#C89830] tracking-tight">리포트 핵심 요약 미리보기</h3>
                   </div>
-                  <p className="text-[13.5px] text-gray-200 leading-[1.85] font-normal break-keep text-justify whitespace-pre-line bg-white/5 p-4 rounded-xl border border-white/5">
+                  <p className="text-[13.5px] text-[#333333] leading-[1.85] font-normal break-keep text-justify whitespace-pre-line bg-[#FBF9F4] p-4 rounded-xl border border-[#EAE1D8]">
                     {PREVIEW_DATA[selectedMenu.id] ? PREVIEW_DATA[selectedMenu.id](userInfo || {}, safeSaju || {}) : "분석 요약을 불러옵니다."}
                   </p>
                 </div>
@@ -1051,7 +1051,7 @@ export default function App() {
 
               {/* 열렸을 때 보여주는 'PDF 소장 솔루션' 박스 */}
               {safeUnlocked.includes(selectedMenu.id) && (
-                <div className="bg-gradient-to-r from-[#112138] to-[#0B172E] border border-[#E8C87A]/40 p-5 rounded-2xl shadow-2xl break-keep print:hidden">
+                <div className="bg-[#111625] text-white border border-[#111625] p-5 rounded-2xl shadow-xl break-keep print:hidden">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-black text-[#E8C87A] tracking-widest flex items-center gap-1.5 font-serif">
                       <Download size={15}/> VVIP 리포트 영구 소장 솔루션
@@ -1061,7 +1061,7 @@ export default function App() {
                   <p className="text-xs text-gray-300 mb-4 leading-relaxed font-sans">
                     하단의 <strong className="text-white underline">PDF 저장</strong> 버튼을 클릭하신 후, 대상 프린터를 <strong className="text-[#E8C87A]">"PDF로 저장"</strong>으로 선택하시면 5장 분량의 프리미엄 전자책 포맷으로 완벽히 구워집니다.
                   </p>
-                  <button onClick={downloadVVIPReport} disabled={isPrintingLock} className="w-full bg-gradient-to-r from-[#E8C87A] via-[#F5EAD0] to-[#D4A843] text-[#021027] font-black text-sm py-3.5 rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all disabled:opacity-50">
+                  <button onClick={downloadVVIPReport} disabled={isPrintingLock} className="w-full bg-gradient-to-r from-[#C89830] via-[#E8C050] to-[#C89830] text-[#111625] font-black text-sm py-3.5 rounded-xl shadow-md hover:brightness-110 active:scale-95 transition-all disabled:opacity-50">
                     📥 {isPrintingLock ? "🖨️ PDF 변환 엔진 가동 중... (잠시만 기다려주세요)" : "10,000자급 VVIP 리포트 PDF 영구 저장"}
                   </button>
                 </div>
@@ -1069,10 +1069,10 @@ export default function App() {
 
               {/* 본문 및 잠김 분기 영역 */}
               {!safeUnlocked.includes(selectedMenu.id) ? (
-                /* 🔒 잠김 상태 UI (기존 결제 로직 + 다크 럭셔리 테마 완벽 융합) */
+                /* 🔒 잠김 상태 UI (깔끔하고 고급스러운 웜크림톤) */
                 <div className="space-y-5 print:hidden">
-                  <div className="bg-gradient-to-r from-[#111625] to-[#1A1530] border border-[#D4A843]/40 rounded-2xl p-6 text-center text-white shadow-xl relative overflow-hidden">
-                    <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-[#D4A843]/10 rounded-full blur-xl"></div>
+                  <div className="bg-gradient-to-r from-[#111625] to-[#1A1530] border border-[#C89830]/40 rounded-2xl p-6 text-center text-white shadow-xl relative overflow-hidden">
+                    <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-[#C89830]/20 rounded-full blur-xl"></div>
                     <span className="text-4xl block mb-2 animate-bounce">🔒</span>
                     <h4 className="font-serif text-[#E8C87A] text-lg font-bold mb-1">본문 정밀 분석 잠김</h4>
                     <p className="text-xs text-gray-300 break-keep leading-relaxed px-2 font-sans">
@@ -1080,62 +1080,63 @@ export default function App() {
                     </p>
                   </div>
 
-                  <div className="bg-[#112138] text-white rounded-2xl p-4 border border-white/10 shadow-lg">
+                  <div className="bg-white text-[#111625] rounded-2xl p-4 border border-[#EAE1D8] shadow-sm">
                     <div className="flex items-center justify-between mb-2.5 font-sans">
-                      <div className="text-xs font-bold text-[#E8C87A]">💬 맘카페 내돈내산 리얼 후기</div>
+                      <div className="text-xs font-bold text-[#C89830]">💬 맘카페 내돈내산 리얼 후기</div>
                       <button onClick={() => setShowReviewsExpanded(!showReviewsExpanded)} type="button" className="text-[11px] text-gray-400 underline">
                         {showReviewsExpanded ? "접기 ▴" : "전체 후기 보기 ▾"}
                       </button>
                     </div>
                     <div className={`space-y-2 overflow-hidden transition-all font-sans ${showReviewsExpanded ? 'max-h-[800px]' : 'max-h-[190px]'}`}>
                       {REVIEWS.map(r => (
-                        <div key={r.id} className="bg-[#021027]/60 p-3 rounded-xl border border-white/5 break-keep">
-                          <div className="text-[10px] text-[#E8C87A] font-bold mb-1">{r.author} ({r.type})</div>
-                          <div className="text-xs text-gray-200 leading-relaxed">{r.content}</div>
+                        <div key={r.id} className="bg-[#FBF9F4] p-3 rounded-xl border border-[#EAE1D8] break-keep">
+                          <div className="text-[10px] text-[#C89830] font-bold mb-1">{r.author} ({r.type})</div>
+                          <div className="text-xs text-[#333333] leading-relaxed">{r.content}</div>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className={`bg-[#0B172E] border border-[#E8C87A]/30 rounded-2xl p-5 text-center shadow-2xl relative ${isProcessing ? 'pointer-events-none opacity-80 select-none' : ''}`}>
+                  <div className={`bg-white border-2 border-[#C89830]/40 rounded-2xl p-5 text-center shadow-xl relative ${isProcessing ? 'pointer-events-none opacity-80 select-none' : ''}`}>
                     <div className="text-xs text-gray-400 line-through mb-1 font-sans">정가 10,000원</div>
-                    <div className="text-2xl font-serif font-black text-[#E8C87A] mb-4">1,000원 <span className="text-xs bg-[#E8C87A] text-[#021027] px-2.5 py-0.5 rounded-full font-sans font-black ml-1">90% 특가</span></div>
-                    <input type="email" required placeholder="결제 내역 받을 이메일" value={userInfo?.email || ''} onChange={e=>setUserInfo(prev => ({ ...(prev || {}), email: e.target.value }))} className="w-full bg-[#021027]/80 border border-white/15 rounded-xl p-3.5 text-sm text-white placeholder-gray-500 mb-2.5 outline-none focus:border-[#E8C87A] transition-colors" />
-                    <input type="tel" required placeholder="휴대폰 번호 (자유롭게 입력)" value={userInfo?.phone || ''} onChange={e=>setUserInfo(prev => ({ ...(prev || {}), phone: e.target.value }))} className="w-full bg-[#021027]/80 border border-white/15 rounded-xl p-3.5 text-sm text-white placeholder-gray-500 mb-5 outline-none focus:border-[#E8C87A] transition-colors" />
+                    <div className="text-2xl font-serif font-black text-[#C89830] mb-4">1,000원 <span className="text-xs bg-[#C89830] text-white px-2.5 py-0.5 rounded-full font-sans font-black ml-1">90% 특가</span></div>
+                    <input type="email" required placeholder="결제 내역 받을 이메일" value={userInfo?.email || ''} onChange={e=>setUserInfo(prev => ({ ...(prev || {}), email: e.target.value }))} className="w-full bg-[#FBF9F4] border border-[#EAE1D8] rounded-xl p-3.5 text-sm text-[#111625] placeholder-gray-400 mb-2.5 outline-none focus:border-[#C89830] focus:bg-white transition-all" />
+                    <input type="tel" required placeholder="휴대폰 번호 (자유롭게 입력)" value={userInfo?.phone || ''} onChange={e=>setUserInfo(prev => ({ ...(prev || {}), phone: e.target.value }))} className="w-full bg-[#FBF9F4] border border-[#EAE1D8] rounded-xl p-3.5 text-sm text-[#111625] placeholder-gray-400 mb-5 outline-none focus:border-[#C89830] focus:bg-white transition-all" />
                     
-                    <button onClick={() => handlePayment('카드')} disabled={isProcessing || !isPgLoaded} className="w-full bg-gradient-to-r from-[#FEE500] to-[#e6cf00] text-black font-black text-sm py-4 rounded-xl shadow-lg active:scale-95 transition-all disabled:opacity-50 font-sans">
+                    {/* 👇 노란색 카드 결제 버튼 안전 탑재 완료 */}
+                    <button onClick={() => handlePayment('카드')} disabled={isProcessing || !isPgLoaded} className="w-full bg-gradient-to-r from-[#FEE500] to-[#e6cf00] text-black font-black text-sm py-4 rounded-xl shadow-md active:scale-95 transition-all disabled:opacity-50 font-sans">
                       💳 {isPgLoaded ? "원본 포트원 안전 결제하기" : "PG 모듈 안전 로딩 중..."}
                     </button>
                   </div>
                 </div>
               ) : (
-                /* 🔓 열람 가능 본문 UI (하이엔드 슬레이트 & 골드 테마) */
+                /* 🔓 열람 가능 본문 UI (눈이 절대 안 아픈 KINFOLK 매거진 웜크림 & 화이트 테마) */
                 <div className="space-y-6">
                   {(Array.isArray(generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id)) ? generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id) : []).map((section: any, idx: number) => {
                     
-                    // [요약 및 상징 카드 테마]
+                    // [요약 및 상징 카드 테마 - 따뜻한 베이지 & 골드 라인]
                     if (section?.isSummary) {
                       return (
-                        <div key={idx} className="bg-gradient-to-b from-[#112138] to-[#021027] border-[2px] border-[#E8C87A] rounded-[24px] p-7 sm:p-8 shadow-[0_15px_35px_rgba(0,0,0,0.8)] my-10 relative overflow-hidden print:break-inside-avoid print:bg-white print:border-black print:text-black">
-                          <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-[#E8C87A] via-[#fff] to-[#D4A843]"></div>
+                        <div key={idx} className="bg-white border-[2px] border-[#C89830] rounded-[24px] p-7 sm:p-8 shadow-lg my-10 relative overflow-hidden print:break-inside-avoid">
+                          <div className="absolute top-0 left-0 w-full h-[5px] bg-gradient-to-r from-[#C89830] via-[#E8C050] to-[#C89830]"></div>
                           
-                          <h4 className="font-serif text-lg font-black text-[#E8C87A] mb-6 text-center flex items-center justify-center gap-2 print:text-black">
-                            <Crown size={20} className="text-[#E8C87A] print:text-black" /> {section?.title || ''}
+                          <h4 className="font-serif text-lg font-black text-[#111625] mb-6 text-center flex items-center justify-center gap-2">
+                            <Crown size={20} className="text-[#C89830]" /> {section?.title || ''}
                           </h4>
                           
                           <div className="space-y-4 mb-8 text-justify font-sans">
                             {(section?.paragraphs || []).map((pText: string, pIdx: number) => (
-                              <p key={pIdx} className="text-sm sm:text-[15px] text-gray-200 leading-[1.85] break-keep whitespace-pre-line bg-white/5 p-4 rounded-xl border border-white/5 print:bg-transparent print:text-black print:border-none">
+                              <p key={pIdx} className="text-sm sm:text-[15px] text-[#333333] leading-[1.85] break-keep whitespace-pre-line bg-[#FBF9F4] p-4 rounded-xl border border-[#EAE1D8]">
                                 {pText}
                               </p>
                             ))}
                           </div>
                           
-                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5 pt-4 border-t border-white/10 print:border-black/20">
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5 pt-5 border-t border-[#EAE1D8]">
                             {(Array.isArray(section?.symbols) ? section.symbols : []).map((sym: any, sIdx: number) => (
-                              <div key={sIdx} className="flex flex-col items-center bg-[#021027]/80 p-3.5 rounded-2xl border border-[#E8C87A]/30 shadow-inner print:bg-transparent print:border-black">
-                                <span className="text-3xl sm:text-4xl mb-2 block drop-shadow-md">{sym?.emoji || '✦'}</span>
-                                <span className="text-xs font-bold text-[#E8C87A] break-keep text-center tracking-tight print:text-black">{sym?.label || ''}</span>
+                              <div key={sIdx} className="flex flex-col items-center bg-[#FBF9F4] p-3.5 rounded-2xl border border-[#EAE1D8] shadow-sm">
+                                <span className="text-3xl sm:text-4xl mb-2 block">{sym?.emoji || '✦'}</span>
+                                <span className="text-xs font-bold text-[#111625] break-keep text-center tracking-tight">{sym?.label || ''}</span>
                               </div>
                             ))}
                           </div>
@@ -1143,31 +1144,33 @@ export default function App() {
                       );
                     }
 
-                    // [일반 본문 카드 테마]
+                    // [일반 본문 카드 테마 - 눈이 편안한 정제 화이트 바탕에 진회색 텍스트]
                     return (
                       <div key={idx} className={`rounded-[22px] p-7 sm:p-8 transition-all duration-300 ${
                         section?.isHighlight 
-                          ? 'bg-gradient-to-br from-[#112138] to-[#0B172E] border-[1.5px] border-[#E8C87A] shadow-[0_10px_30px_rgba(232,200,122,0.15)] print:bg-white print:border-black' 
-                          : 'bg-[#0B172E]/90 border border-white/10 shadow-2xl print:bg-white print:border-gray-300'
+                          ? 'bg-[#FBF9F4] border-2 border-[#C89830]/60 shadow-xl' 
+                          : 'bg-white border border-[#EAE1D8] shadow-sm'
                       }`}>
-                        <h4 className="font-serif text-[17px] sm:text-lg font-black text-[#E8C87A] mb-5 tracking-wide border-b border-[#E8C87A]/20 pb-3 flex items-center gap-2 print:text-black print:border-black">
-                          <span className="w-1.5 h-4 bg-[#E8C87A] rounded-full inline-block print:bg-black"></span>
+                        <h4 className="font-serif text-[17px] sm:text-lg font-black text-[#111625] mb-5 tracking-wide border-b border-[#EAE1D8] pb-3 flex items-center gap-2">
+                          <span className="w-1.5 h-4 bg-[#C89830] rounded-full inline-block"></span>
                           {section?.title || ''}
                         </h4>
 
                         {(Array.isArray(section?.paragraphs) ? section.paragraphs : []).map((text: any, pIdx: number) => {
                           const safeText = String(text || '');
                           
+                          // 소제목 하이라이트 블록 【 ... 】 (촌스러운 빨간색/누런색 소각 -> 세련된 라이트 스톤 캡슐)
                           if (safeText.startsWith('【')) {
                             return (
-                              <h5 key={pIdx} className="font-serif text-[15px] sm:text-[16px] font-black text-[#021027] bg-gradient-to-r from-[#E8C87A] via-[#F5EAD0] to-[#D4A843] inline-block px-4 py-1.5 rounded-lg shadow-md mt-8 mb-3 tracking-tight print:bg-gray-200 print:text-black" style={{ breakAfter: 'avoid', pageBreakAfter: 'avoid' }}>
+                              <h5 key={pIdx} className="font-serif text-[15px] sm:text-[16px] font-black text-[#8C6B28] bg-[#F5F0E6] border border-[#E6DFD3] inline-block px-3.5 py-1.5 rounded-lg shadow-sm mt-8 mb-3 tracking-tight" style={{ breakAfter: 'avoid', pageBreakAfter: 'avoid' }}>
                                 {safeText.replace('【', '').replace('】', '')}
                               </h5>
                             );
                           }
 
+                          // 가독성 극대화 차콜 진회색(#333333) 텍스트
                           return (
-                            <p key={pIdx} className="font-sans text-[14.5px] sm:text-[15.5px] text-gray-100 leading-[1.85] tracking-[-0.01em] mb-4 last:mb-0 text-justify break-keep whitespace-pre-line print:text-black">
+                            <p key={pIdx} className="font-sans text-[14.5px] sm:text-[15.5px] text-[#333333] leading-[1.85] tracking-[-0.01em] mb-4 last:mb-0 text-justify break-keep whitespace-pre-line">
                               {safeText}
                             </p>
                           );
