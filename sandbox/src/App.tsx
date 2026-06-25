@@ -1171,7 +1171,10 @@ export default function App() {
                     );
                   })}
                 </div>
-
+)}             {/* 👈 1. 잠김/열람 조건문 닫기 */}
+            </div>           {/* 👈 2. 컨텐츠 max-w-xl 박스 닫기 */}
+          </div>             {/* 👈 3. 전체 배경 화면 닫기 */}
+        )}                   {/* 👈 4. RESULT VIEW 조건문 닫기 */}
         <footer className="relative z-20 bg-[#1A1530]/80 border-t border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.4)] text-[11px] p-6 pb-12 mt-12 break-keep font-sans print:hidden">
           <div className="max-w-md mx-auto">
             <div className="flex gap-4 mb-4 font-bold text-[rgba(255,255,255,0.7)] text-[12px] px-4">
