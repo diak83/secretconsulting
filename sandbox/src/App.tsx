@@ -1072,67 +1072,70 @@ export default function App() {
                     </button>
                   </div>
                 </div>
-              ) : (
-                /* 🔓 열람 가능 상태 (본문 전체 렌더링) */
-                <div className="space-y-6">
+) : (
+                /* 🔓 열람 가능 상태 (우아하고 부드러운 프리미엄 에디토리얼 테마) */
+                <div className="space-y-8">
                   
-                  {/* 열렸을 때 보여주는 'PDF 소장 솔루션' 박스 */}
-                  <div className="bg-[#1A1D20] text-white p-5 rounded-2xl shadow-xl break-keep print:hidden">
+                  {/* 열렸을 때 보여주는 'PDF 소장 솔루션' 박스 (부드러운 다크 브라운 톤) */}
+                  <div className="bg-[#2A2520] text-[#FDFBF7] p-6 rounded-[24px] shadow-xl break-keep print:hidden">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-bold flex items-center gap-1.5">
-                        <Download size={15}/> VVIP 리포트 영구 소장 솔루션
+                      <span className="text-[13px] font-bold flex items-center gap-1.5 text-[#E8C87A]">
+                        <Download size={16}/> VVIP 리포트 영구 소장 솔루션
                       </span>
-                      <span className="text-[10px] bg-white/20 px-2.5 py-0.5 rounded-full font-bold">10,000자 단행본</span>
+                      <span className="text-[10px] bg-[#E8C87A]/20 text-[#E8C87A] px-2.5 py-1 rounded-full font-bold">10,000자 단행본</span>
                     </div>
-                    <p className="text-xs text-gray-300 mb-4 leading-relaxed">
-                      하단의 <strong className="text-white underline">PDF 저장</strong> 버튼을 누르고, 프린터를 <strong className="text-white">"PDF로 저장"</strong>으로 선택하시면 5장 분량의 프리미엄 전자책이 다운로드됩니다.
+                    <p className="text-[12.5px] text-[#D1C9C0] mb-4 leading-[1.8]">
+                      하단의 <strong className="text-white underline decoration-[#E8C87A]/50 underline-offset-4">PDF 저장</strong> 버튼을 누르고, 프린터를 <strong className="text-white">"PDF로 저장"</strong>으로 선택하시면 5장 분량의 프리미엄 전자책이 다운로드됩니다.
                     </p>
-                    <button onClick={downloadVVIPReport} disabled={isPrintingLock} className="w-full bg-white text-[#1A1D20] font-black text-sm py-3.5 rounded-xl shadow-md hover:bg-gray-100 active:scale-95 transition-all disabled:opacity-50">
+                    <button onClick={downloadVVIPReport} disabled={isPrintingLock} className="w-full bg-gradient-to-r from-[#D4A843] to-[#E8C050] text-[#111625] font-black text-[14px] py-4 rounded-xl shadow-md hover:brightness-110 active:scale-95 transition-all disabled:opacity-50">
                       📥 {isPrintingLock ? "🖨️ PDF 변환 엔진 가동 중..." : "10,000자급 VVIP 리포트 PDF 영구 저장"}
                     </button>
                   </div>
 
                   {(Array.isArray(generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id)) ? generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id) : []).map((section: any, idx: number) => {
                     
-                    // [1] 핵심 요약 및 에필로그 카드
+                    // [1] 핵심 요약 및 에필로그 카드 (은은한 웜톤 그라데이션)
                     if (section?.isSummary) {
                       return (
-                        <div key={idx} className="bg-white rounded-3xl p-7 sm:p-9 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 my-10 relative overflow-hidden print:shadow-none print:border-gray-300">
-                          <div className="absolute top-0 left-0 w-full h-1.5 bg-[#1A1D20]"></div>
+                        <div key={idx} className="bg-gradient-to-b from-[#FAF8F5] to-white rounded-[28px] p-7 sm:p-10 shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-[#EAE1D8] my-10 relative overflow-hidden print:shadow-none print:border-gray-300">
+                          {/* 부드러운 골드 탑 라인 */}
+                          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#D4A843] via-[#E8C050] to-[#D4A843] opacity-80"></div>
                           
-                          <h4 className="text-[18px] sm:text-[20px] font-black text-[#1A1D20] mb-6 text-center tracking-tight flex items-center justify-center gap-2">
-                            {section?.title || ''}
+                          <h4 className="font-serif text-[19px] sm:text-[21px] font-bold text-[#2A2520] mb-7 text-center tracking-tight flex items-center justify-center gap-2">
+                            <Crown size={22} className="text-[#C89830]" /> {section?.title || ''}
                           </h4>
                           
-                          <div className="space-y-4 mb-8">
+                          <div className="space-y-5 mb-8">
                             {(section?.paragraphs || []).map((pText: string, pIdx: number) => {
-                              // 요약 카드 내부의 【...】 소제목도 소프트하게 뱃지 처리
                               if (pText.startsWith('【')) {
                                 const cIdx = pText.indexOf('】');
                                 if (cIdx !== -1) {
                                   const tText = pText.substring(1, cIdx);
                                   const bText = pText.substring(cIdx + 1).trim();
                                   return (
-                                    <div key={pIdx} className="mb-5 last:mb-0">
-                                      <span className="text-[#1A1D20] font-bold text-[15.5px] sm:text-[16px] block mb-1.5">{tText}</span>
-                                      <p className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.8] break-keep whitespace-pre-line">{bText}</p>
+                                    <div key={pIdx} className="mb-6 last:mb-0">
+                                      <span className="text-[#8C6B28] font-bold text-[15.5px] sm:text-[16px] block mb-2">{tText}</span>
+                                      <p className="font-sans text-[15px] sm:text-[16px] text-[#4A423C] leading-[1.9] break-keep whitespace-pre-line text-left">
+                                        {bText}
+                                      </p>
                                     </div>
                                   );
                                 }
                               }
                               return (
-                                <p key={pIdx} className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.8] break-keep whitespace-pre-line">
+                                // ❌ text-justify(양쪽정렬) 소각! ⭕ text-left(좌측정렬)로 편안하게!
+                                <p key={pIdx} className="font-sans text-[15px] sm:text-[16px] text-[#4A423C] leading-[1.9] break-keep whitespace-pre-line text-left">
                                   {pText}
                                 </p>
                               );
                             })}
                           </div>
                           
-                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-6 border-t border-gray-100">
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-7 border-t border-[#EAE1D8]/70">
                             {(Array.isArray(section?.symbols) ? section.symbols : []).map((sym: any, sIdx: number) => (
-                              <div key={sIdx} className="flex flex-col items-center bg-[#F9FAFB] p-4 rounded-2xl border border-gray-100">
-                                <span className="text-3xl mb-2">{sym?.emoji || '✦'}</span>
-                                <span className="text-[13px] font-bold text-[#333D4B] break-keep text-center tracking-tight">{sym?.label || ''}</span>
+                              <div key={sIdx} className="flex flex-col items-center bg-white p-4 rounded-2xl border border-[#EAE1D8] shadow-sm">
+                                <span className="text-[34px] mb-2">{sym?.emoji || '✦'}</span>
+                                <span className="text-[13px] font-bold text-[#4A423C] break-keep text-center tracking-tight">{sym?.label || ''}</span>
                               </div>
                             ))}
                           </div>
@@ -1140,31 +1143,32 @@ export default function App() {
                       );
                     }
 
-                    // [2] 일반 본문 섹션 카드 (순백색 배경 + 딥차콜 텍스트)
+                    // [2] 일반 본문 섹션 카드 (순백색 배경 + 부드러운 곡선)
                     return (
-                      <div key={idx} className="bg-white rounded-3xl p-7 sm:p-9 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 mb-6 print:shadow-none print:border-gray-300">
+                      <div key={idx} className="bg-white rounded-[28px] p-7 sm:p-10 shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-[#F0EBE1] mb-8 print:shadow-none print:border-gray-300">
                         
-                        <h4 className="text-[18px] sm:text-[20px] font-black text-[#1A1D20] mb-6 border-b border-gray-100 pb-4 tracking-tight flex items-center gap-3">
-                          <span className="w-1.5 h-5 bg-[#1A1D20] rounded-full inline-block"></span>
+                        {/* 촌스러운 쌩블랙 막대기 제거 -> 우아한 샴페인 골드 포인트 */}
+                        <h4 className="font-serif text-[18px] sm:text-[20px] font-bold text-[#2A2520] mb-7 border-b border-[#F0EBE1] pb-4 tracking-tight flex items-center gap-2.5">
+                          <span className="w-1.5 h-5 bg-[#D4A843] rounded-full inline-block opacity-85"></span>
                           {section?.title || ''}
                         </h4>
 
                         {(Array.isArray(section?.paragraphs) ? section.paragraphs : []).map((text: any, pIdx: number) => {
                           const safeText = String(text || '');
                           
-                          // 💎 소제목 하이라이트 블록 분리 및 로우 콘트라스트(Low-contrast) 뱃지 디자인 적용
+                          // 💎 소제목 하이라이트 블록 【 ... 】 (부드러운 스톤 크림 뱃지)
                           if (safeText.startsWith('【')) {
                             const cIdx = safeText.indexOf('】');
                             if (cIdx !== -1) {
                               const title = safeText.substring(1, cIdx);
                               const body = safeText.substring(cIdx + 1).trim();
                               return (
-                                <div key={pIdx} className="mt-8 mb-4">
-                                  <span className="bg-[#F2F4F6] text-[#4E5968] px-3.5 py-1.5 rounded-md text-[14.5px] sm:text-[15px] font-bold tracking-tight inline-block mb-3 border border-[#E5E8EB] shadow-sm">
+                                <div key={pIdx} className="mt-9 mb-5">
+                                  <span className="bg-[#FAF8F5] text-[#8C6B28] px-4 py-2 rounded-xl text-[14.5px] sm:text-[15.5px] font-bold tracking-tight inline-block mb-3.5 border border-[#EAE1D8] shadow-sm">
                                     {title}
                                   </span>
                                   {body && (
-                                    <p className="text-[15.5px] sm:text-[16px] text-[#333D4B] leading-[1.85] text-justify break-keep whitespace-pre-line">
+                                    <p className="font-sans text-[15px] sm:text-[16px] text-[#4A423C] leading-[1.9] text-left break-keep whitespace-pre-line">
                                       {body}
                                     </p>
                                   )}
@@ -1173,9 +1177,9 @@ export default function App() {
                             }
                           }
 
-                          // 📝 본문 텍스트 (박스 없이 깔끔하게, 자간 좁혀서 읽기 쉽게!)
+                          // 📝 본문 텍스트 (좌측 정렬로 눈이 편안하게, 줄간격을 1.9로 넉넉하게!)
                           return (
-                            <p key={pIdx} className="text-[15.5px] sm:text-[16px] text-[#333D4B] leading-[1.85] mb-5 last:mb-0 text-justify break-keep">
+                            <p key={pIdx} className="font-sans text-[15px] sm:text-[16px] text-[#4A423C] leading-[1.9] tracking-[-0.015em] mb-6 last:mb-0 text-left break-keep">
                               {safeText}
                             </p>
                           );
