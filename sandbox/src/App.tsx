@@ -791,6 +791,11 @@ export default function App() {
             letter-spacing: -0.02em; 
           }
 
+          body { 
+            background-color: #F4F6F8 !important;
+            color: #333D4B !important; 
+          }
+
           @media print {
             @page { margin: 15mm; size: A4; }
             html, body, #root, .min-h-screen { display: block !important; background-color: white !important; }
@@ -992,115 +997,107 @@ export default function App() {
           </div>
         )}
 
-        {/* 4. RESULT VIEW (눈이 절대 안 아픈 KINFOLK 매거진 스타일의 웜크림 & 정제 화이트 테마) */}
+        {/* 🔓 열람 가능 본문 UI (Toss/Notion 스타일의 최고급 미니멀 모던 테마) */}
         {currentView === 'result' && selectedMenu && (
-          <div className="relative z-20 min-h-[100dvh] min-h-[750px] bg-[#FDFBF7] text-[#111625] pb-16 font-sans select-text animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)] print:bg-white">
+          <div className="relative z-20 min-h-[100dvh] bg-[#F4F6F8] text-[#333D4B] pb-16 font-sans animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)] print:bg-white">
             
-            {/* 상단 스티키 네비게이션 바 */}
-            <div className="px-5 py-4 flex items-center justify-between sticky top-0 z-30 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-[#EAE1D8] shadow-sm print:hidden">
-              <button onClick={handleBackFromResult} className="p-2 bg-white hover:bg-gray-100 text-[#111625] border border-gray-200 rounded-full transition-colors">
+            <div className="px-5 py-4 flex items-center justify-between sticky top-0 z-30 bg-[#F4F6F8]/90 backdrop-blur-md border-b border-gray-200 shadow-sm print:hidden">
+              <button onClick={handleBackFromResult} className="p-2 bg-white hover:bg-gray-100 text-[#1A1D20] border border-gray-200 rounded-full transition-colors">
                 <ChevronLeft size={18}/>
               </button>
-              <h2 className="font-serif font-black text-[16px] text-[#111625] tracking-wider text-center flex-1 px-4 truncate">
+              <h2 className="font-bold text-[16px] text-[#1A1D20] tracking-tight text-center flex-1 px-4 truncate">
                 {(selectedMenu?.title || '').replace('\n',' ')}
               </h2>
               <div className="w-8"></div>
             </div>
 
-            <div className="max-w-xl mx-auto w-full p-5 sm:p-6 space-y-8">
+            <div className="max-w-xl mx-auto w-full p-5 sm:p-6 space-y-6">
               
               {Boolean(safeSaju?.isNightRollover) && (
-                <div className="bg-[#C89830]/10 border border-[#C89830]/30 text-[#C89830] text-xs py-2.5 px-4 rounded-xl text-center font-bold tracking-wide print:hidden">
-                  🌙 명리학 [야자시/조자시] 정밀 보정 좌표 적용 완료
+                <div className="bg-blue-50 border border-blue-100 text-blue-600 text-xs py-2.5 px-4 rounded-xl text-center font-bold tracking-tight print:hidden">
+                  🌙 명리학 [야자시/조자시] 정밀 보정 완료
                 </div>
               )}
 
-              {/* 잠김 상태일 때 보여주는 '리포트 핵심 요약 미리보기 (티저)' 박스 */}
-              {!safeUnlocked.includes(selectedMenu.id) && (
-                <div className="bg-white border-2 border-[#C89830]/40 rounded-2xl p-5 shadow-lg mb-6 relative overflow-hidden print:hidden">
-                  <div className="absolute top-0 right-0 bg-[#C89830] text-white text-[10px] font-black px-3 py-1 rounded-bl-lg tracking-wider">
-                    REPORT TEASER
-                  </div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-lg">💡</span>
-                    <h3 className="text-xs font-black text-[#C89830] tracking-tight">리포트 핵심 요약 미리보기</h3>
-                  </div>
-                  <p className="text-[13.5px] text-[#333333] leading-[1.85] font-normal break-keep text-justify whitespace-pre-line bg-[#FBF9F4] p-4 rounded-xl border border-[#EAE1D8]">
-                    {PREVIEW_DATA[selectedMenu.id] ? PREVIEW_DATA[selectedMenu.id](userInfo || {}, safeSaju || {}) : "분석 요약을 불러옵니다."}
-                  </p>
-                </div>
-              )}
-
-              {/* 열렸을 때 보여주는 'PDF 소장 솔루션' 박스 */}
-              {safeUnlocked.includes(selectedMenu.id) && (
-                <div className="bg-[#111625] text-white border border-[#111625] p-5 rounded-2xl shadow-xl break-keep print:hidden">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-black text-[#E8C87A] tracking-widest flex items-center gap-1.5 font-serif">
-                      <Download size={15}/> VVIP 리포트 영구 소장 솔루션
-                    </span>
-                    <span className="text-[10px] bg-[#E8C87A]/20 text-[#E8C87A] px-2.5 py-0.5 rounded-full font-bold">10,000자 단행본</span>
-                  </div>
-                  <p className="text-xs text-gray-300 mb-4 leading-relaxed font-sans">
-                    하단의 <strong className="text-white underline">PDF 저장</strong> 버튼을 클릭하신 후, 대상 프린터를 <strong className="text-[#E8C87A]">"PDF로 저장"</strong>으로 선택하시면 5장 분량의 프리미엄 전자책 포맷으로 완벽히 구워집니다.
-                  </p>
-                  <button onClick={downloadVVIPReport} disabled={isPrintingLock} className="w-full bg-gradient-to-r from-[#C89830] via-[#E8C050] to-[#C89830] text-[#111625] font-black text-sm py-3.5 rounded-xl shadow-md hover:brightness-110 active:scale-95 transition-all disabled:opacity-50">
-                    📥 {isPrintingLock ? "🖨️ PDF 변환 엔진 가동 중... (잠시만 기다려주세요)" : "10,000자급 VVIP 리포트 PDF 영구 저장"}
-                  </button>
-                </div>
-              )}
-
-              {/* 본문 및 잠김 분기 영역 */}
+              {/* 잠김 상태일 때 (티저 및 결제 박스) */}
               {!safeUnlocked.includes(selectedMenu.id) ? (
-                /* 🔒 잠김 상태 UI (깔끔하고 고급스러운 웜크림톤) */
                 <div className="space-y-5 print:hidden">
-                  <div className="bg-gradient-to-r from-[#111625] to-[#1A1530] border border-[#C89830]/40 rounded-2xl p-6 text-center text-white shadow-xl relative overflow-hidden">
-                    <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-[#C89830]/20 rounded-full blur-xl"></div>
-                    <span className="text-4xl block mb-2 animate-bounce">🔒</span>
-                    <h4 className="font-serif text-[#E8C87A] text-lg font-bold mb-1">본문 정밀 분석 잠김</h4>
-                    <p className="text-xs text-gray-300 break-keep leading-relaxed px-2 font-sans">
-                      위 요약본의 더 자세한 상위 0.1% 솔루션을 확인하시려면<br/>아래 결제하기를 통해 리포트를 영구 오픈해 주세요.
+                  <div className="bg-white rounded-3xl p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 bg-[#1A1D20] text-white text-[10px] font-black px-3 py-1 rounded-bl-lg tracking-wider">
+                      REPORT TEASER
+                    </div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-lg">💡</span>
+                      <h3 className="text-xs font-black text-[#1A1D20] tracking-tight">리포트 핵심 요약 미리보기</h3>
+                    </div>
+                    <p className="text-[14.5px] text-[#4E5968] leading-[1.8] font-normal break-keep text-justify whitespace-pre-line">
+                      {PREVIEW_DATA[selectedMenu.id] ? PREVIEW_DATA[selectedMenu.id](userInfo || {}, safeSaju || {}) : "분석 요약을 불러옵니다."}
                     </p>
                   </div>
 
-                  <div className="bg-white text-[#111625] rounded-2xl p-4 border border-[#EAE1D8] shadow-sm">
-                    <div className="flex items-center justify-between mb-2.5 font-sans">
-                      <div className="text-xs font-bold text-[#C89830]">💬 맘카페 내돈내산 리얼 후기</div>
+                  <div className="bg-gradient-to-br from-[#1A1D20] to-[#2B3036] rounded-3xl p-8 text-center text-white shadow-xl">
+                    <span className="text-4xl block mb-3 animate-bounce">🔒</span>
+                    <h4 className="text-lg font-bold mb-2">본문 정밀 분석 잠김</h4>
+                    <p className="text-sm text-gray-300 break-keep leading-relaxed">
+                      상위 0.1%를 위한 1만자급 심층 리포트를<br/>아래 결제하기를 통해 영구 오픈해 주세요.
+                    </p>
+                  </div>
+
+                  <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="text-xs font-bold text-[#1A1D20]">💬 맘카페 리얼 후기</div>
                       <button onClick={() => setShowReviewsExpanded(!showReviewsExpanded)} type="button" className="text-[11px] text-gray-400 underline">
-                        {showReviewsExpanded ? "접기 ▴" : "전체 후기 보기 ▾"}
+                        {showReviewsExpanded ? "접기 ▴" : "전체 보기 ▾"}
                       </button>
                     </div>
-                    <div className={`space-y-2 overflow-hidden transition-all font-sans ${showReviewsExpanded ? 'max-h-[800px]' : 'max-h-[190px]'}`}>
+                    <div className={`space-y-2 overflow-hidden transition-all ${showReviewsExpanded ? 'max-h-[800px]' : 'max-h-[190px]'}`}>
                       {REVIEWS.map(r => (
-                        <div key={r.id} className="bg-[#FBF9F4] p-3 rounded-xl border border-[#EAE1D8] break-keep">
-                          <div className="text-[10px] text-[#C89830] font-bold mb-1">{r.author} ({r.type})</div>
-                          <div className="text-xs text-[#333333] leading-relaxed">{r.content}</div>
+                        <div key={r.id} className="bg-[#F9FAFB] p-3.5 rounded-xl border border-gray-100 break-keep">
+                          <div className="text-[11px] text-[#333D4B] font-bold mb-1">{r.author} ({r.type})</div>
+                          <div className="text-[13px] text-[#4E5968] leading-relaxed">{r.content}</div>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className={`bg-white border-2 border-[#C89830]/40 rounded-2xl p-5 text-center shadow-xl relative ${isProcessing ? 'pointer-events-none opacity-80 select-none' : ''}`}>
-                    <div className="text-xs text-gray-400 line-through mb-1 font-sans">정가 10,000원</div>
-                    <div className="text-2xl font-serif font-black text-[#C89830] mb-4">1,000원 <span className="text-xs bg-[#C89830] text-white px-2.5 py-0.5 rounded-full font-sans font-black ml-1">90% 특가</span></div>
-                    <input type="email" required placeholder="결제 내역 받을 이메일" value={userInfo?.email || ''} onChange={e=>setUserInfo(prev => ({ ...(prev || {}), email: e.target.value }))} className="w-full bg-[#FBF9F4] border border-[#EAE1D8] rounded-xl p-3.5 text-sm text-[#111625] placeholder-gray-400 mb-2.5 outline-none focus:border-[#C89830] focus:bg-white transition-all" />
-                    <input type="tel" required placeholder="휴대폰 번호 (자유롭게 입력)" value={userInfo?.phone || ''} onChange={e=>setUserInfo(prev => ({ ...(prev || {}), phone: e.target.value }))} className="w-full bg-[#FBF9F4] border border-[#EAE1D8] rounded-xl p-3.5 text-sm text-[#111625] placeholder-gray-400 mb-5 outline-none focus:border-[#C89830] focus:bg-white transition-all" />
+                  <div className={`bg-white border border-gray-200 rounded-3xl p-6 text-center shadow-lg relative ${isProcessing ? 'pointer-events-none opacity-80 select-none' : ''}`}>
+                    <div className="text-xs text-gray-400 line-through mb-1">정가 10,000원</div>
+                    <div className="text-2xl font-black text-[#1A1D20] mb-5">1,000원 <span className="text-[11px] bg-red-500 text-white px-2 py-0.5 rounded-full font-bold ml-1 align-middle">90% 특가</span></div>
                     
-                    {/* 👇 노란색 카드 결제 버튼 안전 탑재 완료 */}
-                    <button onClick={() => handlePayment('카드')} disabled={isProcessing || !isPgLoaded} className="w-full bg-gradient-to-r from-[#FEE500] to-[#e6cf00] text-black font-black text-sm py-4 rounded-xl shadow-md active:scale-95 transition-all disabled:opacity-50 font-sans">
-                      💳 {isPgLoaded ? "원본 포트원 안전 결제하기" : "PG 모듈 안전 로딩 중..."}
+                    <input type="email" required placeholder="결제 내역 받을 이메일" value={userInfo?.email || ''} onChange={e=>setUserInfo(prev => ({ ...(prev || {}), email: e.target.value }))} className="w-full bg-[#F9FAFB] border border-gray-200 rounded-xl p-4 text-sm text-[#1A1D20] placeholder-gray-400 mb-2.5 outline-none focus:border-blue-500 focus:bg-white transition-all" />
+                    <input type="tel" required placeholder="휴대폰 번호 (자유롭게 입력)" value={userInfo?.phone || ''} onChange={e=>setUserInfo(prev => ({ ...(prev || {}), phone: e.target.value }))} className="w-full bg-[#F9FAFB] border border-gray-200 rounded-xl p-4 text-sm text-[#1A1D20] placeholder-gray-400 mb-5 outline-none focus:border-blue-500 focus:bg-white transition-all" />
+                    
+                    <button onClick={() => handlePayment('카드')} disabled={isProcessing || !isPgLoaded} className="w-full bg-[#FEE500] text-[#1A1D20] font-black text-[15px] py-4 rounded-xl shadow-sm active:scale-95 transition-all disabled:opacity-50">
+                      💳 {isPgLoaded ? "카카오페이 / 토스 / 카드 결제" : "결제 모듈 로딩 중..."}
                     </button>
                   </div>
                 </div>
               ) : (
-                /* 🔓 열람 가능 본문 UI (Toss/Notion 스타일의 최고급 미니멀 모던 테마) */
+                /* 🔓 열람 가능 상태 (본문 전체 렌더링) */
                 <div className="space-y-6">
+                  
+                  {/* 열렸을 때 보여주는 'PDF 소장 솔루션' 박스 */}
+                  <div className="bg-[#1A1D20] text-white p-5 rounded-2xl shadow-xl break-keep print:hidden">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-bold flex items-center gap-1.5">
+                        <Download size={15}/> VVIP 리포트 영구 소장 솔루션
+                      </span>
+                      <span className="text-[10px] bg-white/20 px-2.5 py-0.5 rounded-full font-bold">10,000자 단행본</span>
+                    </div>
+                    <p className="text-xs text-gray-300 mb-4 leading-relaxed">
+                      하단의 <strong className="text-white underline">PDF 저장</strong> 버튼을 누르고, 프린터를 <strong className="text-white">"PDF로 저장"</strong>으로 선택하시면 5장 분량의 프리미엄 전자책이 다운로드됩니다.
+                    </p>
+                    <button onClick={downloadVVIPReport} disabled={isPrintingLock} className="w-full bg-white text-[#1A1D20] font-black text-sm py-3.5 rounded-xl shadow-md hover:bg-gray-100 active:scale-95 transition-all disabled:opacity-50">
+                      📥 {isPrintingLock ? "🖨️ PDF 변환 엔진 가동 중..." : "10,000자급 VVIP 리포트 PDF 영구 저장"}
+                    </button>
+                  </div>
+
                   {(Array.isArray(generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id)) ? generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id) : []).map((section: any, idx: number) => {
                     
-                    // [1] 핵심 요약 및 에필로그 카드 (깔끔하고 묵직한 하이엔드 테마)
+                    // [1] 핵심 요약 및 에필로그 카드
                     if (section?.isSummary) {
                       return (
                         <div key={idx} className="bg-white rounded-3xl p-7 sm:p-9 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 my-10 relative overflow-hidden print:shadow-none print:border-gray-300">
-                          {/* 상단 블랙 포인트 라인 */}
                           <div className="absolute top-0 left-0 w-full h-1.5 bg-[#1A1D20]"></div>
                           
                           <h4 className="text-[18px] sm:text-[20px] font-black text-[#1A1D20] mb-6 text-center tracking-tight flex items-center justify-center gap-2">
@@ -1108,11 +1105,27 @@ export default function App() {
                           </h4>
                           
                           <div className="space-y-4 mb-8">
-                            {(section?.paragraphs || []).map((pText: string, pIdx: number) => (
-                              <p key={pIdx} className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.8] break-keep">
-                                {pText}
-                              </p>
-                            ))}
+                            {(section?.paragraphs || []).map((pText: string, pIdx: number) => {
+                              // 요약 카드 내부의 【...】 소제목도 소프트하게 뱃지 처리
+                              if (pText.startsWith('【')) {
+                                const cIdx = pText.indexOf('】');
+                                if (cIdx !== -1) {
+                                  const tText = pText.substring(1, cIdx);
+                                  const bText = pText.substring(cIdx + 1).trim();
+                                  return (
+                                    <div key={pIdx} className="mb-5 last:mb-0">
+                                      <span className="text-[#1A1D20] font-bold text-[15.5px] sm:text-[16px] block mb-1.5">{tText}</span>
+                                      <p className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.8] break-keep whitespace-pre-line">{bText}</p>
+                                    </div>
+                                  );
+                                }
+                              }
+                              return (
+                                <p key={pIdx} className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.8] break-keep whitespace-pre-line">
+                                  {pText}
+                                </p>
+                              );
+                            })}
                           </div>
                           
                           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-6 border-t border-gray-100">
@@ -1139,15 +1152,25 @@ export default function App() {
                         {(Array.isArray(section?.paragraphs) ? section.paragraphs : []).map((text: any, pIdx: number) => {
                           const safeText = String(text || '');
                           
-                          // 💎 소제목 하이라이트 블록 【 ... 】 (모던한 다크 그레이 뱃지 디자인으로 개조)
+                          // 💎 소제목 하이라이트 블록 분리 및 로우 콘트라스트(Low-contrast) 뱃지 디자인 적용
                           if (safeText.startsWith('【')) {
-                            return (
-                              <div key={pIdx} className="mt-8 mb-3">
-                                <span className="bg-[#1A1D20] text-white px-3.5 py-1.5 rounded-lg text-[14px] sm:text-[15px] font-bold tracking-tight inline-block shadow-sm">
-                                  {safeText.replace('【', '').replace('】', '')}
-                                </span>
-                              </div>
-                            );
+                            const cIdx = safeText.indexOf('】');
+                            if (cIdx !== -1) {
+                              const title = safeText.substring(1, cIdx);
+                              const body = safeText.substring(cIdx + 1).trim();
+                              return (
+                                <div key={pIdx} className="mt-8 mb-4">
+                                  <span className="bg-[#F2F4F6] text-[#4E5968] px-3.5 py-1.5 rounded-md text-[14.5px] sm:text-[15px] font-bold tracking-tight inline-block mb-3 border border-[#E5E8EB] shadow-sm">
+                                    {title}
+                                  </span>
+                                  {body && (
+                                    <p className="text-[15.5px] sm:text-[16px] text-[#333D4B] leading-[1.85] text-justify break-keep whitespace-pre-line">
+                                      {body}
+                                    </p>
+                                  )}
+                                </div>
+                              );
+                            }
                           }
 
                           // 📝 본문 텍스트 (박스 없이 깔끔하게, 자간 좁혀서 읽기 쉽게!)
@@ -1166,9 +1189,9 @@ export default function App() {
           </div>
         )}
 
-        <footer className="relative z-20 bg-[#1A1530]/80 border-t border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.4)] text-[11px] p-6 pb-12 mt-12 break-keep font-sans print:hidden">
+        <footer className="relative z-20 bg-[#1A1D20] text-gray-400 text-[11px] p-6 pb-12 mt-12 break-keep print:hidden">
           <div className="max-w-md mx-auto">
-            <div className="flex gap-4 mb-4 font-bold text-[rgba(255,255,255,0.7)] text-[12px] px-4">
+            <div className="flex gap-4 mb-4 font-bold text-gray-300 text-[12px] px-4">
               <button onClick={() => setShowTerms(true)} className="hover:text-white transition-colors">이용약관</button>
               <button onClick={() => setShowPrivacy(true)} className="hover:text-white transition-colors">개인정보처리방침</button>
             </div>
@@ -1179,24 +1202,24 @@ export default function App() {
               <p>사업장 소재지: 인천광역시 남동구 호구포로900번길 20-4, 3층 301호</p>
               <p>고객센터: 010-4618-7383 | 이메일: diak83@gmail.com</p>
             </div>
-            <p className="mt-5 text-[10px] text-[rgba(255,255,255,0.3)] px-4">© 2026 Happy Merry Bell. All rights reserved.</p>
+            <p className="mt-5 text-[10px] text-gray-500 px-4">© 2026 Happy Merry Bell. All rights reserved.</p>
           </div>
         </footer>
 
         {showPrivacy && (
-          <div onClick={(e) => e.stopPropagation()} className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans print:hidden touch-none">
-            <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black pointer-events-auto">
-              <h3 className="text-lg font-bold text-black mb-4 border-b pb-2 border-gray-300">개인정보처리방침</h3>
-              <div className="text-xs space-y-3 leading-relaxed">
-                <p className="font-bold text-black">■ 개인정보 처리업무의 위탁</p>
-                <p className="text-black">해피메리벨(이하 '회사')은 원활한 서비스 제공 및 안전한 결제 처리를 위하여 다음과 같이 개인정보 처리업무를 외부 전문업체에 위탁하고 있습니다.</p>
-                <ul className="list-disc pl-4 space-y-1 bg-gray-100 p-2.5 rounded-lg border border-gray-300 text-black">
-                  <li><span className="font-bold text-black">수탁자:</span> (주)코리아포트원, 토스페이먼츠(주)</li>
-                  <li><span className="font-bold text-black">위탁 업무:</span> 전자결제 수단을 통한 결제 대행 서비스 및 도용 방지</li>
-                  <li><span className="font-bold text-black">보유 및 이용기간:</span> 회원 탈퇴 시 또는 위탁 계약 종료 시까지</li>
+          <div onClick={(e) => e.stopPropagation()} className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm print:hidden touch-none">
+            <div className="bg-white w-full max-w-md rounded-3xl p-7 max-h-[80vh] overflow-y-auto shadow-2xl relative text-[#1A1D20] pointer-events-auto">
+              <h3 className="text-lg font-black mb-5 border-b border-gray-100 pb-3">개인정보처리방침</h3>
+              <div className="text-[13px] space-y-4 leading-relaxed text-[#4E5968]">
+                <p className="font-bold text-[#1A1D20]">■ 개인정보 처리업무의 위탁</p>
+                <p>해피메리벨(이하 '회사')은 원활한 서비스 제공 및 안전한 결제 처리를 위하여 다음과 같이 개인정보 처리업무를 외부 전문업체에 위탁하고 있습니다.</p>
+                <ul className="list-disc pl-4 space-y-1.5 bg-[#F9FAFB] p-4 rounded-xl border border-gray-100">
+                  <li><span className="font-bold text-[#1A1D20]">수탁자:</span> (주)코리아포트원, 토스페이먼츠(주)</li>
+                  <li><span className="font-bold text-[#1A1D20]">위탁 업무:</span> 전자결제 수단을 통한 결제 대행 서비스 및 도용 방지</li>
+                  <li><span className="font-bold text-[#1A1D20]">보유 및 이용기간:</span> 회원 탈퇴 시 또는 위탁 계약 종료 시까지</li>
                 </ul>
               </div>
-              <button onClick={() => setShowPrivacy(false)} className="w-full mt-6 bg-[#1A1530] text-white py-3 rounded-xl font-bold text-sm transition-colors hover:bg-opacity-90">
+              <button onClick={() => setShowPrivacy(false)} className="w-full mt-8 bg-[#1A1D20] text-white py-3.5 rounded-xl font-bold text-[14px] transition-transform active:scale-95">
                 확인 및 닫기
               </button>
             </div>
@@ -1204,18 +1227,24 @@ export default function App() {
         )}
 
         {showTerms && (
-          <div onClick={(e) => e.stopPropagation()} className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm font-sans print:hidden touch-none">
-            <div className="bg-white w-full max-w-md rounded-2xl p-6 max-h-[80vh] overflow-y-auto shadow-2xl relative text-black pointer-events-auto">
-              <h3 className="text-lg font-bold text-black mb-4 border-b pb-2 border-gray-300">서비스 이용약관</h3>
-              <div className="text-xs space-y-3 leading-relaxed">
-                <p className="font-bold text-black">■ 제1조 (목적)</p>
-                <p className="text-black">본 약관은 프라이빗 사주 컨설팅 서비스의 이용 조건 및 절차에 관한 사항을 규정합니다.</p>
-                <p className="font-bold text-black mt-4">■ 제2조 (서비스 제공 기간)</p>
-                <p className="text-black">회사는 고객이 결제를 완료한 시점부터 30일 동안 웹사이트를 통한 결과지 열람 및 다운로드 기능을 제공합니다. 30일 경과 후 데이터는 자동 파기됩니다.</p>
-                <p className="font-bold text-black mt-4">■ 제3조 (취소 및 환불 규정)</p>
-                <p className="text-black">본 서비스는 구매와 동시에 결과가 노출되는 디지털 콘텐츠 특성상 결제 후 원칙적으로 취소 및 환불이 불가능합니다.</p>
+          <div onClick={(e) => e.stopPropagation()} className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm print:hidden touch-none">
+            <div className="bg-white w-full max-w-md rounded-3xl p-7 max-h-[80vh] overflow-y-auto shadow-2xl relative text-[#1A1D20] pointer-events-auto">
+              <h3 className="text-lg font-black mb-5 border-b border-gray-100 pb-3">서비스 이용약관</h3>
+              <div className="text-[13px] space-y-4 leading-relaxed text-[#4E5968]">
+                <div>
+                  <p className="font-bold text-[#1A1D20] mb-1">■ 제1조 (목적)</p>
+                  <p>본 약관은 프라이빗 사주 컨설팅 서비스의 이용 조건 및 절차에 관한 사항을 규정합니다.</p>
+                </div>
+                <div>
+                  <p className="font-bold text-[#1A1D20] mb-1">■ 제2조 (서비스 제공 기간)</p>
+                  <p>회사는 고객이 결제를 완료한 시점부터 30일 동안 웹사이트를 통한 결과지 열람 및 다운로드 기능을 제공합니다. 30일 경과 후 데이터는 자동 파기됩니다.</p>
+                </div>
+                <div>
+                  <p className="font-bold text-[#1A1D20] mb-1">■ 제3조 (취소 및 환불 규정)</p>
+                  <p className="text-red-500 font-bold bg-red-50 p-3 rounded-lg border border-red-100">본 서비스는 구매와 동시에 결과가 노출되는 디지털 콘텐츠 특성상 결제 후 원칙적으로 취소 및 환불이 불가능합니다.</p>
+                </div>
               </div>
-              <button onClick={() => setShowTerms(false)} className="w-full mt-6 bg-[#1A1530] text-white py-3 rounded-xl font-bold text-sm transition-colors hover:bg-opacity-90">
+              <button onClick={() => setShowTerms(false)} className="w-full mt-8 bg-[#1A1D20] text-white py-3.5 rounded-xl font-bold text-[14px] transition-transform active:scale-95">
                 확인 및 닫기
               </button>
             </div>
@@ -1224,57 +1253,75 @@ export default function App() {
       </div>
 
       {/* ================================================================= */}
-      {/* 🖨️ 인쇄/PDF 저장용 숨겨진 화면 (A4 출력 표준 포맷 완전 가동) */}
+      {/* 🖨️ 인쇄/PDF 저장용 숨겨진 화면 (A4 출력 표준 포맷 완벽 개조) */}
       {/* ================================================================= */}
       {currentView === 'result' && selectedMenu?.id && safeUnlocked.includes(selectedMenu.id) && (
-        <div className="hidden print:block font-serif w-full text-[#111625] bg-[#FDFBF7]">
+        <div className="hidden print:block w-full text-[#111625] bg-white">
           
-          <div className="print-cover bg-white">
-            <div className="w-[72px] h-[72px] rounded-full border-2 border-[#C89830] flex items-center justify-center mb-6 bg-[#FDFBF7] shadow-inner mx-auto relative overflow-hidden">
-              <div className="absolute w-[40px] h-[40px] rounded-full bg-[#C89830] opacity-20 blur-md"></div>
-              <span className="text-[32px] text-[#C89830] relative z-10 leading-none" style={{textShadow: '0 2px 4px rgba(200,152,48,0.3)'}}>✦</span>
+          <div className="print-cover flex flex-col items-center justify-center h-[95vh] border-2 border-gray-800 p-10 m-5 box-border">
+            <div className="w-[80px] h-[80px] rounded-full border-4 border-[#1A1D20] flex items-center justify-center mb-6">
+              <span className="text-[32px] font-black">✦</span>
             </div>
-            <div className="text-[#C89830] tracking-[3px] font-bold text-xs mb-4">VIP PRIVATE CONSULTING REPORT</div>
-            <h1 className="text-[28px] font-black leading-snug mb-10 text-center border-b-2 border-[#C89830] pb-6">해피메리벨 프라이빗 사주 컨설팅<br/>초정밀 운명 분석 보고서</h1>
-            <div className="text-left w-full max-w-sm mb-12 space-y-2 mx-auto text-xs">
-              <div className="flex justify-between border-b border-gray-200 pb-1.5">
-                <span className="text-[#C89830] font-bold whitespace-nowrap">대상자</span>
-                <span className="max-w-[180px] truncate whitespace-nowrap text-right">{(userInfo?.name || '').replace(/\s+/g, '')} 님</span>
+            <div className="text-gray-500 tracking-[3px] font-bold text-xs mb-4 uppercase">VIP Private Consulting Report</div>
+            <h1 className="text-[28px] font-black leading-snug mb-10 text-center border-b-2 border-gray-200 pb-6">대치동 시크릿 사주 컨설팅<br/>초정밀 운명 분석 보고서</h1>
+            <div className="text-left w-full max-w-sm mb-12 space-y-2.5 text-[10.5pt]">
+              <div className="flex justify-between border-b border-gray-100 pb-2">
+                <span className="font-bold text-gray-500">대상자</span>
+                <span className="font-black text-right">{(userInfo?.name || '').replace(/\s+/g, '')} 님</span>
               </div>
-              <div className="flex justify-between border-b border-gray-200 pb-1.5"><span className="text-[#C89830] font-bold">생년월일</span><span>{userInfo?.birthDate || ''} ({userInfo?.calendarType === 'solar' ? '양력' : userInfo?.calendarType === 'lunar' ? '음력' : '윤달'})</span></div>
-              <div className="flex justify-between border-b border-gray-200 pb-1.5"><span className="text-[#C89830] font-bold">일간 기운</span><span>{safeSaju?.dayMaster || '甲'} ({(DM_MATRIX[safeSaju?.dayMaster || '甲']||{}).name || ''})</span></div>
-              <div className="flex justify-between border-b border-gray-200 pb-1.5"><span className="text-[#C89830] font-bold">선택 리포트</span><span>{(selectedMenu?.title || '').replace('\n', ' ')}</span></div>
+              <div className="flex justify-between border-b border-gray-100 pb-2">
+                <span className="font-bold text-gray-500">생년월일</span>
+                <span className="font-bold">{userInfo?.birthDate || ''} ({userInfo?.calendarType === 'solar' ? '양력' : userInfo?.calendarType === 'lunar' ? '음력' : '윤달'})</span>
+              </div>
+              <div className="flex justify-between border-b border-gray-100 pb-2">
+                <span className="font-bold text-gray-500">일간 기운</span>
+                <span className="font-bold">{safeSaju?.dayMaster || '甲'} ({(DM_MATRIX[safeSaju?.dayMaster || '甲']||{}).name || ''})</span>
+              </div>
+              <div className="flex justify-between border-b border-gray-100 pb-2">
+                <span className="font-bold text-gray-500">선택 리포트</span>
+                <span className="font-bold">{(selectedMenu?.title || '').replace('\n', ' ')}</span>
+              </div>
             </div>
-            <div className="text-gray-400 text-[10px] tracking-widest text-center">HAPPY MERRY BELL</div>
+            <div className="text-gray-400 text-[9pt] tracking-widest text-center mt-auto">CONFIDENTIAL & PRIVATE</div>
           </div>
 
-          <div className="p-10 bg-[#FDFBF7]">
+          <div className="p-10 bg-white">
             {(Array.isArray(generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id)) ? generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id) : []).map((section: any, idx: number) => (
-              <div key={idx} className="print-section mb-10">
-                <h2 className="text-[14pt] font-black text-[#111625] border-l-[5px] border-[#C89830] pl-3 mb-4">{section?.title || ''}</h2>
+              <div key={idx} className="mb-10" style={{ pageBreakInside: 'auto' }}>
+                <h2 className="text-[14pt] font-black text-[#1A1D20] border-l-[5px] border-[#1A1D20] pl-3 mb-5 bg-gray-50 py-1.5">{section?.title || ''}</h2>
+                
                 {(Array.isArray(section?.paragraphs) ? section.paragraphs : []).map((p: any, pIdx: number) => {
                   const strP = String(p || '');
+                  
                   if (strP.startsWith('【')) {
-                    // 🔥 촌스러운 빨간색 텍스트 소각 -> PDF에도 세련된 다크 뱃지 적용! 🔥
-                    return (
-                      <div key={pIdx} className="mt-6 mb-2" style={{ breakAfter: 'avoid', pageBreakAfter: 'avoid' }}>
-                        <span className="bg-[#1A1D20] text-white px-3 py-1.5 rounded-md text-[11pt] font-black inline-block">
-                          {strP.replace('【', '').replace('】', '')}
-                        </span>
-                      </div>
-                    );
+                    const cIdx = strP.indexOf('】');
+                    if (cIdx !== -1) {
+                      const tText = strP.substring(1, cIdx);
+                      const bText = strP.substring(cIdx + 1).trim();
+                      return (
+                        <div key={pIdx} className="mt-5 mb-4" style={{ breakInside: 'avoid' }}>
+                          <span className="bg-gray-100 text-gray-800 px-3 py-1.5 rounded-md text-[10.5pt] font-bold inline-block mb-2 border border-gray-200">
+                            {tText}
+                          </span>
+                          <p className="text-[10pt] leading-[1.8] text-[#333] text-justify break-keep whitespace-pre-line">
+                            {bText}
+                          </p>
+                        </div>
+                      );
+                    }
                   }
-                  return <p key={pIdx} className="text-[10pt] leading-[1.7] mb-3 text-[#333] text-justify break-keep whitespace-pre-line">{strP}</p>;
+                  
+                  return <p key={pIdx} className="text-[10pt] leading-[1.8] mb-4 text-[#333] text-justify break-keep whitespace-pre-line">{strP}</p>;
                 })}
 
                 {section?.isSummary && section?.symbols && (
-                  <div className="flex justify-center gap-6 mt-8">
+                  <div className="flex justify-center gap-6 mt-8 p-4 bg-gray-50 rounded-xl border border-gray-100" style={{ breakInside: 'avoid' }}>
                     {(Array.isArray(section?.symbols) ? section.symbols : []).map((sym: any, sIdx: number) => (
-                      <div key={sIdx} className="flex flex-col items-center text-center max-w-[80px]">
-                        <div className="w-[52px] h-[52px] rounded-full border border-[#C89830] flex items-center justify-center text-[24px] mb-1.5 bg-white shadow-sm">
+                      <div key={sIdx} className="flex flex-col items-center text-center max-w-[90px]">
+                        <div className="w-[50px] h-[50px] rounded-full border border-gray-300 flex items-center justify-center text-[22px] mb-2 bg-white">
                           {sym?.emoji || '✦'}
                         </div>
-                        <span className="text-[8.5pt] font-bold text-[#111625] px-2.5 py-0.5 bg-[#F0EBE1] rounded-full border border-[#d6d0c4] break-keep leading-tight">
+                        <span className="text-[8.5pt] font-bold text-[#1A1D20] break-keep leading-tight">
                           {sym?.label || ''}
                         </span>
                       </div>
@@ -1283,7 +1330,8 @@ export default function App() {
                 )}
               </div>
             ))}
-            <div className="mt-12 pt-6 border-t border-[#D4A843] text-[7.5pt] text-gray-400 leading-relaxed">
+            
+            <div className="mt-12 pt-6 border-t border-gray-300 text-[8pt] text-gray-400 leading-relaxed text-center">
               ■ 소비자 유의사항 고지: 본 리포트는 구매와 동시에 디지털 결과가 노출되는 지식 콘텐츠 특성상 환불이 불가능합니다. 데이터는 30일 후 자동 영구 파기됩니다.<br/>
               © 2026 Happy Merry Bell. All rights reserved.
             </div>
