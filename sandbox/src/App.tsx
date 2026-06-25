@@ -803,7 +803,7 @@ export default function App() {
           }
         `}</style>
 
-      <div className="no-print relative z-10">
+      <div className="print:hidden relative z-10">  {/* 👈 no-print를 print:hidden 으로 변경! */}
         {/* INTRO VIEW */}
         {currentView === 'intro' && (
           <div className="relative z-10 flex flex-col items-center justify-center min-h-[100dvh] px-6 py-12 max-w-md mx-auto">
