@@ -250,7 +250,6 @@ const PREVIEW_DATA: Record<number, any> = {
   7: (u: any, s: any) => {
     const dm = s?.dayMaster || '甲';
     const dmObj = DM_MATRIX[dm] || DM_MATRIX['甲'];
-    // ✅ 버그 수정: 기존 코드의 talkObj(미정의 변수) 제거 → dmObj에서 직접 참조
     return `명리학적으로 일간 '${dm}'을 지닌 ${u?.name || '고객'}님의 뇌는 상대방이 뱉는 '특정 단어 파장'에 따라 전두엽이 열리거나 완벽하게 닫히는 양극단의 수용성을 보입니다.\n${(dmObj.talk_intro || '').slice(0, 80)}...\n상대방의 반항심을 0.1초 만에 무장 해제시키고 스스로 책상에 앉게 만들 '결정적 첫 마디'의 정체는 바로...`;
   },
 };
@@ -306,8 +305,6 @@ const generateProfessionalReport = (user: any, saju: any, menuId: number) => {
   ];
 };
 
-
-  
 
 export default function App() {
   const [currentView, setCurrentView] = useState('intro');
@@ -786,7 +783,7 @@ export default function App() {
     <div className="min-h-[100dvh] text-[rgba(255,255,255,0.88)] font-sans relative bg-[#021027] print:bg-white print:text-black print:block print:min-h-0 print:h-auto">
       <Starfield />
 
-<style>{`
+      <style>{`
           @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
           
           * {
@@ -995,7 +992,7 @@ export default function App() {
           </div>
         )}
 
-{/* 4. RESULT VIEW (눈이 절대 안 아픈 KINFOLK 매거진 스타일의 웜크림 & 정제 화이트 테마) */}
+        {/* 4. RESULT VIEW (눈이 절대 안 아픈 KINFOLK 매거진 스타일의 웜크림 & 정제 화이트 테마) */}
         {currentView === 'result' && selectedMenu && (
           <div className="relative z-20 min-h-[100dvh] min-h-[750px] bg-[#FDFBF7] text-[#111625] pb-16 font-sans select-text animate-[sup_0.3s_cubic-bezier(0.34,1.56,0.64,1)] print:bg-white">
             
@@ -1095,7 +1092,7 @@ export default function App() {
                   </div>
                 </div>
               ) : (
-{/* 🔓 열람 가능 본문 UI (Toss/Notion 스타일의 최고급 미니멀 모던 테마) */}
+                /* 🔓 열람 가능 본문 UI (Toss/Notion 스타일의 최고급 미니멀 모던 테마) */
                 <div className="space-y-6">
                   {(Array.isArray(generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id)) ? generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id) : []).map((section: any, idx: number) => {
                     
@@ -1112,7 +1109,6 @@ export default function App() {
                           
                           <div className="space-y-4 mb-8">
                             {(section?.paragraphs || []).map((pText: string, pIdx: number) => (
-                              // ❌ 촌스러운 박스 배경(bg-xxx) 완전 삭제! 오직 텍스트만 깔끔하게!
                               <p key={pIdx} className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.8] break-keep">
                                 {pText}
                               </p>
@@ -1165,10 +1161,11 @@ export default function App() {
                     );
                   })}
                 </div>
-)}             {/* 👈 1. 잠김/열람 조건문 닫기 */}
-            </div>           {/* 👈 2. 컨텐츠 max-w-xl 박스 닫기 */}
-          </div>             {/* 👈 3. 전체 배경 화면 닫기 */}
-        )}                   {/* 👈 4. RESULT VIEW 조건문 닫기 */}
+              )}
+            </div>
+          </div>
+        )}
+
         <footer className="relative z-20 bg-[#1A1530]/80 border-t border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.4)] text-[11px] p-6 pb-12 mt-12 break-keep font-sans print:hidden">
           <div className="max-w-md mx-auto">
             <div className="flex gap-4 mb-4 font-bold text-[rgba(255,255,255,0.7)] text-[12px] px-4">
@@ -1258,7 +1255,7 @@ export default function App() {
                 {(Array.isArray(section?.paragraphs) ? section.paragraphs : []).map((p: any, pIdx: number) => {
                   const strP = String(p || '');
                   if (strP.startsWith('【')) {
-// 🔥 촌스러운 빨간색 텍스트 소각 -> PDF에도 세련된 다크 뱃지 적용! 🔥
+                    // 🔥 촌스러운 빨간색 텍스트 소각 -> PDF에도 세련된 다크 뱃지 적용! 🔥
                     return (
                       <div key={pIdx} className="mt-6 mb-2" style={{ breakAfter: 'avoid', pageBreakAfter: 'avoid' }}>
                         <span className="bg-[#1A1D20] text-white px-3 py-1.5 rounded-md text-[11pt] font-black inline-block">
