@@ -786,26 +786,20 @@ export default function App() {
     <div className="min-h-[100dvh] text-[rgba(255,255,255,0.88)] font-sans relative bg-[#021027] print:bg-white print:text-black print:block print:min-h-0 print:h-auto">
       <Starfield />
 
-<style dangerouslySetInnerHTML={{__html: `
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        
-        * {
-          font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif !important;
-          letter-spacing: -0.02em; /* 세련된 자간 세팅 */
-        }
-        
-        body { 
-          background-color: #F4F6F8 !important; /* 토스 스타일의 아주 연한 쿨그레이 배경 */
-          color: #333D4B !important; 
-        }
+<style>{`
+          @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+          
+          * {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif !important;
+            letter-spacing: -0.02em; 
+          }
 
-        /* 프린트(PDF) 출력 시 깔끔하게 나오도록 설정 */
-        @media print {
-          @page { margin: 15mm; size: A4; }
-          html, body, #root, .min-h-screen { display: block !important; background-color: white !important; }
-          .print-hidden { display: none !important; }
-        }
-      `}} />
+          @media print {
+            @page { margin: 15mm; size: A4; }
+            html, body, #root, .min-h-screen { display: block !important; background-color: white !important; }
+            .print-hidden { display: none !important; }
+          }
+        `}</style>
 
       <div className="no-print relative z-10">
         {/* INTRO VIEW */}
@@ -1264,7 +1258,14 @@ export default function App() {
                 {(Array.isArray(section?.paragraphs) ? section.paragraphs : []).map((p: any, pIdx: number) => {
                   const strP = String(p || '');
                   if (strP.startsWith('【')) {
-                    return <h5 key={pIdx} className="text-[11pt] font-black text-[#A84050] mt-6 mb-2" style={{ breakAfter: 'avoid', pageBreakAfter: 'avoid' }}>{strP}</h5>;
+// 🔥 촌스러운 빨간색 텍스트 소각 -> PDF에도 세련된 다크 뱃지 적용! 🔥
+                    return (
+                      <div key={pIdx} className="mt-6 mb-2" style={{ breakAfter: 'avoid', pageBreakAfter: 'avoid' }}>
+                        <span className="bg-[#1A1D20] text-white px-3 py-1.5 rounded-md text-[11pt] font-black inline-block">
+                          {strP.replace('【', '').replace('】', '')}
+                        </span>
+                      </div>
+                    );
                   }
                   return <p key={pIdx} className="text-[10pt] leading-[1.7] mb-3 text-[#333] text-justify break-keep whitespace-pre-line">{strP}</p>;
                 })}
