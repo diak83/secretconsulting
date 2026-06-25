@@ -786,33 +786,24 @@ export default function App() {
     <div className="min-h-[100dvh] text-[rgba(255,255,255,0.88)] font-sans relative bg-[#021027] print:bg-white print:text-black print:block print:min-h-0 print:h-auto">
       <Starfield />
 
-      <style dangerouslySetInnerHTML={{__html: `
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap');
-        .font-serif { font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif !important; }
-        .font-sans { font-family: 'Noto Sans KR', sans-serif !important; }
-        button, input, select, [onClick], .cursor-pointer { touch-action: manipulation !important; }
-        @keyframes twinkle { 0%, 100% { transform: scale(1); } 50% { opacity: 0.9 !important; transform: scale(1.3); } }
-        @keyframes ndrift { 0%, 100% { transform: translate(0,0) scale(1); } 33% { transform: translate(20px,-15px) scale(1.05); } 66% { transform: translate(-10px,20px) scale(0.95); } }
-        @keyframes ndrift-reverse { 0%, 100% { transform: translate(0,0) scale(1); } 33% { transform: translate(-10px,20px) scale(0.95); } 66% { transform: translate(20px,-15px) scale(1.05); } }
-        @keyframes mfloat { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
-        @keyframes gpulse { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.7; } 50% { transform: translate(-50%,-50%) scale(1.5); opacity: 1; } }
-        @keyframes sbtn { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        @keyframes obounce { 0%, 100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(-10px); opacity: 1; } }
-        @keyframes ficon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-        .glass-card { background: rgba(255,255,255,0.055); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12); }
-        .glass-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent); }
-        .text-gradient-gold { background: linear-gradient(135deg, #fff 0%, #E8C87A 50%, #F5B8C8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .text-gradient-lavender { background: linear-gradient(90deg, #fff, #B8A8E8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+<style dangerouslySetInnerHTML={{__html: `
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
+        * {
+          font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif !important;
+          letter-spacing: -0.02em; /* 세련된 자간 세팅 */
+        }
+        
+        body { 
+          background-color: #F4F6F8 !important; /* 토스 스타일의 아주 연한 쿨그레이 배경 */
+          color: #333D4B !important; 
+        }
+
+        /* 프린트(PDF) 출력 시 깔끔하게 나오도록 설정 */
         @media print {
           @page { margin: 15mm; size: A4; }
-          * { letter-spacing: -0.02em !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif !important; }
-          html, body, #root, .min-h-screen { display: block !important; position: static !important; height: auto !important; min-height: 0 !important; overflow: visible !important; background-color: #FDFBF7 !important; color: #111625 !important; }
-          .no-print { display: none !important; }
-          .print-only { display: block !important; background-color: #FDFBF7 !important; color: #111625 !important; }
-          .print-cover { page-break-after: always; height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #E8C87A; padding: 40px; margin: 20px; box-sizing: border-box; }
-          h5 { page-break-after: avoid !important; break-after: avoid !important; }
-          .print-section { page-break-inside: auto; margin-bottom: 30px; }
+          html, body, #root, .min-h-screen { display: block !important; background-color: white !important; }
+          .print-hidden { display: none !important; }
         }
       `}} />
 
@@ -1110,33 +1101,35 @@ export default function App() {
                   </div>
                 </div>
               ) : (
-                /* 🔓 열람 가능 본문 UI (눈이 절대 안 아픈 KINFOLK 매거진 웜크림 & 화이트 테마) */
+{/* 🔓 열람 가능 본문 UI (Toss/Notion 스타일의 최고급 미니멀 모던 테마) */}
                 <div className="space-y-6">
                   {(Array.isArray(generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id)) ? generateProfessionalReport(userInfo || {}, safeSaju || {}, selectedMenu.id) : []).map((section: any, idx: number) => {
                     
-                    // [요약 및 상징 카드 테마 - 따뜻한 베이지 & 골드 라인]
+                    // [1] 핵심 요약 및 에필로그 카드 (깔끔하고 묵직한 하이엔드 테마)
                     if (section?.isSummary) {
                       return (
-                        <div key={idx} className="bg-white border-[2px] border-[#C89830] rounded-[24px] p-7 sm:p-8 shadow-lg my-10 relative overflow-hidden print:break-inside-avoid">
-                          <div className="absolute top-0 left-0 w-full h-[5px] bg-gradient-to-r from-[#C89830] via-[#E8C050] to-[#C89830]"></div>
+                        <div key={idx} className="bg-white rounded-3xl p-7 sm:p-9 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 my-10 relative overflow-hidden print:shadow-none print:border-gray-300">
+                          {/* 상단 블랙 포인트 라인 */}
+                          <div className="absolute top-0 left-0 w-full h-1.5 bg-[#1A1D20]"></div>
                           
-                          <h4 className="font-serif text-lg font-black text-[#111625] mb-6 text-center flex items-center justify-center gap-2">
-                            <Crown size={20} className="text-[#C89830]" /> {section?.title || ''}
+                          <h4 className="text-[18px] sm:text-[20px] font-black text-[#1A1D20] mb-6 text-center tracking-tight flex items-center justify-center gap-2">
+                            {section?.title || ''}
                           </h4>
                           
-                          <div className="space-y-4 mb-8 text-justify font-sans">
+                          <div className="space-y-4 mb-8">
                             {(section?.paragraphs || []).map((pText: string, pIdx: number) => (
-                              <p key={pIdx} className="text-sm sm:text-[15px] text-[#333333] leading-[1.85] break-keep whitespace-pre-line bg-[#FBF9F4] p-4 rounded-xl border border-[#EAE1D8]">
+                              // ❌ 촌스러운 박스 배경(bg-xxx) 완전 삭제! 오직 텍스트만 깔끔하게!
+                              <p key={pIdx} className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.8] break-keep">
                                 {pText}
                               </p>
                             ))}
                           </div>
                           
-                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5 pt-5 border-t border-[#EAE1D8]">
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-6 border-t border-gray-100">
                             {(Array.isArray(section?.symbols) ? section.symbols : []).map((sym: any, sIdx: number) => (
-                              <div key={sIdx} className="flex flex-col items-center bg-[#FBF9F4] p-3.5 rounded-2xl border border-[#EAE1D8] shadow-sm">
-                                <span className="text-3xl sm:text-4xl mb-2 block">{sym?.emoji || '✦'}</span>
-                                <span className="text-xs font-bold text-[#111625] break-keep text-center tracking-tight">{sym?.label || ''}</span>
+                              <div key={sIdx} className="flex flex-col items-center bg-[#F9FAFB] p-4 rounded-2xl border border-gray-100">
+                                <span className="text-3xl mb-2">{sym?.emoji || '✦'}</span>
+                                <span className="text-[13px] font-bold text-[#333D4B] break-keep text-center tracking-tight">{sym?.label || ''}</span>
                               </div>
                             ))}
                           </div>
@@ -1144,33 +1137,32 @@ export default function App() {
                       );
                     }
 
-                    // [일반 본문 카드 테마 - 눈이 편안한 정제 화이트 바탕에 진회색 텍스트]
+                    // [2] 일반 본문 섹션 카드 (순백색 배경 + 딥차콜 텍스트)
                     return (
-                      <div key={idx} className={`rounded-[22px] p-7 sm:p-8 transition-all duration-300 ${
-                        section?.isHighlight 
-                          ? 'bg-[#FBF9F4] border-2 border-[#C89830]/60 shadow-xl' 
-                          : 'bg-white border border-[#EAE1D8] shadow-sm'
-                      }`}>
-                        <h4 className="font-serif text-[17px] sm:text-lg font-black text-[#111625] mb-5 tracking-wide border-b border-[#EAE1D8] pb-3 flex items-center gap-2">
-                          <span className="w-1.5 h-4 bg-[#C89830] rounded-full inline-block"></span>
+                      <div key={idx} className="bg-white rounded-3xl p-7 sm:p-9 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 mb-6 print:shadow-none print:border-gray-300">
+                        
+                        <h4 className="text-[18px] sm:text-[20px] font-black text-[#1A1D20] mb-6 border-b border-gray-100 pb-4 tracking-tight flex items-center gap-3">
+                          <span className="w-1.5 h-5 bg-[#1A1D20] rounded-full inline-block"></span>
                           {section?.title || ''}
                         </h4>
 
                         {(Array.isArray(section?.paragraphs) ? section.paragraphs : []).map((text: any, pIdx: number) => {
                           const safeText = String(text || '');
                           
-                          // 소제목 하이라이트 블록 【 ... 】 (촌스러운 빨간색/누런색 소각 -> 세련된 라이트 스톤 캡슐)
+                          // 💎 소제목 하이라이트 블록 【 ... 】 (모던한 다크 그레이 뱃지 디자인으로 개조)
                           if (safeText.startsWith('【')) {
                             return (
-                              <h5 key={pIdx} className="font-serif text-[15px] sm:text-[16px] font-black text-[#8C6B28] bg-[#F5F0E6] border border-[#E6DFD3] inline-block px-3.5 py-1.5 rounded-lg shadow-sm mt-8 mb-3 tracking-tight" style={{ breakAfter: 'avoid', pageBreakAfter: 'avoid' }}>
-                                {safeText.replace('【', '').replace('】', '')}
-                              </h5>
+                              <div key={pIdx} className="mt-8 mb-3">
+                                <span className="bg-[#1A1D20] text-white px-3.5 py-1.5 rounded-lg text-[14px] sm:text-[15px] font-bold tracking-tight inline-block shadow-sm">
+                                  {safeText.replace('【', '').replace('】', '')}
+                                </span>
+                              </div>
                             );
                           }
 
-                          // 가독성 극대화 차콜 진회색(#333333) 텍스트
+                          // 📝 본문 텍스트 (박스 없이 깔끔하게, 자간 좁혀서 읽기 쉽게!)
                           return (
-                            <p key={pIdx} className="font-sans text-[14.5px] sm:text-[15.5px] text-[#333333] leading-[1.85] tracking-[-0.01em] mb-4 last:mb-0 text-justify break-keep whitespace-pre-line">
+                            <p key={pIdx} className="text-[15.5px] sm:text-[16px] text-[#333D4B] leading-[1.85] mb-5 last:mb-0 text-justify break-keep">
                               {safeText}
                             </p>
                           );
@@ -1179,10 +1171,6 @@ export default function App() {
                     );
                   })}
                 </div>
-              )}
-            </div>
-          </div>
-        )}
 
         <footer className="relative z-20 bg-[#1A1530]/80 border-t border-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.4)] text-[11px] p-6 pb-12 mt-12 break-keep font-sans print:hidden">
           <div className="max-w-md mx-auto">
